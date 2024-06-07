@@ -58,14 +58,14 @@
 \newcommand{\correlatore}[1]{\def \@correlatore {#1}}
 \newcommand{\committente}[1]{\def \@committente {#1}}
 \newcommand{\corso}[1]{\def \@corso {#1}}
-\newcommand{\modulo}[1]{\def \@modulo {#1}}
+\newcommand{\codice}[1]{\def \@codice {#1}}
 \newcommand{\anno}[1]{\def \@anno {#1}}
 \studente{}
 \relatore{}
 \correlatore{}
 \committente{}
 \corso{}
-\modulo{}
+\codice{}
 \anno{}
 \makeatother
 
@@ -176,8 +176,8 @@
 		\hspace*{\fill}
 		\begin{minipage}[t]{0.49\textwidth}
 			\begin{flushleft}
-				\etichettetitolo{Modulo} \\
-				\campo{\@modulo} \\
+				\etichettetitolo{Codice progetto} \\
+				\campo{\@codice} \\
 			\end{flushleft}
 		\end{minipage} \\
 		\vspace*{1em}
