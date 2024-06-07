@@ -3,7 +3,7 @@
 % Autore: Amos Brocco <amos.brocco@supsi.ch>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{supsistudent}[2012/09/27 v0.02 SUPSI Student,
-amos.brocco@supsi.ch]
+	amos.brocco@supsi.ch]
 
 % Modifiche impaginazione
 % Autori: Mikol Faro e Sandra Gabaglio <sandra.gabaglio@supsi.ch>
@@ -52,21 +52,21 @@ amos.brocco@supsi.ch]
 
 % Comandi
 \makeatletter
-	\newcommand{\titolo}[1]{\def \@titolo {#1}}
-	\newcommand{\studente}[1]{\def \@studente {#1}}
-	\newcommand{\relatore}[1]{\def \@relatore {#1}}
-	\newcommand{\correlatore}[1]{\def \@correlatore {#1}}
-	\newcommand{\committente}[1]{\def \@committente {#1}}
-	\newcommand{\corso}[1]{\def \@corso {#1}}
-	\newcommand{\modulo}[1]{\def \@modulo {#1}}
-	\newcommand{\anno}[1]{\def \@anno {#1}}
-	\studente{}
-	\relatore{}
-	\correlatore{}
-	\committente{}
-	\corso{}
-	\modulo{}
-	\anno{} 
+\newcommand{\titolo}[1]{\def \@titolo {#1}}
+\newcommand{\studente}[1]{\def \@studente {#1}}
+\newcommand{\relatore}[1]{\def \@relatore {#1}}
+\newcommand{\correlatore}[1]{\def \@correlatore {#1}}
+\newcommand{\committente}[1]{\def \@committente {#1}}
+\newcommand{\corso}[1]{\def \@corso {#1}}
+\newcommand{\modulo}[1]{\def \@modulo {#1}}
+\newcommand{\anno}[1]{\def \@anno {#1}}
+\studente{}
+\relatore{}
+\correlatore{}
+\committente{}
+\corso{}
+\modulo{}
+\anno{}
 \makeatother
 
 \newcommand{\linea}[0]{\vspace*{2em}\noindent\makebox[\linewidth][l]{\rule{\textwidth}{1pt}}\hspace*{\fill}\\}
@@ -90,44 +90,44 @@ amos.brocco@supsi.ch]
 
 \makeatletter
 \newcommand{\campo}[1]{\ifx {#1} \@empty
-					--
-				\else
-					\nomititolo{{#1}}
-				\fi}
-\makeatother				
+		--
+	\else
+		\nomititolo{{#1}}
+	\fi}
+\makeatother
 
 %\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\space#1}{}} 
 
 
 % Intestazione e pié di pagina
 \makeatletter
-	\usepackage{fancyhdr}
-	\pagestyle{fancy}
-	\renewcommand{\headrulewidth}{1pt}
-	\renewcommand{\footrulewidth}{1pt}
-	\fancyhf{}
-	\fancyhead[LO]{
-	  \includegraphics[width=70mm]{logoheader}
-	}
-	\fancyhead[RE]{ 
-		\leftmark
-	}
-	\setlength{\footskip}{50pt}
-	\fancyfoot[LE]{
-	    \small{\@titolo} \AddToShipoutPicture*{\put(58,28){\includegraphics[height=44mm]{images/logoverticale}}}
-                %\small{\@title} \AddToShipoutPicture*{\put(58,154){\scalebox{-1}{\includegraphics[height=44mm]{logoverticale}}}}
-	}
-	\fancyfoot[RO]{
-	  %\small{\@title} \AddToShipoutPicture*{\put(527,154){\scalebox{-1}[-1]{\includegraphics[height=44mm]{logoverticale}}}}
-	      \small{\@titolo} \AddToShipoutPicture*{\put(527,28){{\includegraphics[height=44mm]{images/logoverticale}}}}
-	}
-	\fancyhead[LE, RO]{
-	 % \small{\thepage/\pageref{LastPage}}
-		 \small{\thepage}
-	}
-	%\fancyhead[RO]{
-	 % \small{\thepage/\pageref{LastPage}}
-	%}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\fancyhf{}
+\fancyhead[LO]{
+	\includegraphics[width=70mm]{images/logoheader}
+}
+\fancyhead[RE]{
+	\leftmark
+}
+\setlength{\footskip}{50pt}
+\fancyfoot[LE]{
+	\small{\@titolo} \AddToShipoutPicture*{\put(58,28){\includegraphics[height=44mm]{images/logoverticale}}}
+	%\small{\@title} \AddToShipoutPicture*{\put(58,154){\scalebox{-1}{\includegraphics[height=44mm]{logoverticale}}}}
+}
+\fancyfoot[RO]{
+	%\small{\@title} \AddToShipoutPicture*{\put(527,154){\scalebox{-1}[-1]{\includegraphics[height=44mm]{logoverticale}}}}
+	\small{\@titolo} \AddToShipoutPicture*{\put(527,28){{\includegraphics[height=44mm]{images/logoverticale}}}}
+}
+\fancyhead[LE, RO]{
+	% \small{\thepage/\pageref{LastPage}}
+	\small{\thepage}
+}
+%\fancyhead[RO]{
+% \small{\thepage/\pageref{LastPage}}
+%}
 \makeatother
 
 \renewcommand{\chaptermark}[1]{ \markboth{#1}{} }
@@ -135,15 +135,15 @@ amos.brocco@supsi.ch]
 \makeatletter
 \def \maketitle {%
 	\begin{titlepage}
-	% Allinea a sinistra
-	\raggedright
-	% Intestazione SUPSI e logo
-	\vspace{20mm}
-	{\parindent-1mm\makebox(0,0)[lb]{\includegraphics[width=170mm]{images/logoprima}}}
-	\\
-	{\Huge \textrm{\@titolo}} \\
-	\vspace{10mm}
-	\linea
+		% Allinea a sinistra
+		\raggedright
+		% Intestazione SUPSI e logo
+		\vspace{20mm}
+		{\parindent-1mm\makebox(0,0)[lb]{\includegraphics[width=170mm]{images/logoprima}}}
+		\\
+		{\Huge \textrm{\@titolo}} \\
+		\vspace{10mm}
+		\linea
 		\begin{minipage}[t]{0.49\textwidth}
 			\begin{flushleft}
 				\etichettetitolo{Studente/i} \\
@@ -159,13 +159,13 @@ amos.brocco@supsi.ch]
 				\vspace*{0.3em} % Fix spaziatura
 				\etichettetitolo{Correlatore} \\
 				\campo{\@correlatore} \\
-				\linea  
+				\linea
 				\vspace*{0.3em} % Fix spaziatura
 				\etichettetitolo{Committente} \\
-				\campo{\@committente} \\	
+				\campo{\@committente} \\
 			\end{flushleft}
 		\end{minipage} \\
-		\vspace{5mm}		
+		\vspace{5mm}
 		\linea
 		\begin{minipage}[t]{0.49\textwidth}
 			\begin{flushleft}
@@ -180,30 +180,30 @@ amos.brocco@supsi.ch]
 				\campo{\@modulo} \\
 			\end{flushleft}
 		\end{minipage} \\
-		\vspace*{1em} 
+		\vspace*{1em}
 		\linea
 		\vspace*{0.3em}
 		\etichettetitolo{Anno} \\
 		\campo{\@anno} \\
- 		\vfill
+		\vfill
 
- 		\begin{minipage}[b]{0.49\textwidth}
- 		\begin{flushleft}
- 		\linea
- 		\vspace*{0.3em} % Fix spaziatura
-	 	\etichettetitolo{Data} \\
-	 	\campo{\@date} \\
- 		\end{flushleft}
- 		\end{minipage}
- 		\hspace*{\fill}
- 		
- 		% \begin{minipage}[b]{0.49\textwidth}
- 		% \begin{flushright}
- 		\leavevmode\makebox(0,0){\put(434,180){\includegraphics[height=71mm]{images/logoverticale}}}
- 		% \end{flushright}
- 			
- 		% \end{minipage}
-		
+		\begin{minipage}[b]{0.49\textwidth}
+			\begin{flushleft}
+				\linea
+				\vspace*{0.3em} % Fix spaziatura
+				\etichettetitolo{Data} \\
+				\campo{\@date} \\
+			\end{flushleft}
+		\end{minipage}
+		\hspace*{\fill}
+
+		% \begin{minipage}[b]{0.49\textwidth}
+		% \begin{flushright}
+		\leavevmode\makebox(0,0){\put(434,180){\includegraphics[height=71mm]{images/logoverticale}}}
+		% \end{flushright}
+
+		% \end{minipage}
+
 		%Aggiunge una pagina bianca senza header e footer dietro la copertina
 		\newpage
 		\thispagestyle{empty}
