@@ -11,6 +11,7 @@ cache:
 
 install_backend_dependencies:
   stage: install
+  image: node:14
   script:
     - cd backend
     - npm install
@@ -20,6 +21,7 @@ install_backend_dependencies:
 
 install_frontend_dependencies:
   stage: install
+  image: node:14
   script:
     - cd frontend
     - npm install
@@ -29,8 +31,7 @@ install_frontend_dependencies:
 
 build_frontend:
   stage: build
-  dependencies:
-    - install_frontend_dependencies
+  image: node:14
   script:
     - cd frontend
     - npm run build
