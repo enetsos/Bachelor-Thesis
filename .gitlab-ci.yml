@@ -1,0 +1,39 @@
+stages:
+  - install
+  - build
+
+variables:
+  NODE_ENV: development
+
+cache:
+  paths:
+    - node_modules/
+
+install_backend_dependencies:
+  stage: install
+  script:
+    - cd backend
+    - npm install
+  artifacts:
+    paths:
+      - backend/node_modules/
+
+install_frontend_dependencies:
+  stage: install
+  script:
+    - cd frontend
+    - npm install
+  artifacts:
+    paths:
+      - frontend/node_modules/
+
+build_frontend:
+  stage: build
+  dependencies:
+    - install_frontend_dependencies
+  script:
+    - cd frontend
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/build/
