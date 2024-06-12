@@ -11,6 +11,14 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "mysql2": "^3.10.0",
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "sequelize-cli": "^6.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }
