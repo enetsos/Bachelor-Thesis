@@ -1,28 +1,45 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class ClockInOut extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      ClockInOut.belongsTo(models.UserProfile, { foreignKey: 'employee_id', as: 'employee' });
-      ClockInOut.belongsTo(models.UserProfile, { foreignKey: 'client_id', as: 'client' });
-    }
-  }
-  ClockInOut.init({
-    employee_id: DataTypes.INTEGER,
-    client_id: DataTypes.INTEGER,
-    timestamp: DataTypes.DATE,
-    location: DataTypes.STRING,
-    method: DataTypes.STRING
-  }, {
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('./sequelize');
+
+class ClockInOut extends Model {}
+
+ClockInOut.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    employee_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    client_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    method: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+  },
+  {
     sequelize,
     modelName: 'ClockInOut',
-  });
-  return ClockInOut;
-};
+    timestamps: true,
+  }
+);
+
+module.exports = ClockInOut;

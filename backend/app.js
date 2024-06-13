@@ -5,7 +5,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var db = require('./db/models'); // Adjust the path to your models directory
+var db = require('./db/models/index'); // Adjust the path to your models directory
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -35,6 +35,11 @@ if (process.env.NODE_ENV === 'development') {
     }
   })();
 }
+
+db.User.create({
+  name: 'John Doe',
+  email: 'ciao'
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
