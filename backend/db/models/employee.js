@@ -1,15 +1,19 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('./sequelize');
+const sequelize = require('../config/sequelize');
 
-class User extends Model { }
+class Employee extends Model { }
 
-User.init(
+Employee.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -17,22 +21,17 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
+    other_details: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
   },
   {
     sequelize,
-    modelName: 'User',
+    modelName: 'Employee',
     timestamps: true,
   }
 );
 
-module.exports = User;
+module.exports = Employee;

@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
-const sequelize = require('./sequelize');
-const User = require('./userprofile');
+const sequelize = require('../config/sequelize');
+const Client = require('./client');
+const Employee = require('./employee');
 const ClockInOut = require('./clockinout');
 
 // Optionally, you can import other models similarly
@@ -9,24 +10,23 @@ const ClockInOut = require('./clockinout');
 const db = {};
 
 // Register models
-db.User = User;
+db.Client = Client;
+db.Employee = Employee;
 db.ClockInOut = ClockInOut;
-// Add other models if needed
-// db.OtherModel = OtherModel;
 
 // Define associations
-db.User.hasMany(db.ClockInOut, {
-  foreignKey: 'employee_id',
-});
-db.ClockInOut.belongsTo(db.User, {
-  foreignKey: 'employee_id',
-}
-);
+db.Client.hasMany(db.ClockInOut);
+db.Employee.hasMany(db.ClockInOut);
+db.ClockInOut.belongsTo(db.Client);
+db.ClockInOut.belongsTo(db.Employee);
+
+
 
 // Sync all defined models to the database
 (async () => {
   await sequelize.sync({ alter: true});
   console.log('All models synced');
+
 })();
 
 // Export the sequelize instance and models
