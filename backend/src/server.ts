@@ -1,7 +1,6 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import "./db/connection";
 import router from "./routes";
 
 export const createServer = () => {

@@ -5,7 +5,7 @@ import ApiService from '../services/ApiService';
 const ClientController = {
     async getAllClients(): Promise<Client[]> {
         try {
-            const response = await ApiService.get('/clients');
+            const response = await ApiService.get('/clients/');
             return response.data as Client[];
         } catch (error) {
             console.error('Error fetching clients:', error);

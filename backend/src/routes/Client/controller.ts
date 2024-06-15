@@ -14,7 +14,7 @@ export const listClients = async (
                 sortBy: req.query.sort_by,
             })
         );
-        res.status(200).json({ Clients });
+        res.status(200).json(Clients);
     } catch (error: any) {
         next(error);
     }

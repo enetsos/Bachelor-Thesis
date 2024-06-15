@@ -1,5 +1,8 @@
 import { Sequelize } from "sequelize-typescript";
 import EnvManager from "../EnvManager";
+import dotev from "dotenv";
+
+dotev.config();
 
 const sequelize = new Sequelize({
     database: EnvManager.getDbName(),
@@ -10,5 +13,7 @@ const sequelize = new Sequelize({
     port: EnvManager.getDbPort(),
     models: [__dirname + "/models"],
 });
+
+
 
 export default sequelize;

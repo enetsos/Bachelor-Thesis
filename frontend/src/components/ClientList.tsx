@@ -1,5 +1,3 @@
-// src/components/ClientList.tsx
-
 import React, { useState, useEffect } from 'react';
 import ClientController from '../controllers/ClientController';
 
@@ -13,7 +11,12 @@ const ClientList: React.FC = () => {
     const fetchClients = async () => {
         try {
             const clientsData = await ClientController.getAllClients();
-            setClients(clientsData);
+            console.log('Fetched clients data:', clientsData);
+            if (Array.isArray(clientsData)) {
+                setClients(clientsData);
+            } else {
+                console.error('Expected an array but got:', clientsData);
+            }
         } catch (error) {
             console.error('Error fetching clients:', error);
         }
