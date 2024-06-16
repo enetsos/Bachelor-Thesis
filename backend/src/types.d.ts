@@ -26,3 +26,19 @@ interface ClientAttributes {
     created_at: Date;
     updated_at: Date;
 }
+
+type EmployeeEntity = {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+};
+
+interface EmployeeAttributes {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    created_at: Date;
+    updated_at: Date;
+}
