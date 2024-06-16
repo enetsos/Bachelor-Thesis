@@ -495,3 +495,9 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# migrazioni
+backend/db/config/config.json
+backend/db/migrations/*.js
+backend/db/seeders/*.js
