@@ -12,9 +12,11 @@ import {
     updateClientSchema,
 } from "../../middleware/requestSchemas";
 
+import { authenticateToken } from "../../middleware/authMiddleware";
+
 const client: Router = express.Router();
 
-client.get("/", listClients);
+client.get("/", authenticateToken, listClients);
 client.get("/:id", getClient);
 client.post("/", validateRequest(createClientSchema), createClient);
 client.put("/:id", validateRequest(updateClientSchema), updateClient);

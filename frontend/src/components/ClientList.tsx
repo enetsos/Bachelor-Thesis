@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ClientController from '../controllers/ClientController';
+import ClientService from '../services/ClientService';
 
 const ClientList: React.FC = () => {
     const [clients, setClients] = useState<Client[]>([]);
@@ -10,7 +10,7 @@ const ClientList: React.FC = () => {
 
     const fetchClients = async () => {
         try {
-            const clientsData = await ClientController.getAllClients();
+            const clientsData = await ClientService.getAllClients();
             console.log('Fetched clients data:', clientsData);
             if (Array.isArray(clientsData)) {
                 setClients(clientsData);

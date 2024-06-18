@@ -6,6 +6,7 @@ class ClientResource extends BaseResource<ClientAttributes, ClientEntity>() {
             id: this.instance.id,
             name: this.instance.name,
             email: this.instance.email,
+            pw: this.instance.pw,
         };
 
         return clientResource;

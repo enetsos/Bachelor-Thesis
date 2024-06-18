@@ -46,7 +46,7 @@ export const createClient = async (
         const clientResource = new ClientResource(
             await repository.create(req.body)
         );
-        res.status(201).json({ Client: clientResource.item() });
+        res.status(201).json(clientResource.item());
     } catch (error) {
         next(error);
     }

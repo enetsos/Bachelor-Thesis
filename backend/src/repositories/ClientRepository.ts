@@ -1,5 +1,6 @@
 import Client from "../db/models/client";
 import BaseRepository from "./BaseRepository";
+import bcrypt from "bcryptjs";
 
 export default class ClientRepository extends BaseRepository<ClientAttributes> {
     protected allowedSortByFields = [
@@ -12,6 +13,15 @@ export default class ClientRepository extends BaseRepository<ClientAttributes> {
 
     constructor() {
         super(Client);
+    }
+
+    async create(body: Record<string, any>): Promise<ClientAttributes> {
+        const hashedPw = await bcrypt.hash(body.pw, 12);
+        return super.create({ ...body, pw: hashedPw });
+    }
+
+    async findByEmail(email: string): Promise<ClientAttributes | null> {
+        return Client.findOne({ where: { email } });
     }
 
     getAll(options: Record<string, any> = {}) {
@@ -28,6 +38,8 @@ export default class ClientRepository extends BaseRepository<ClientAttributes> {
         };
         return super.getById(id, opts);
     }
+
+
 
 
 }

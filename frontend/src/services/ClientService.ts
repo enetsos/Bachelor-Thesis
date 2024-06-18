@@ -1,8 +1,8 @@
 // src/controllers/ClientController.ts
 
-import ApiService from '../services/ApiService';
+import ApiService from './ApiService';
 
-const ClientController = {
+const ClientService = {
     async getAllClients(): Promise<Client[]> {
         try {
             const response = await ApiService.get('/clients/');
@@ -43,4 +43,4 @@ const ClientController = {
     },
 };
 
-export default ClientController;
+export default ClientService;

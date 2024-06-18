@@ -33,6 +33,11 @@ class Client extends Model<ClientAttributes> {
     })
     declare email: string;
 
+    @Column({
+        type: DataType.STRING,
+    })
+    declare pw: string;
+
     @CreatedAt
     declare created_at: Date;
 
