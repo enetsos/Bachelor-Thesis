@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import LoginService from './LoginService';
+import { getToken } from './LoginService';
 
 const baseURL = 'http://localhost:3000/';
 
@@ -13,7 +13,7 @@ const api: AxiosInstance = axios.create({
 
 api.interceptors.request.use(
     config => {
-        const token = LoginService.getToken();
+        const token = getToken();
         console.log(`Bearer ${token}`);
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
