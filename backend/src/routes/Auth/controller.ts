@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             expiresIn: "1h", // Token validity duration
         });
 
-        res.status(200).json({ token });
+        res.status(200).json({ token: token });
     } catch (error: any) {
         next(error);
     }

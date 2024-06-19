@@ -14,9 +14,12 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     }
 
     jwt.verify(token, secretKey, (err: any, client: any) => {
+        //print token as string
+        console.log(token);
         if (err) {
             return res.sendStatus(403);
         }
+
         next();
     });
 };

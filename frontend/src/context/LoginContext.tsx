@@ -19,7 +19,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const storedToken = AuthService.getToken();
         if (storedToken) {
             setToken(storedToken);
-            // Optionally, fetch and set user details from the token
         }
     }, []);
 
