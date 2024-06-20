@@ -10,7 +10,7 @@ export const generateToken = (payload: any) => {
 };
 
 export const verifyToken = (requiredRole: string) => (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies.token;
+    const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
@@ -23,6 +23,7 @@ export const verifyToken = (requiredRole: string) => (req: Request, res: Respons
 
         req.user = user;
 
+        console.log(user);
         if (user.role !== requiredRole) {
             return res.status(403).json({
                 message: 'You do not have the authorization and permissions to access this resource.'

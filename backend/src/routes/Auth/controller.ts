@@ -25,7 +25,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const token = generateToken({ userId: User.id, email: User.email });
+        const token = generateToken({ userId: User.id, email: User.email, role: User.role });
 
         res.status(200).json({ token: token });
     } catch (error: any) {
