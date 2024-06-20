@@ -1,7 +1,7 @@
 // src/App.tsx
 import React from 'react';
-import ClientList from './components/ClientList';
-import ClientForm from './components/ClientForm';
+import UserList from './components/UserList';
+import UserForm from './components/UserForm';
 import LoginForm from './components/LoginForm';
 
 
@@ -10,8 +10,8 @@ const App: React.FC = () => {
     <div>
       <h1>Welcome to the App</h1>
       <LoginForm />
-      <ClientForm />
-      <ClientList />
+      <UserForm />
+      <UserList />
     </div>
   );
 };

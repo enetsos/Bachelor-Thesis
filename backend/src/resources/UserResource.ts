@@ -1,16 +1,17 @@
 import BaseResource from "./BaseResource";
 
-class ClientResource extends BaseResource<ClientAttributes, ClientEntity>() {
+class UserResource extends BaseResource<UserAttributes, UserEntity>() {
     item() {
-        const clientResource: ClientEntity = {
+        const userResource: UserEntity = {
             id: this.instance.id,
             name: this.instance.name,
             email: this.instance.email,
             pw: this.instance.pw,
+            role: this.instance.role,
         };
 
-        return clientResource;
+        return userResource;
     }
 }
 
-export default ClientResource;
+export default UserResource;

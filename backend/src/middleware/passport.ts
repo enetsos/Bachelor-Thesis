@@ -2,7 +2,7 @@
 
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
-import Client from '../db/models/client'; // Adjust the path as necessary
+import User from '../db/models/user'; // Adjust the path as necessary
 import { Request, Response, NextFunction } from 'express';
 
 const opts: StrategyOptions = {
@@ -14,7 +14,7 @@ passport.use(
     new JwtStrategy(opts, async (jwtPayload, done) => {
         try {
             // Assuming jwtPayload contains both userId and email
-            const user = await Client.findOne({ where: { id: jwtPayload.userId } });
+            const user = await User.findOne({ where: { id: jwtPayload.userId } });
 
             if (user) {
                 return done(null, user);

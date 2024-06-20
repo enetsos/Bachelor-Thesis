@@ -2,8 +2,9 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import ClientRepository from "../../repositories/ClientRepository";
-import client from "../Client";
+import UserRepository from "../../repositories/UserRepository";
+import User from "../User";
+import { generateToken } from "../../middleware/authMiddleware";
 
 const secretKey = process.env.JWT_SECRET || "secret";
 
@@ -11,22 +12,20 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const { email, password } = req.body;
 
-        const repository = new ClientRepository();
-        const client = await repository.findByEmail(email);
+        const repository = new UserRepository();
+        const User = await repository.findByEmail(email);
 
-        if (!client) {
+        if (!User) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, client.pw);
+        const isPasswordValid = await bcrypt.compare(password, User.pw);
 
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const token = jwt.sign({ userId: client.id, email: client.email }, secretKey, {
-            expiresIn: "1h", // Token validity duration
-        });
+        const token = generateToken({ userId: User.id, email: User.email });
 
         res.status(200).json({ token: token });
     } catch (error: any) {
