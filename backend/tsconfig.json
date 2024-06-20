@@ -24,6 +24,5 @@
       "strict": true
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*.ts"
-]
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
 }

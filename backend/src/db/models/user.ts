@@ -11,10 +11,10 @@ import {
 
 @Table({
     timestamps: true,
-    tableName: "clients",
-    modelName: "Client",
+    tableName: "users",
+    modelName: "User",
 })
-class Client extends Model<ClientAttributes> {
+class User extends Model<UserAttributes> {
     @Column({
         primaryKey: true,
         type: DataType.UUID,
@@ -33,6 +33,16 @@ class Client extends Model<ClientAttributes> {
     })
     declare email: string;
 
+    @Column({
+        type: DataType.STRING,
+    })
+    declare pw: string;
+
+    @Column({
+        type: DataType.STRING,
+    })
+    declare role: Role;
+
     @CreatedAt
     declare created_at: Date;
 
@@ -40,4 +50,4 @@ class Client extends Model<ClientAttributes> {
     declare updated_at: Date;
 }
 
-export default Client;
+export default User;

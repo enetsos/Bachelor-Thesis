@@ -10,7 +10,7 @@ const server = createServer();
 
 const port = EnvManager.getPort(3001);
 
-sequelize.sync({ force: false })
+sequelize.sync({ alter: true })
   .then(() => {
     server.listen(port, () => {
       console.log(`Server is running on port ${port}`);

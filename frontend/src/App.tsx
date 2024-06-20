@@ -1,14 +1,17 @@
 // src/App.tsx
 import React from 'react';
-import ClientList from './components/ClientList';
-import ClientForm from './components/ClientForm';
+import UserList from './components/UserList';
+import UserForm from './components/UserForm';
+import LoginForm from './components/LoginForm';
+
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <h1>My React Application</h1>
-      <ClientList />
-      <ClientForm />
+    <div>
+      <h1>Welcome to the App</h1>
+      <LoginForm />
+      <UserForm />
+      <UserList />
     </div>
   );
 };

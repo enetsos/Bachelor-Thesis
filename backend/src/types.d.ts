@@ -12,17 +12,27 @@ type ValidationError = {
     };
 };
 
-type ClientEntity = {
+type UserEntity = {
     id: string;
     name: string;
     email: string;
+    pw: string;
+    role: Role;
 };
 
+enum Role {
+    ADMIN = "admin",
+    SUPERVISOR = "supervisor",
+    EMPLOYEE = "employee",
+    CLIENT = "client",
+}
 
-interface ClientAttributes {
+interface UserAttributes {
     id: string;
     name: string;
     email: string;
+    pw: string;
+    role: Role;
     created_at: Date;
     updated_at: Date;
 }
