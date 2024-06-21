@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginForm: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login, logout, role } = useAuth();
+    const { login, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
