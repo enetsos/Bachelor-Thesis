@@ -13,21 +13,23 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         const { email, password } = req.body;
 
         const repository = new UserRepository();
-        const User = await repository.findByEmail(email);
+        const user = await repository.findByEmail(email);
 
-        if (!User) {
+        if (!user) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, User.pw);
+        const isPasswordValid = await bcrypt.compare(password, user.pw);
 
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const token = generateToken({ userId: User.id, email: User.email, role: User.role });
+        const token = generateToken({ userId: user.id, email: user.email, role: user.role });
 
-        res.status(200).json({ token: token });
+
+
+        res.status(200).json({ role: user.role, token: token });
     } catch (error: any) {
         next(error);
     }

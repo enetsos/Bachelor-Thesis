@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../services/UserService';
+import { User } from '../types';
 
 const UserList: React.FC = () => {
     const [Users, setUsers] = useState<User[]>([]);

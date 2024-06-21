@@ -3,12 +3,12 @@ import ApiService from './ApiService';
 const API_URL = 'http://localhost:3000';
 
 interface LoginResponse {
-    user: any;
+    role: string;
     token: string;
 }
 
 interface RegisterResponse {
-    user: any;
+    role: string;
     token: string;
 }
 
@@ -16,22 +16,23 @@ export const login = async (email: string, password: string): Promise<LoginRespo
     const response = await ApiService.post<LoginResponse>(`${API_URL}/login`, { email, password });
     console.log(response.data);
     localStorage.setItem('token', response.data.token);
+    localStorage.setItem('role', response.data.role);
     return response.data;
 };
 
 export const register = async (name: string, email: string, password: string): Promise<RegisterResponse> => {
     const response = await ApiService.post<RegisterResponse>(`${API_URL}/clients`, { name, email, password });
-    localStorage.setItem('token', response.data.token); // Ensure you store the token correctly
     return response.data;
 };
 
 export const logout = (): void => {
-    console.log('Logging out' + localStorage.getItem('token'));
     localStorage.removeItem('token');
-    console.log('Logged out' + localStorage.getItem('token'));
 };
 
 export const getToken = (): string | null => {
-    console.log(localStorage.getItem('token'));
     return localStorage.getItem('token');
 };
+
+export const getRole = (): string | null => {
+    return localStorage.getItem('role');
+}

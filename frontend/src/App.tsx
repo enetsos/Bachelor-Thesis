@@ -1,18 +1,30 @@
 // src/App.tsx
 import React from 'react';
-import UserList from './components/UserList';
-import UserForm from './components/UserForm';
+import AdminDashboard from './pages/Admin';
 import LoginForm from './components/LoginForm';
+import { Role } from './types';
+
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
+
+const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <LoginForm />,
+  },
+  {
+    path: '/admin/dashboard',
+    element: (
+      <ProtectedRoute requiredRole={Role.ADMIN}>
+        <AdminDashboard />
+      </ProtectedRoute>)
+  },
+]);
 
 
 const App: React.FC = () => {
   return (
-    <div>
-      <h1>Welcome to the App</h1>
-      <LoginForm />
-      <UserForm />
-      <UserList />
-    </div>
+    <RouterProvider router={router} />
   );
 };
 

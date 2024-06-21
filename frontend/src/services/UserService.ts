@@ -1,4 +1,5 @@
 import ApiService from './ApiService';
+import { User } from '../types';
 
 const UserService = {
     async getAllUsers(): Promise<User[]> {

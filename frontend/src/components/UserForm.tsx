@@ -40,7 +40,7 @@ const UserForm: React.FC = () => {
             <label>
                 Role:
                 <select value={role} onChange={(e) => setRole(e.target.value)}>
-                    <option value="User">User</option>
+                    <option value="client">Client</option>
                     <option value="employee">Employee</option>
                     <option value="supervisor">Supervisor</option>
                     <option value="admin">Admin</option>
