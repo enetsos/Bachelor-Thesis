@@ -18,7 +18,7 @@ const User: Router = express.Router();
 
 User.get("/", verifyToken('admin'), listUsers);
 User.get("/:id", getUser);
-User.post("/", createUser);
+User.post("/", validateRequest(createUserSchema), createUser);
 User.put("/:id", validateRequest(updateUserSchema), updateUser);
 User.delete("/:id", deleteUser);
 

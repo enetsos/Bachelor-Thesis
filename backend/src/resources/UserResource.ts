@@ -6,7 +6,6 @@ class UserResource extends BaseResource<UserAttributes, UserEntity>() {
             id: this.instance.id,
             name: this.instance.name,
             email: this.instance.email,
-            pw: this.instance.pw,
             role: this.instance.role,
         };
 

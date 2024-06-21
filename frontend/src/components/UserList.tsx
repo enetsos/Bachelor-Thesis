@@ -12,7 +12,6 @@ const UserList: React.FC = () => {
     const fetchUsers = async () => {
         try {
             const UsersData = await UserService.getAllUsers();
-            console.log('Fetched Users data:', UsersData);
             if (Array.isArray(UsersData)) {
                 setUsers(UsersData);
             } else {
@@ -29,7 +28,7 @@ const UserList: React.FC = () => {
             <ul>
                 {Users.map(User => (
                     <li key={User.id}>
-                        <strong>Name:</strong> {User.name}, <strong>Email:</strong> {User.email}
+                        <strong>Name:</strong> {User.name}, <strong>Email:</strong> {User.email}, <strong>Role:</strong> {User.role}
                     </li>
                 ))}
             </ul>
