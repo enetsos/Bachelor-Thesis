@@ -3,6 +3,7 @@ import React from 'react';
 import AdminDashboard from './pages/Admin';
 import LoginForm from './components/LoginForm';
 import { Role } from './types';
+import { ConfigProvider } from 'antd';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
     element: <LoginForm />,
   },
   {
-    path: '/admin/dashboard',
+    path: '/',
     element: (
       <ProtectedRoute requiredRole={Role.ADMIN}>
         <AdminDashboard />
@@ -23,8 +24,23 @@ const router = createBrowserRouter([
 
 
 const App: React.FC = () => {
+
+
   return (
-    <RouterProvider router={router} />
+    <ConfigProvider
+      theme={{
+        token: {
+          // Seed Token
+          colorPrimary: '#309674',
+          borderRadius: 2,
+
+          // Alias Token
+          colorBgContainer: '#f6ffed',
+        },
+      }}
+    >
+      <RouterProvider router={router} />
+    </ConfigProvider>
   );
 };
 

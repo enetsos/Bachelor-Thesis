@@ -11,7 +11,6 @@ export const createUserSchema = Joi.object({
 
 export const updateUserSchema = Joi.object({
     name: Joi.string().min(3).max(30),
-    description: Joi.string(),
-    number_of_days: Joi.number().integer().greater(0),
-    is_public: Joi.bool(),
+    email: Joi.string().min(3).max(30),
+    role: Joi.string().valid("admin", "supervisor", "employee", "client")
 }).or("name", "description", "number_of_days", "is_public");

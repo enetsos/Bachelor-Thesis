@@ -1,47 +1,61 @@
+// src/components/LoginForm.jsx
+
 import React, { useState } from 'react';
+import { Form, Input, Button } from 'antd';
 import { useAuth } from '../context/LoginContext';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login, logout } = useAuth();
+    const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         try {
             await login(email, password);
-            navigate('/admin/dashboard');
+            navigate('/');
         } catch (error) {
             console.error('Error logging in:', error);
         }
     };
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input
+        <div style={{ maxWidth: 300, margin: '0 auto', padding: '20px' }}>
+            <Form
+                name="loginForm"
+                onFinish={handleSubmit}
+                initialValues={{ email, password }}
+            >
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your email!' }]}
+                >
+                    <Input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
                     />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
+                </Form.Item>
+
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                    <Input.Password
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
                     />
-                </div>
-                <button type="button" onClick={logout}>Logout</button>
-                <button type="submit">Login</button>
-            </form>
+                </Form.Item>
 
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" block>
+                        Login
+                    </Button>
+                </Form.Item>
+            </Form>
         </div>
     );
 };
