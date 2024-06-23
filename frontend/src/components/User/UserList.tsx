@@ -1,15 +1,21 @@
-// src/components/User/UserList.tsx
-
-import React from 'react';
-import { Table } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Table, Select } from 'antd';
 import { User } from '../../types';
 import { useUser } from '../../context/UserContext';
 import UserRow from './UserCard'; // Corrected import
 
+const { Option } = Select;
+
 const UserList: React.FC = () => {
-    const { users, loading } = useUser();
+    const { users, loading, getByRole } = useUser();
+    const [selectedRole, setSelectedRole] = useState<string>('all');
 
+    useEffect(() => {
 
+        // Fetch users by selected role
+        getByRole(selectedRole);
+
+    }, [selectedRole, getByRole]);
 
     const columns = [
         {
@@ -39,12 +45,24 @@ const UserList: React.FC = () => {
     ];
 
     return (
-        <Table
-            loading={loading}
-            dataSource={users}
-            rowKey="id"
-            columns={columns}
-        />
+        <div>
+            <Select
+                value={selectedRole}
+                onChange={(value) => setSelectedRole(value)}
+                style={{ width: 200, marginBottom: 16 }}
+            >
+                <Option value="all">All</Option>
+                <Option value="employee">Employee</Option>
+                <Option value="supervisor">Supervisor</Option>
+                <Option value="client">Client</Option>
+            </Select>
+            <Table
+                loading={loading}
+                dataSource={users}
+                rowKey="id"
+                columns={columns}
+            />
+        </div>
     );
 };
 

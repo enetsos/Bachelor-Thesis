@@ -39,6 +39,15 @@ export default class UserRepository extends BaseRepository<UserAttributes> {
         return super.getById(id, opts);
     }
 
+    getByRole(role: string, options: Record<string, any> = {}) {
+        const opts = {
+            ...options,
+            where: { role: role },
+        };
+        console.log(opts);
+        return this.modelClass.findAll(opts);
+    }
+
 
 
 

@@ -24,6 +24,11 @@ export default abstract class BaseRepository<A> {
         return this.modelClass.create(body);
     }
 
+    getByField(field: string, value: any, options: Record<string, any> = {}): Promise<Array<A>> {
+        options.where = { [field]: value };
+        return this.modelClass.findAll(options);
+    }
+
     async update(id: string, body: Record<string, any>): Promise<A> {
         const instance = await this.modelClass.findByPk(id);
         if (!instance) {
@@ -44,6 +49,7 @@ export default abstract class BaseRepository<A> {
         }
         return instance.destroy();
     }
+
 
     protected getOrderBy(sortBy: string | undefined): Array<[string, string]> {
         const orderBy: Array<[string, string]> = [["created_at", "DESC"]];

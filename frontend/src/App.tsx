@@ -1,12 +1,14 @@
 // src/App.tsx
 import React from 'react';
-import AdminDashboard from './pages/Admin';
+import Dashboard from './pages/Dashboard';
 import LoginForm from './components/LoginForm';
 import { Role } from './types';
 import { ConfigProvider } from 'antd';
 
+
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminDashboard from './pages/Admin';
 
 const router = createBrowserRouter([
   {
@@ -17,9 +19,16 @@ const router = createBrowserRouter([
     path: '/',
     element: (
       <ProtectedRoute requiredRole={Role.ADMIN}>
-        <AdminDashboard />
+        <Dashboard />
       </ProtectedRoute>)
   },
+  {
+    path: '/admin',
+    element: (
+      <ProtectedRoute requiredRole={Role.ADMIN}>
+        <AdminDashboard />
+      </ProtectedRoute>)
+  }
 ]);
 
 

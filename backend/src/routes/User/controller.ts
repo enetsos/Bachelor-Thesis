@@ -36,6 +36,22 @@ export const getUser = async (
     }
 };
 
+export const getUserByRole = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const repository = new UserRepository();
+        console.log(req.params.role);
+        const users = await repository.getByRole(req.params.role);
+        const UsersResource = UserResource.collection(users);
+        res.status(200).json(UsersResource);
+    } catch (error: any) {
+        next(error);
+    }
+};
+
 export const createUser = async (
     req: Request,
     res: Response,
@@ -82,3 +98,4 @@ export const deleteUser = async (
         next(error);
     }
 };
+
