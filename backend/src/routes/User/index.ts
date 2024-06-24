@@ -22,7 +22,7 @@ User.get("/role/:role", getUserByRole);
 
 User.get("/:id", getUser);
 User.post("/", validateRequest(createUserSchema), createUser);
-User.put("/:id", validateRequest(updateUserSchema), updateUser);
+User.put("/:id", verifyToken('admin'), updateUser);
 User.delete("/:id", deleteUser);
 
 export default User;

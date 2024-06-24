@@ -1,7 +1,7 @@
 // src/components/User/UserCard.tsx
 
 import React, { useState } from 'react';
-import { Button, Space, Input, Select, Popconfirm, message } from 'antd';
+import { Card, Button, Space, Input, Select, Popconfirm, message } from 'antd';
 import { User } from '../../types';
 import { useUser } from '../../context/UserContext';
 
@@ -35,7 +35,6 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
 
     const handleCancel = () => {
         setEditing(false);
-        // Reset editedUser state if needed
         setEditedUser({
             name: user.name,
             email: user.email,
@@ -63,22 +62,25 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
     const { name, email, role } = editedUser;
 
     return (
-        <tr>
-            <td>
+        <Card style={{ width: 300 }} bordered={true}>
+            <div>
+                <strong>Name: </strong>
                 {editing ? (
                     <Input value={name} onChange={(e) => handleChange('name', e.target.value)} />
                 ) : (
                     user.name
                 )}
-            </td>
-            <td>
+            </div>
+            <div>
+                <strong>Email: </strong>
                 {editing ? (
                     <Input value={email} onChange={(e) => handleChange('email', e.target.value)} />
                 ) : (
                     user.email
                 )}
-            </td>
-            <td>
+            </div>
+            <div>
+                <strong>Role: </strong>
                 {editing ? (
                     <Select value={role} onChange={(value) => handleChange('role', value)}>
                         <Select.Option value="client">Client</Select.Option>
@@ -89,30 +91,28 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                 ) : (
                     user.role
                 )}
-            </td>
-            <td>
-                <Space>
-                    {editing ? (
-                        <>
-                            <Button type="primary" onClick={handleSave}>Save</Button>
-                            <Button onClick={handleCancel}>Cancel</Button>
-                        </>
-                    ) : (
-                        <>
-                            <Button type="primary" onClick={handleEdit}>Edit</Button>
-                            <Popconfirm
-                                title="Are you sure delete this user?"
-                                onConfirm={handleDelete}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Button danger>Delete</Button>
-                            </Popconfirm>
-                        </>
-                    )}
-                </Space>
-            </td>
-        </tr>
+            </div>
+            <Space style={{ marginTop: 16 }}>
+                {editing ? (
+                    <>
+                        <Button type="primary" onClick={handleSave}>Save</Button>
+                        <Button onClick={handleCancel}>Cancel</Button>
+                    </>
+                ) : (
+                    <>
+                        <Button type="primary" onClick={handleEdit}>Edit</Button>
+                        <Popconfirm
+                            title="Are you sure delete this user?"
+                            onConfirm={handleDelete}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button danger>Delete</Button>
+                        </Popconfirm>
+                    </>
+                )}
+            </Space>
+        </Card>
     );
 };
 

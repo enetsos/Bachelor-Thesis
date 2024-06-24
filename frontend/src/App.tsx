@@ -8,7 +8,7 @@ import { ConfigProvider } from 'antd';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
-import AdminDashboard from './pages/Admin';
+import AdminDashboard from './pages/Admin/Admin';
 
 const router = createBrowserRouter([
   {

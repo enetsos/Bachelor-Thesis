@@ -34,6 +34,7 @@ const UserService = {
 
     async updateUser(id: string, UserData: Partial<User>): Promise<User> {
         try {
+            console.log('UserData:', UserData);
             const response = await ApiService.put(`/users/${id}`, UserData);
             return response.data as User;
         } catch (error) {

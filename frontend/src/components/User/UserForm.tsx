@@ -7,7 +7,7 @@ import { User } from '../../types';
 
 const UserForm: React.FC = () => {
     const [form] = Form.useForm();
-    const { createUser } = useUser();
+    const { createUser, getByRole } = useUser();
     const [loading, setLoading] = useState<boolean>(false);
 
     const onFinish = async (values: Partial<User>) => {
@@ -15,6 +15,7 @@ const UserForm: React.FC = () => {
         try {
             await createUser(values);
             form.resetFields();
+            await getByRole('admin');
         } catch (error) {
             console.error('Error creating user:', error);
         } finally {
