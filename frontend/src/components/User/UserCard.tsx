@@ -1,15 +1,15 @@
-// src/components/User/UserRow.tsx
+// src/components/User/UserCard.tsx
 
 import React, { useState } from 'react';
 import { Button, Space, Input, Select, Popconfirm, message } from 'antd';
 import { User } from '../../types';
 import { useUser } from '../../context/UserContext';
 
-interface UserRowProps {
+interface UserCardProps {
     user: User;
 }
 
-const UserRow: React.FC<UserRowProps> = ({ user }) => {
+const UserCard: React.FC<UserCardProps> = ({ user }) => {
     const { updateUser, deleteUser } = useUser();
     const [editing, setEditing] = useState<boolean>(false);
     const [editedUser, setEditedUser] = useState<Partial<User>>({
@@ -116,4 +116,4 @@ const UserRow: React.FC<UserRowProps> = ({ user }) => {
     );
 };
 
-export default UserRow;
+export default UserCard;

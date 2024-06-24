@@ -40,6 +40,19 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
+    const getByRole = async (role: string) => {
+        setLoading(true);
+        try {
+            const usersData = await UserService.getUserByRole(role);
+            setUsers(usersData);
+        } catch (error) {
+            console.error('Error fetching users by role:', error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const createUser = async (user: Partial<User>): Promise<User> => {
         try {
             const newUser = await UserService.createUser(user);
@@ -72,19 +85,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
-    const getByRole = async (role: string) => {
-        try {
-            const usersData = await UserService.getUserByRole(role);
-            setUsers(usersData);
-        } catch (error) {
-            console.error('Error fetching users by role:', error);
-            throw error;
-        }
-    }
+
 
 
     useEffect(() => {
-        fetchUsers();
     }, []);
 
     return (

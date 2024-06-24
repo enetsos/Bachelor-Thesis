@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Table, Select } from 'antd';
 import { User } from '../../types';
 import { useUser } from '../../context/UserContext';
-import UserRow from './UserCard'; // Corrected import
+import UserCard from './UserCard';
 
 const { Option } = Select;
 
 const UserList: React.FC = () => {
     const { users, loading, getByRole } = useUser();
-    const [selectedRole, setSelectedRole] = useState<string>('all');
+    const [selectedRole, setSelectedRole] = useState<string>('admin');
 
-    useEffect(() => {
-
-        // Fetch users by selected role
-        getByRole(selectedRole);
-
-    }, [selectedRole, getByRole]);
+    const handleOnChange = (value: string) => {
+        setSelectedRole(value);
+        getByRole(value);
+    }
 
     const columns = [
         {
@@ -37,9 +35,7 @@ const UserList: React.FC = () => {
             title: 'Actions',
             key: 'actions',
             render: (_text: any, user: User) => (
-                <UserRow
-                    user={user}
-                />
+                <UserCard user={user} />
             ),
         },
     ];
@@ -48,10 +44,10 @@ const UserList: React.FC = () => {
         <div>
             <Select
                 value={selectedRole}
-                onChange={(value) => setSelectedRole(value)}
+                onChange={handleOnChange}
                 style={{ width: 200, marginBottom: 16 }}
             >
-                <Option value="all">All</Option>
+                <Option value="admin">Admin</Option>
                 <Option value="employee">Employee</Option>
                 <Option value="supervisor">Supervisor</Option>
                 <Option value="client">Client</Option>
