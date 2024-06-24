@@ -1,4 +1,5 @@
 import ApiService from './ApiService';
+import { User } from '../types';
 
 const UserService = {
     async getAllUsers(): Promise<User[]> {
@@ -7,6 +8,16 @@ const UserService = {
             return response.data as User[];
         } catch (error) {
             console.error('Error fetching Users:', error);
+            throw error;
+        }
+    },
+
+    async getUserByRole(role: string): Promise<User[]> {
+        try {
+            const response = await ApiService.get(`/users/role/${role}`);
+            return response.data as User[];
+        } catch (error) {
+            console.error('Error fetching Users by role:', error);
             throw error;
         }
     },
@@ -23,6 +34,7 @@ const UserService = {
 
     async updateUser(id: string, UserData: Partial<User>): Promise<User> {
         try {
+            console.log('UserData:', UserData);
             const response = await ApiService.put(`/users/${id}`, UserData);
             return response.data as User;
         } catch (error) {
@@ -39,6 +51,8 @@ const UserService = {
             throw error;
         }
     },
+
+
 };
 
 export default UserService;

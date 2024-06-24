@@ -16,7 +16,6 @@ type UserEntity = {
     id: string;
     name: string;
     email: string;
-    pw: string;
     role: Role;
 };
 

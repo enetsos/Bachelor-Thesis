@@ -1,47 +1,52 @@
+// src/context/LoginContext.tsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { login as serviceLogin, register as serviceRegister, logout as serviceLogout, getToken } from '../services/LoginService'; // Rename imported functions to avoid conflict
+import { login as serviceLogin, register as serviceRegister, logout as serviceLogout, getToken, getRole } from '../services/LoginService';
 
 interface AuthContextProps {
-    user: any;
+    role: string | null;
     token: string | null;
-    login: (email: string, password: string) => Promise<void>; // Rename login function
-    register: (name: string, email: string, password: string) => Promise<void>; // Rename register function
+    login: (email: string, password: string) => Promise<void>;
+    register: (name: string, email: string, password: string) => Promise<void>;
     logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<any>(null);
+    const [role, setRole] = useState<string | null>(getRole());
     const [token, setToken] = useState<string | null>(getToken());
 
     useEffect(() => {
         const storedToken = getToken();
-        if (storedToken) {
+        const storedRole = getRole();
+        if (storedToken && storedRole) {
             setToken(storedToken);
+            setRole(storedRole);
         }
     }, []);
 
     const login = async (email: string, password: string) => {
-        const { user: loggedInUser, token: loggedInToken } = await serviceLogin(email, password); // Use serviceLogin from LoginService
-        setUser(loggedInUser);
+        const { role: loggedInRole, token: loggedInToken } = await serviceLogin(email, password);
+        console.log('Logged in as:', loggedInRole);
+        setRole(loggedInRole);
         setToken(loggedInToken);
+        localStorage.setItem('token', loggedInToken);
     };
 
     const register = async (name: string, email: string, password: string) => {
-        const { user: registeredUser, token: registeredToken } = await serviceRegister(name, email, password); // Use serviceRegister from LoginService
-        setUser(registeredUser);
+        const { role: registeredRole, token: registeredToken } = await serviceRegister(name, email, password);
+        setRole(registeredRole);
         setToken(registeredToken);
     };
 
     const logout = () => {
-        serviceLogout(); // Use serviceLogout from LoginService
-        setUser(null);
+        serviceLogout();
+        setRole(null);
         setToken(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, register, logout }}>
+        <AuthContext.Provider value={{ role, token, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );

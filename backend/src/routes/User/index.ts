@@ -5,6 +5,7 @@ import {
     createUser,
     updateUser,
     deleteUser,
+    getUserByRole
 } from "./controller";
 import validateRequest from "../../middleware/validateRequest";
 import {
@@ -17,9 +18,11 @@ import { verifyToken } from "../../middleware/authMiddleware";
 const User: Router = express.Router();
 
 User.get("/", verifyToken('admin'), listUsers);
+User.get("/role/:role", getUserByRole);
+
 User.get("/:id", getUser);
-User.post("/", createUser);
-User.put("/:id", validateRequest(updateUserSchema), updateUser);
+User.post("/", validateRequest(createUserSchema), createUser);
+User.put("/:id", verifyToken('admin'), updateUser);
 User.delete("/:id", deleteUser);
 
 export default User;
