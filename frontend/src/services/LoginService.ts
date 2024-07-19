@@ -1,6 +1,6 @@
 import ApiService from './ApiService';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:3000/api';
 
 interface LoginResponse {
     role: string;
