@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { getToken } from './LoginService';
 
-const baseURL = 'http://localhost:3000/api/';
+const baseURL = process.env.REACT_APP_API_URL;
 
 const api: AxiosInstance = axios.create({
     baseURL,
