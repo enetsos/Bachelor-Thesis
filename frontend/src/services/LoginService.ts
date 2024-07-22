@@ -1,6 +1,7 @@
 import ApiService from './ApiService';
 
-const API_URL = 'http://localhost:3000/api';
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 interface LoginResponse {
     role: string;
