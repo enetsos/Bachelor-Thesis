@@ -63,12 +63,10 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
 
     const { name, email, role } = editedUser;
 
-    // Genera una stringa di dati per il QR code
-    const qrData = JSON.stringify({
-        name: user.name,
-        email: user.email,
-        role: user.role,
-    });
+
+
+    // Solo i clienti possono visualizzare il QR code
+    const canShowQRCode = user.role === 'client';
 
     return (
         <Card style={{ width: 300 }} bordered={true}>
@@ -118,13 +116,15 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                         >
                             <Button danger>Delete</Button>
                         </Popconfirm>
-                        <Button style={{ marginLeft: 8 }} onClick={() => setShowQRCode(prev => !prev)}>
-                            {showQRCode ? 'Hide QR Code' : 'Show QR Code'}
-                        </Button>
+                        {canShowQRCode && (
+                            <Button style={{ marginLeft: 8 }} onClick={() => setShowQRCode(prev => !prev)}>
+                                {showQRCode ? 'Hide QR Code' : 'Show QR Code'}
+                            </Button>
+                        )}
                     </>
                 )}
             </Space>
-            {showQRCode && <QRCodeDisplay data={qrData} />} {/* Mostra il QR code se abilitato */}
+            {showQRCode && canShowQRCode && <QRCodeDisplay name={user.name} email={user.email} />} {/* Mostra il QR code solo per i clienti */}
         </Card>
     );
 };

@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { AuthProvider } from './context/LoginContext';
 import { UserProvider } from './context/UserContext';
+import { TimeTrackingProvider } from './context/TimeTrackingContext';
 
 
 
@@ -16,7 +17,10 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <UserProvider>
-        <App />
+        <TimeTrackingProvider>
+          <App />
+        </TimeTrackingProvider>
+
       </UserProvider>
     </AuthProvider>
   </React.StrictMode>
