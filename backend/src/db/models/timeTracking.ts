@@ -28,7 +28,7 @@ class TimeTracking extends Model<TimeTrackingAttributes> {
         type: DataType.UUID,
         allowNull: false,
     })
-    declare userId: string;
+    declare employeeId: string;
 
     @ForeignKey(() => User)
     @Column({
@@ -53,9 +53,9 @@ class TimeTracking extends Model<TimeTrackingAttributes> {
         type: DataType.STRING,
         allowNull: false,
     })
-    declare status: string;
+    declare status: TimeTrackingStatus;
 
-    @BelongsTo(() => User, 'userId')
+    @BelongsTo(() => User, 'employeeId')
     declare user: User;
 
     @BelongsTo(() => User, 'clientId')

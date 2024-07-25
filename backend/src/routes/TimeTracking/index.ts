@@ -1,10 +1,15 @@
 import express, { Router } from "express";
-import { createTimeTracking, getTimeTrackingByclient } from "./controller";
+import { createTimeTracking, getAllTimeTrackings, getTimeTrackingByClientId, getTimeTrackingByEmployeeId } from "./controller";
 import { verifyToken } from "../../middleware/authMiddleware";
+import { createTimeTrackingSchema } from "../../middleware/requestSchemas";
+import validateRequest from "../../middleware/validateRequest";
 
-const authRouter: Router = express.Router();
+const timeTrackingRouter: Router = express.Router();
 
-authRouter.post("/newTime", verifyToken('employee'), createTimeTracking);
-authRouter.get("/getTime/:clientId", verifyToken('employee'), getTimeTrackingByclient);
+timeTrackingRouter.post("/new-time", validateRequest(createTimeTrackingSchema), verifyToken('employee'), createTimeTracking);
 
-export default authRouter;
+timeTrackingRouter.get("/get-all-time", verifyToken('employee'), getAllTimeTrackings);
+timeTrackingRouter.get("/get-client-time/:clientId", verifyToken('employee'), getTimeTrackingByClientId);
+timeTrackingRouter.get("/get-employee-time/:employeeId", verifyToken('employee'), getTimeTrackingByEmployeeId);
+
+export default timeTrackingRouter;

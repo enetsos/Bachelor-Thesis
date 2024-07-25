@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col, Card, Form, Input, Button, Space } from 'antd';
 import { useLocation } from 'react-router-dom';
+import { useTimeTracking } from '../context/TimeTrackingContext';
 import Header from '../components/Header';
 import BackArrow from '../components/BackArrow';
 
@@ -12,6 +13,8 @@ const useQuery = () => {
 
 const NewService: React.FC = () => {
     const [submissionTime, setSubmissionTime] = useState<string | null>(null);
+    const { createTimeTracking } = useTimeTracking();
+    const [loading, setLoading] = useState<boolean>(false);
     const [form] = Form.useForm();
     const query = useQuery();
 
@@ -19,13 +22,23 @@ const NewService: React.FC = () => {
         // Initialize form fields with query parameters on component mount
         const nome = query.get('nome') || '';
         const email = query.get('email') || '';
-        form.setFieldsValue({ nome, email });
+        const id = query.get('id') || '';
+        form.setFieldsValue({ nome, email, id });
     }, [query, form]);
 
     const handleSubmit = (values: any) => {
-        console.log('Form values:', values);
+        // console.log('Form values:', values);
         const now = new Date();
         setSubmissionTime(now.toLocaleTimeString());
+        setLoading(true);
+        try {
+            createTimeTracking(values);
+            form.resetFields();
+        } catch (error) {
+            console.log('Error creating time tracking:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -62,7 +75,7 @@ const NewService: React.FC = () => {
                                 </Form.Item>
                                 <Form.Item>
                                     <Space>
-                                        <Button type="primary" htmlType="submit">
+                                        <Button type="primary" htmlType="submit" loading={loading}>
                                             Start!
                                         </Button>
                                     </Space>

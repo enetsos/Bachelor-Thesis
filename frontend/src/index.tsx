@@ -20,7 +20,6 @@ root.render(
         <TimeTrackingProvider>
           <App />
         </TimeTrackingProvider>
-
       </UserProvider>
     </AuthProvider>
   </React.StrictMode>

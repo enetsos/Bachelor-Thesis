@@ -3,10 +3,10 @@ import TimeTrackingService from '../services/TimeTrackingService';
 import { TimeTrackingAttributes } from '../types';
 
 interface TimeTrackingContextProps {
-    currentTimeTracking: TimeTrackingAttributes | null;
-    timeTrackingByClient: TimeTrackingAttributes[] | null;
-    fetchCurrentTimeTracking: () => Promise<void>;
+    timeTracking: TimeTrackingAttributes[];
+    fetchTimeTracking: () => Promise<void>;
     fetchTimeTrackingByClient: (clientId: string) => Promise<void>;
+    fetchTimeTrackingByEmployee: (employeeId: string) => Promise<void>;
     createTimeTracking: (data: TimeTrackingAttributes) => Promise<void>;
     loading: boolean;
 }
@@ -22,16 +22,15 @@ export const useTimeTracking = (): TimeTrackingContextProps => {
 };
 
 export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [currentTimeTracking] = useState<TimeTrackingAttributes | null>(null);
-    const [timeTrackingByClient, setTimeTrackingByClient] = useState<TimeTrackingAttributes[] | null>(null);
+    const [timeTracking, setTimeTracking] = useState<TimeTrackingAttributes[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     // Function to fetch the current time tracking record
-    const fetchCurrentTimeTracking = async () => {
+    const fetchTimeTracking = async () => {
         setLoading(true);
         try {
-            // const trackingData = await TimeTrackingService.getTimeTrackingByClient('current'); // Pass a suitable client ID or other identifier
-            // setCurrentTimeTracking(trackingData[0] || null); // Assuming the first record is the current one
+            const trackingData = await TimeTrackingService.getAllTimeTracking();
+            setTimeTracking(trackingData); // Assuming the first record is the current one
         } catch (error) {
             console.error('Error fetching current time tracking:', error);
         } finally {
@@ -44,7 +43,7 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
         setLoading(true);
         try {
             const trackingData = await TimeTrackingService.getTimeTrackingByClient(clientId);
-            setTimeTrackingByClient(trackingData);
+            setTimeTracking(trackingData);
         } catch (error) {
             console.error('Error fetching time tracking by client:', error);
         } finally {
@@ -52,12 +51,24 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
         }
     };
 
+    const fetchTimeTrackingByEmployee = async (employeeId: string) => {
+        setLoading(true);
+        try {
+            const trackingData = await TimeTrackingService.getTimeTrackingByEmployee(employeeId);
+            setTimeTracking(trackingData);
+        } catch (error) {
+            console.error('Error fetching time tracking by employee:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     // Function to create a new time tracking record
     const createTimeTracking = async (data: TimeTrackingAttributes) => {
         setLoading(true);
         try {
             await TimeTrackingService.createTimeTracking(data);
-            await fetchCurrentTimeTracking(); // Refresh current time tracking data
+            await fetchTimeTracking();
         } catch (error) {
             console.error('Error creating time tracking:', error);
         } finally {
@@ -67,15 +78,14 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
 
 
     useEffect(() => {
-        fetchCurrentTimeTracking(); // Fetch current time tracking data on mount
     }, []);
 
     return (
         <TimeTrackingContext.Provider value={{
-            currentTimeTracking,
-            timeTrackingByClient,
-            fetchCurrentTimeTracking,
+            timeTracking,
+            fetchTimeTracking,
             fetchTimeTrackingByClient,
+            fetchTimeTrackingByEmployee,
             createTimeTracking,
             loading
         }}>

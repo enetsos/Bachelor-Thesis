@@ -124,7 +124,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                     </>
                 )}
             </Space>
-            {showQRCode && canShowQRCode && <QRCodeDisplay name={user.name} email={user.email} />} {/* Mostra il QR code solo per i clienti */}
+            {showQRCode && canShowQRCode && <QRCodeDisplay name={user.name} email={user.email} id={user.id} />} {/* Mostra il QR code solo per i clienti */}
         </Card>
     );
 };

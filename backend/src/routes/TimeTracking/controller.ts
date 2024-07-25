@@ -1,35 +1,67 @@
 import { Request, Response, NextFunction } from "express";
 import TimeTrackingRepository from "../../repositories/TimeTrackingRepository";
+import TimeTrackingResource from "../../resources/TimeTrackingResource";
 
-export const createTimeTracking = async (req: Request, res: Response, next: NextFunction) => {
+export const createTimeTracking = async (
+    req: Request,
+    res: Response,
+    next: NextFunction) => {
     try {
-        const { employeeId, clientId, startTime, status } = req.body;
 
         const repository = new TimeTrackingRepository();
-        const newTimeTracking = await repository.create({
-            employeeId,
-            clientId,
-            startTime,
-            status,
-        } as TimeTrackingAttributes);
-
-        res.status(201).json(newTimeTracking);
-    } catch (error: any) {
+        const timeTrackingResource = new TimeTrackingResource(
+            await repository.create(req.body)
+        )
+        res.status(201).json(timeTrackingResource.item());
+    } catch (error) {
         next(error);
     }
 };
 
-export const getTimeTrackingByclient = async (req: Request, res: Response, next: NextFunction) => {
+export const getAllTimeTrackings = async (
+    req: Request,
+    res: Response,
+    next: NextFunction) => {
     try {
-        const { clientId } = req.params;
 
         const repository = new TimeTrackingRepository();
-        const timeTrackings = await repository.getAll({
-            where: { clientId }
-        });
+        const timeTrackings = TimeTrackingResource.collection(
+            await repository.getAll({
+                sortBy: req.query.sort_by,
+            })
+        );
+        res.status(201).json(timeTrackings);
+    } catch (error) {
+        next(error);
+    }
+};
 
-        res.status(200).json(timeTrackings);
-    } catch (error: any) {
+export const getTimeTrackingByClientId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction) => {
+    try {
+
+        const repository = new TimeTrackingRepository();
+        const timeTrackings = await repository.findByClientId(req.params.clientId);
+        const timeTrackingResource = TimeTrackingResource.collection(timeTrackings);
+        res.status(201).json(timeTrackingResource);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getTimeTrackingByEmployeeId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction) => {
+    try {
+
+        const repository = new TimeTrackingRepository();
+        const timeTrackings = await repository.findByEmployeeId(req.params.employeeId);
+        const timeTrackingResource = TimeTrackingResource.collection(timeTrackings);
+        res.status(201).json(timeTrackingResource);
+    } catch (error) {
         next(error);
     }
 };

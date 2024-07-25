@@ -58,7 +58,7 @@ interface TimeTrackingAttributes {
     clientId: string;
     startTime: Date;
     endTime?: Date;
-    status: string;
+    status: TimeTrackingStatus;
     employee: {
         id: string;
         name: string;
@@ -79,6 +79,11 @@ type TimeTrackingEntity = {
     clientId: string;
     startTime: Date;
     endTime?: Date;
-    status: string;
+    status: TimeTrackingStatus;
 
 };
+
+enum TimeTrackingStatus {
+    ACTIVE = "active",
+    INACTIVE = "inactive",
+}

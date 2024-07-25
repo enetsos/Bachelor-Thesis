@@ -8,7 +8,7 @@ class TimeTrackingResource extends BaseResource<TimeTrackingAttributes, TimeTrac
             clientId: this.instance.clientId,
             startTime: this.instance.startTime,
             endTime: this.instance.endTime,
-            status: this.instance.status
+            status: this.instance.status,
         };
 
         return timeTrackingResource;

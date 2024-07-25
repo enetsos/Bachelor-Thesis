@@ -15,19 +15,25 @@ export default class TimeTrackingRepository extends BaseRepository<TimeTrackingA
         super(TimeTracking);
     }
 
-    getAll(options: Record<string, any> = {}) {
+    getAll(options: Record<string, any> = {}): Promise<Array<TimeTrackingAttributes>> {
         const opts = {
             ...options,
-            include: ["employee", "client"]
         };
         return super.getAll(opts);
     }
 
-    getById(id: string, options: Record<string, any> = {}) {
+    findByClientId(clientId: string): Promise<Array<TimeTrackingAttributes>> {
         const opts = {
-            ...options,
-            include: ["employee", "client"]
+            where: { clientId },
         };
-        return super.getById(id, opts);
+        return this.modelClass.findAll(opts);
     }
+
+    findByEmployeeId(employeeId: string): Promise<Array<TimeTrackingAttributes>> {
+        const opts = {
+            where: { employeeId },
+        };
+        return this.modelClass.findAll(opts);
+    }
+
 }
