@@ -3,9 +3,8 @@
 import React from 'react';
 import { Layout, Typography } from 'antd';
 import LogoutButton from './Logout';
-import BackArrow from './BackArrow'
 
-const { Header: AntdHeader, Content } = Layout;
+const { Header: AntdHeader } = Layout;
 const { Title } = Typography;
 
 interface HeaderProps {
@@ -21,9 +20,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                     <LogoutButton />
                 </div>
             </AntdHeader>
-            <Content style={{ background: '#309674' }}>
-                <BackArrow />
-            </Content>
         </>
     );
 };

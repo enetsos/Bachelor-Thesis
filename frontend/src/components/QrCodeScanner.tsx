@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import QRScanner from 'qr-scanner';
 import { Modal, Button } from 'antd';
+import QrScanner from 'qr-scanner';
 
 interface QRCodeScannerProps {
     onScan: (data: string) => void;
@@ -12,22 +13,20 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({ onScan, onError }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [scanner, setScanner] = useState<QRScanner | null>(null);
 
-    const stopScanning = useCallback(() => {
-        if (scanner) {
-            scanner.stop();
-            setScanner(null);
-        }
-    }, [scanner]);
-
     useEffect(() => {
+        if (!isModalVisible || scanner) return;
+
         const initScanner = async () => {
             try {
                 if (videoRef.current) {
-                    const qrScanner = new QRScanner(videoRef.current, (result) => {
-                        onScan(result.data);
-                        stopScanning();
-                        setIsModalVisible(false);
-                    }, {});
+                    const qrScanner = new QRScanner(
+                        videoRef.current,
+                        (result) => {
+                            onScan(result.data);
+                            setIsModalVisible(false);
+                        },
+                        {}
+                    );
                     setScanner(qrScanner);
                     qrScanner.start();
                 }
@@ -36,18 +35,30 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({ onScan, onError }) => {
             }
         };
 
-        if (isModalVisible) {
-            initScanner();
-        }
+        initScanner();
 
         return () => {
-            stopScanning();
+            if (scanner) {
+                (scanner as QrScanner).stop();
+                setScanner(null);
+            }
         };
-    }, [isModalVisible, onScan, onError, stopScanning]);
+    }, [isModalVisible, onScan, onError, scanner]);
+
+    useEffect(() => {
+        return () => {
+            if (scanner) {
+                scanner.stop();
+            }
+        };
+    }, [scanner]);
 
     const handleCancel = () => {
         setIsModalVisible(false);
-        stopScanning();
+        if (scanner) {
+            scanner.stop();
+            setScanner(null);
+        }
     };
 
     return (

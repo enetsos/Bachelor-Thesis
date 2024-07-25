@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col, Card, Form, Input, Button, Space } from 'antd';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
+import BackArrow from '../components/BackArrow';
 
 const { Content } = Layout;
 
@@ -28,8 +29,12 @@ const NewService: React.FC = () => {
     };
 
     return (
+
         <Layout style={{ minHeight: '100vh' }}>
             <Header title="New Service" />
+
+            <BackArrow />
+
             <Content style={{ padding: '20px 50px', position: 'relative' }}>
                 {submissionTime && (
                     <div style={{ position: 'absolute', top: 20, right: 50, fontSize: '18px' }}>
