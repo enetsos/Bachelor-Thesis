@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { getToken } from './LoginService';
 
 const baseURL = process.env.REACT_APP_API_URL;
 
@@ -8,21 +7,9 @@ const api: AxiosInstance = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
+    withCredentials: true,
 });
 
-
-api.interceptors.request.use(
-    config => {
-        const token = getToken();
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    error => {
-        return Promise.reject(error);
-    }
-);
 
 const ApiService = {
     async get<T>(url: string): Promise<AxiosResponse<T>> {

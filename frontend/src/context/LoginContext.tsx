@@ -1,52 +1,58 @@
-// src/context/LoginContext.tsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { login as serviceLogin, register as serviceRegister, logout as serviceLogout, getToken, getRole } from '../services/LoginService';
+import { login as serviceLogin, logout as serviceLogout, getUserInfo } from '../services/LoginService';
 
 interface AuthContextProps {
     role: string | null;
-    token: string | null;
+    userId: string | null;
     login: (email: string, password: string) => Promise<void>;
-    register: (name: string, email: string, password: string) => Promise<void>;
     logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [role, setRole] = useState<string | null>(getRole());
-    const [token, setToken] = useState<string | null>(getToken());
+    const [role, setRole] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
 
     useEffect(() => {
-        const storedToken = getToken();
-        const storedRole = getRole();
-        if (storedToken && storedRole) {
-            setToken(storedToken);
-            setRole(storedRole);
-        }
+        const fetchUserInfo = async () => {
+            try {
+                const userInfo = await getUserInfo(); // Recupera le informazioni dell'utente usando il token
+                setRole(userInfo.role);
+                setUserId(userInfo.userId);
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+                setRole(null); // Nessun utente autenticato
+            }
+        };
+
+        fetchUserInfo();
     }, []);
 
+    const fetchUserInfo = async () => {
+        try {
+            const userInfo = await getUserInfo();
+            setRole(userInfo.role);
+            setUserId(userInfo.userId);
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+            setRole(null);
+        }
+    };
+
     const login = async (email: string, password: string) => {
-        const { role: loggedInRole, token: loggedInToken } = await serviceLogin(email, password);
-        console.log('Logged in as:', loggedInRole);
-        setRole(loggedInRole);
-        setToken(loggedInToken);
-        localStorage.setItem('token', loggedInToken);
+        await serviceLogin(email, password);
+        await fetchUserInfo();
     };
 
-    const register = async (name: string, email: string, password: string) => {
-        const { role: registeredRole, token: registeredToken } = await serviceRegister(name, email, password);
-        setRole(registeredRole);
-        setToken(registeredToken);
-    };
 
-    const logout = () => {
-        serviceLogout();
+    const logout = async () => {
+        await serviceLogout();
         setRole(null);
-        setToken(null);
     };
 
     return (
-        <AuthContext.Provider value={{ role, token, login, register, logout }}>
+        <AuthContext.Provider value={{ role, userId, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

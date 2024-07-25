@@ -6,7 +6,7 @@ import timeTrackingRouter from "./TimeTracking";
 const router: Router = express.Router();
 
 router.use("/users", user);
-router.use("/login", authRouter);
+router.use("/auth", authRouter);
 router.use("/time-tracking", timeTrackingRouter);
 
 export default router;

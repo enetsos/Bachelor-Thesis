@@ -10,11 +10,9 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
     const { role } = useAuth();
-
     if (role === null) {
-        return <Navigate to="/login" />;
+        return <div>Loading...</div>; // O qualsiasi altro componente di caricamento
     }
-
     if (requiredRole && role !== requiredRole) {
         return <Navigate to="/login" />;
     }
