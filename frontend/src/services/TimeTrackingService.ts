@@ -3,7 +3,7 @@ import { TimeTrackingAttributes } from '../types'; // Assicurati di avere un tip
 
 
 const TimeTrackingService = {
-    async createTimeTracking(data: TimeTrackingAttributes): Promise<TimeTrackingAttributes> {
+    async createTimeTracking(data: Partial<TimeTrackingAttributes>): Promise<TimeTrackingAttributes> {
         try {
             const response = await ApiService.post('/time-tracking/new-time', data);
             return response.data as TimeTrackingAttributes;

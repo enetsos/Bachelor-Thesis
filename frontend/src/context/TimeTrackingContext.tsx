@@ -7,7 +7,7 @@ interface TimeTrackingContextProps {
     fetchTimeTracking: () => Promise<void>;
     fetchTimeTrackingByClient: (clientId: string) => Promise<void>;
     fetchTimeTrackingByEmployee: (employeeId: string) => Promise<void>;
-    createTimeTracking: (data: TimeTrackingAttributes) => Promise<void>;
+    createTimeTracking: (data: Partial<TimeTrackingAttributes>) => Promise<void>;
     loading: boolean;
 }
 
@@ -64,7 +64,7 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
     }
 
     // Function to create a new time tracking record
-    const createTimeTracking = async (data: TimeTrackingAttributes) => {
+    const createTimeTracking = async (data: Partial<TimeTrackingAttributes>) => {
         setLoading(true);
         try {
             await TimeTrackingService.createTimeTracking(data);
