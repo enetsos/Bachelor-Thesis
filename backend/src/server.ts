@@ -14,10 +14,10 @@ export const createServer = () => {
         .use(cookieParser())
         .use(express.json())
         .use(cors({
-            origin: process.env.FRONTEND_URL, // Il dominio del frontend
-            credentials: true // Permetti l'invio di cookie e credenziali
+            origin: process.env.FRONTEND_URL,
+            credentials: true,
         }))
-        .use(initializePassport());
+        .use(initializePassport())
 
     app.get("/healthz", (req, res) => {
         return res.json({ ok: true, environment: process.env.NODE_ENV });

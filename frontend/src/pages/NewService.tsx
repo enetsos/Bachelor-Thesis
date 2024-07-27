@@ -15,7 +15,8 @@ const useQuery = () => {
 
 const NewService: React.FC = () => {
     const [submissionTime, setSubmissionTime] = useState<string | null>(null);
-    const { createTimeTracking } = useTimeTracking();
+    const [stopTime, setStopTime] = useState<string | null>(null);
+    const { currentTimeTracking, createTimeTracking, updateTimeTracking } = useTimeTracking();
     const { userId } = useAuth(); // Assuming there's a user object in Auth context
     const [loading, setLoading] = useState<boolean>(false);
     const [form] = Form.useForm();
@@ -29,7 +30,7 @@ const NewService: React.FC = () => {
         form.setFieldsValue({ nome, email, clientId });
     }, [query, form]);
 
-    const handleSubmit = (values: any) => {
+    const handleStart = async (values: any) => {
         const now = new Date();
         setSubmissionTime(now.toLocaleTimeString());
         setLoading(true);
@@ -38,14 +39,29 @@ const NewService: React.FC = () => {
                 employeeId: userId || '',
                 clientId: values.clientId || '',
                 startTime: now,
-                status: 'active', // Change this to 'active' if that's the required status
+                status: 'active',
             };
-            createTimeTracking(timeTrackingData);
+            await createTimeTracking(timeTrackingData);
             form.resetFields();
         } catch (error) {
             console.log('Error creating time tracking:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleStop = async () => {
+        if (currentTimeTracking?.id) {
+            setLoading(true);
+            const now = new Date();
+            setStopTime(now.toLocaleTimeString());
+            try {
+                await updateTimeTracking(currentTimeTracking.id, { endTime: now });
+            } catch (error) {
+                console.log('Error stopping time tracking:', error);
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
@@ -56,13 +72,18 @@ const NewService: React.FC = () => {
             <Content style={{ padding: '20px 50px', position: 'relative' }}>
                 {submissionTime && (
                     <div style={{ position: 'absolute', top: 20, right: 50, fontSize: '18px' }}>
-                        Form submitted at: {submissionTime}
+                        Service started at: {submissionTime}
+                    </div>
+                )}
+                {stopTime && (
+                    <div style={{ position: 'absolute', top: 20, right: 50, fontSize: '18px' }}>
+                        Service stopped at: {stopTime}
                     </div>
                 )}
                 <Row gutter={[16, 16]}>
                     <Col xs={24} md={12} offset={6}>
                         <Card title="New Service Form" bordered={false}>
-                            <Form form={form} onFinish={handleSubmit}>
+                            <Form form={form} onFinish={handleStart}>
                                 <Form.Item
                                     label="Nome"
                                     name="nome"
@@ -87,8 +108,11 @@ const NewService: React.FC = () => {
                                 </Form.Item>
                                 <Form.Item>
                                     <Space>
-                                        <Button type="primary" htmlType="submit" loading={loading}>
+                                        <Button type="primary" htmlType="submit" loading={loading} disabled={!!currentTimeTracking}>
                                             Start!
+                                        </Button>
+                                        <Button type="default" onClick={handleStop} loading={loading} disabled={!currentTimeTracking}>
+                                            Stop
                                         </Button>
                                     </Space>
                                 </Form.Item>

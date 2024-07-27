@@ -30,7 +30,9 @@ export default abstract class BaseRepository<A> {
     }
 
     async update(id: string, body: Record<string, any>): Promise<A> {
-        const instance = await this.modelClass.findByPk(id);
+        console.log("id", id);
+        console.log("body", body);
+        const instance = await this.modelClass.findByPk(id)
         if (!instance) {
             return instance;
         }

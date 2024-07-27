@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { createTimeTracking, getAllTimeTrackings, getTimeTrackingByClientId, getTimeTrackingByEmployeeId } from "./controller";
+import { createTimeTracking, getAllTimeTrackings, getTimeTrackingByClientId, getTimeTrackingByEmployeeId, updateTimeTracking } from "./controller";
 import { verifyToken } from "../../middleware/authMiddleware";
 import { createTimeTrackingSchema } from "../../middleware/requestSchemas";
 import validateRequest from "../../middleware/validateRequest";
@@ -11,5 +11,7 @@ timeTrackingRouter.post("/new-time", validateRequest(createTimeTrackingSchema), 
 timeTrackingRouter.get("/get-all-time", verifyToken('employee'), getAllTimeTrackings);
 timeTrackingRouter.get("/get-client-time/:clientId", verifyToken('employee'), getTimeTrackingByClientId);
 timeTrackingRouter.get("/get-employee-time/:employeeId", verifyToken('employee'), getTimeTrackingByEmployeeId);
+
+timeTrackingRouter.put("/stop-time/:id", verifyToken('employee'), updateTimeTracking);
 
 export default timeTrackingRouter;

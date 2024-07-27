@@ -36,4 +36,21 @@ export default class TimeTrackingRepository extends BaseRepository<TimeTrackingA
         return this.modelClass.findAll(opts);
     }
 
+    async stopTimer(id: string, body: Record<string, any>): Promise<TimeTrackingAttributes | null> {
+        try {
+            const timeTracking = await this.modelClass.findByPk(id);
+            if (!timeTracking) {
+                throw new Error(`Time tracking entry with id ${id} not found`);
+            }
+            timeTracking.endTime = body.endTime;
+            timeTracking.status = 'completed';
+            await timeTracking.save();
+            return timeTracking;
+        } catch (error) {
+            console.error(`Error stopping timer for id ${id}:`, error);
+            throw error;
+        }
+    }
+
+
 }

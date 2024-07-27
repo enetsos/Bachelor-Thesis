@@ -86,4 +86,5 @@ type TimeTrackingEntity = {
 enum TimeTrackingStatus {
     ACTIVE = "active",
     INACTIVE = "inactive",
+    COMPLETED = "completed",
 }

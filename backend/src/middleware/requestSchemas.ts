@@ -14,5 +14,5 @@ export const createTimeTrackingSchema = Joi.object({
     employeeId: Joi.string().required(),
     startTime: Joi.date().required(),
     endTime: Joi.date(),
-    status: Joi.string().valid("active", "inactive").required(),
+    status: Joi.string().valid("active", "inactive", "completed").required(),
 });

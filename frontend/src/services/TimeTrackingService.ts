@@ -41,7 +41,17 @@ const TimeTrackingService = {
             console.error('Error fetching time tracking by employee:', error);
             throw error;
         }
-    }
+    },
+
+    async updateTimeTracking(timeTrackingId: string, timeTrackingData: Partial<TimeTrackingAttributes>): Promise<TimeTrackingAttributes> {
+        try {
+            const response = await ApiService.put(`/time-tracking/stop-time/${timeTrackingId}`, timeTrackingData);
+            return response.data as TimeTrackingAttributes;
+        } catch (error) {
+            console.error('Error stopping time tracking:', error);
+            throw error;
+        }
+    },
 };
 
 export default TimeTrackingService;
