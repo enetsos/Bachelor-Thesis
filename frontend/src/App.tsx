@@ -8,7 +8,9 @@ import { ConfigProvider } from 'antd';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
-import AdminDashboard from './pages/Admin/Admin';
+import AdminDashboard from './pages/Admin';
+import EmployeeDashboard from './pages/Employee';
+import NewService from './pages/NewService';
 
 const router = createBrowserRouter([
   {
@@ -18,9 +20,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ProtectedRoute requiredRole={Role.ADMIN}>
-        <Dashboard />
-      </ProtectedRoute>)
+      <Dashboard />)
   },
   {
     path: '/admin',
@@ -28,7 +28,24 @@ const router = createBrowserRouter([
       <ProtectedRoute requiredRole={Role.ADMIN}>
         <AdminDashboard />
       </ProtectedRoute>)
+  },
+  {
+    path: '/employee',
+    element: (
+      <ProtectedRoute requiredRole={Role.EMPLOYEE}>
+        <EmployeeDashboard />
+      </ProtectedRoute>)
+  },
+  {
+    path: '/employee/new-service',
+    element: (
+      <ProtectedRoute requiredRole={Role.EMPLOYEE}>
+        <NewService />
+      </ProtectedRoute>)
   }
+
+
+
 ]);
 
 

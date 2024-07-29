@@ -10,7 +10,6 @@ import {
 import validateRequest from "../../middleware/validateRequest";
 import {
     createUserSchema,
-    updateUserSchema,
 } from "../../middleware/requestSchemas";
 import { verifyToken } from "../../middleware/authMiddleware";
 
@@ -18,10 +17,10 @@ import { verifyToken } from "../../middleware/authMiddleware";
 const User: Router = express.Router();
 
 User.get("/", verifyToken('admin'), listUsers);
-User.get("/role/:role", getUserByRole);
+User.get("/role/:role", verifyToken('admin'), getUserByRole);
 
 User.get("/:id", getUser);
-User.post("/", validateRequest(createUserSchema), createUser);
+User.post("/", validateRequest(createUserSchema), verifyToken('admin'), createUser);
 User.put("/:id", verifyToken('admin'), updateUser);
 User.delete("/:id", deleteUser);
 

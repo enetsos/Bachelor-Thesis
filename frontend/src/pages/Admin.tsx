@@ -2,16 +2,16 @@
 
 import React from 'react';
 import { Layout, Row, Col, Card } from 'antd';
-import Header from './Header';
-import UserForm from '../../components/User/UserForm';
-import UserList from '../../components/User/UserList';
+import Header from '../components/Header';
+import UserForm from '../components/User/UserForm';
+import UserList from '../components/User/UserList';
 
 const { Content } = Layout;
 
 const AdminDashboard: React.FC = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Header />
+            <Header title="Admin Dashboard" />
             <Content style={{ padding: '20px 50px' }}>
                 <Row gutter={[16, 16]}>
                     <Col xs={24} md={12}>

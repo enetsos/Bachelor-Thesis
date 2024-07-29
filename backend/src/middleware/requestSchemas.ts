@@ -9,8 +9,10 @@ export const createUserSchema = Joi.object({
     is_public: Joi.bool().default(true),
 });
 
-export const updateUserSchema = Joi.object({
-    name: Joi.string().min(3).max(30),
-    email: Joi.string().min(3).max(30),
-    role: Joi.string().valid("admin", "supervisor", "employee", "client")
-}).or("name", "description", "number_of_days", "is_public");
+export const createTimeTrackingSchema = Joi.object({
+    clientId: Joi.string().required(),
+    employeeId: Joi.string().required(),
+    startTime: Joi.date().required(),
+    endTime: Joi.date(),
+    status: Joi.string().valid("active", "inactive", "completed").required(),
+});

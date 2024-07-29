@@ -27,10 +27,32 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
         const token = generateToken({ userId: user.id, email: user.email, role: user.role });
 
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Solo su HTTPS in produzione
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 // 1 giorno
+        });
 
 
-        res.status(200).json({ role: user.role, token: token });
+
+        res.status(200).json({ message: "Logged in successfully" });
     } catch (error: any) {
         next(error);
     }
+};
+
+export const logout = (req: Request, res: Response) => {
+    res.cookie('token', '', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        expires: new Date(0) // Imposta la data di scadenza al passato
+    });
+    res.status(200).json({ message: 'Logged out successfully' });
+};
+
+export const getUserInfo = (req: Request, res: Response) => {
+    const user = req.user;
+    res.json(user);
 };

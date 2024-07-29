@@ -51,3 +51,40 @@ interface EmployeeAttributes {
     created_at: Date;
     updated_at: Date;
 }
+
+interface TimeTrackingAttributes {
+    id: string;
+    employeeId: string;
+    clientId: string;
+    startTime: Date;
+    endTime?: Date;
+    status: TimeTrackingStatus;
+    employee: {
+        id: string;
+        name: string;
+        email: string;
+        role: string;
+    };
+    client: {
+        id: string;
+        name: string;
+        email: string;
+        role: string;
+    };
+}
+
+type TimeTrackingEntity = {
+    id: string;
+    employeeId: string;
+    clientId: string;
+    startTime: Date;
+    endTime?: Date;
+    status: TimeTrackingStatus;
+
+};
+
+enum TimeTrackingStatus {
+    ACTIVE = "active",
+    INACTIVE = "inactive",
+    COMPLETED = "completed",
+}

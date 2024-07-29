@@ -14,3 +14,15 @@ export interface User {
     created_at: Date;
     updated_at: Date;
 }
+
+// src/types.ts
+
+export interface TimeTrackingAttributes {
+    id: string;
+    employeeId: string;       // ID del dipendente che sta effettuando la timbratura
+    clientId: string;       // ID del cliente presso cui viene effettuata la timbratura
+    startTime: Date;        // Ora di inizio della timbratura (ISO 8601 string)
+    endTime?: Date;         // Ora di fine della timbratura (opzionale, ISO 8601 string)
+    status: 'active' | 'inactive'; // Stato della timbratura
+}
+

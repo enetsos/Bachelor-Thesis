@@ -14,6 +14,10 @@ const Dashboard: React.FC = () => {
         return <Navigate to="/admin/" />;
     }
 
+    if (role === Role.EMPLOYEE) {
+        return <Navigate to="/employee/" />;
+    }
+
     return (
         <div>
             <h1>Dashboard</h1>

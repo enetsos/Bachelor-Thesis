@@ -10,7 +10,7 @@ export const generateToken = (payload: any) => {
 };
 
 export const verifyToken = (requiredRole: string) => (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(' ')[1];
+    const token = req.cookies.token; // Recupera il token dai cookie
 
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
@@ -23,13 +23,26 @@ export const verifyToken = (requiredRole: string) => (req: Request, res: Respons
 
         req.user = user;
 
-        console.log(user);
+        // Verifica se il ruolo dell'utente corrisponde al ruolo richiesto
         if (user.role !== requiredRole) {
             return res.status(403).json({
                 message: 'You do not have the authorization and permissions to access this resource.'
             });
         }
 
+        next();
+    });
+};
+
+
+export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+    const token = req.cookies.token;
+    console.log('Token:', token);
+    if (token == null) return res.sendStatus(401); // Token non trovato
+
+    jwt.verify(token, secretKey, (err: any, user: any) => {
+        if (err) return res.sendStatus(403); // Token non valido
+        req.user = user;
         next();
     });
 };

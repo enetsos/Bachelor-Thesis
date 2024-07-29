@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Card, Button, Space, Input, Select, Popconfirm, message } from 'antd';
 import { User } from '../../types';
 import { useUser } from '../../context/UserContext';
+import QRCodeDisplay from './QrCodeDisplay'; // Importa il nuovo componente
 
 interface UserCardProps {
     user: User;
@@ -12,6 +13,7 @@ interface UserCardProps {
 const UserCard: React.FC<UserCardProps> = ({ user }) => {
     const { updateUser, deleteUser } = useUser();
     const [editing, setEditing] = useState<boolean>(false);
+    const [showQRCode, setShowQRCode] = useState<boolean>(false); // Stato per gestire la visibilità del QR code
     const [editedUser, setEditedUser] = useState<Partial<User>>({
         name: user.name,
         email: user.email,
@@ -61,6 +63,11 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
 
     const { name, email, role } = editedUser;
 
+
+
+    // Solo i clienti possono visualizzare il QR code
+    const canShowQRCode = user.role === 'client';
+
     return (
         <Card style={{ width: 300 }} bordered={true}>
             <div>
@@ -109,9 +116,15 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                         >
                             <Button danger>Delete</Button>
                         </Popconfirm>
+                        {canShowQRCode && (
+                            <Button style={{ marginLeft: 8 }} onClick={() => setShowQRCode(prev => !prev)}>
+                                {showQRCode ? 'Hide QR Code' : 'Show QR Code'}
+                            </Button>
+                        )}
                     </>
                 )}
             </Space>
+            {showQRCode && canShowQRCode && <QRCodeDisplay name={user.name} email={user.email} id={user.id} />} {/* Mostra il QR code solo per i clienti */}
         </Card>
     );
 };

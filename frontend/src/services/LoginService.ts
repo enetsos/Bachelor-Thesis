@@ -1,40 +1,26 @@
 import ApiService from './ApiService';
 
-
-const API_URL = process.env.REACT_APP_API_URL;
-
 interface LoginResponse {
     role: string;
-    token: string;
 }
 
-interface RegisterResponse {
+interface UserInfoResponse {
     role: string;
-    token: string;
+    userId: string;
 }
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
-    const response = await ApiService.post<LoginResponse>(`${API_URL}/login`, { email, password });
+    const response = await ApiService.post<LoginResponse>('/auth/login', { email, password });
     console.log(response.data);
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('role', response.data.role);
     return response.data;
 };
 
-export const register = async (name: string, email: string, password: string): Promise<RegisterResponse> => {
-    const response = await ApiService.post<RegisterResponse>(`${API_URL}/clients`, { name, email, password });
+
+export const logout = async (): Promise<void> => {
+    await ApiService.post('/auth/logout', {}); // Chiama il logout sul server
+};
+
+export const getUserInfo = async (): Promise<UserInfoResponse> => {
+    const response = await ApiService.get<UserInfoResponse>('/auth/user-info');
     return response.data;
 };
-
-export const logout = (): void => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-};
-
-export const getToken = (): string | null => {
-    return localStorage.getItem('token');
-};
-
-export const getRole = (): string | null => {
-    return localStorage.getItem('role');
-}
