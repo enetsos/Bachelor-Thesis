@@ -43,6 +43,16 @@ const TimeTrackingService = {
         }
     },
 
+    async getTimeTrackingById(timeTrackingId: string): Promise<TimeTrackingAttributes> {
+        try {
+            const response = await ApiService.get(`/time-tracking/get-time/${timeTrackingId}`);
+            return response.data as TimeTrackingAttributes;
+        } catch (error) {
+            console.error('Error fetching time tracking by id:', error);
+            throw error;
+        }
+    },
+
     async updateTimeTracking(timeTrackingId: string, timeTrackingData: Partial<TimeTrackingAttributes>): Promise<TimeTrackingAttributes> {
         try {
             const response = await ApiService.put(`/time-tracking/stop-time/${timeTrackingId}`, timeTrackingData);

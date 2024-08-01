@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminDashboard from './pages/Admin';
 import EmployeeDashboard from './pages/Employee';
 import NewService from './pages/NewService';
+import ServiceEmployee from './pages/ServiceEmployee';
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,16 @@ const router = createBrowserRouter([
       <ProtectedRoute requiredRole={Role.EMPLOYEE}>
         <NewService />
       </ProtectedRoute>)
+  },
+  {
+    path: '/employee/service',
+    element: (
+      <ProtectedRoute requiredRole={Role.EMPLOYEE}>
+        <ServiceEmployee />
+      </ProtectedRoute>
+    )
   }
+
 
 
 

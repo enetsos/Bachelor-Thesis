@@ -8,8 +8,9 @@ interface TimeTrackingContextProps {
     fetchTimeTracking: () => Promise<void>;
     fetchTimeTrackingByClient: (clientId: string) => Promise<void>;
     fetchTimeTrackingByEmployee: (employeeId: string) => Promise<void>;
+    getTimeTrackingById: (timeTrackingId: string) => Promise<TimeTrackingAttributes>;
     createTimeTracking: (data: Partial<TimeTrackingAttributes>) => Promise<void>;
-    updateTimeTracking: (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>) => Promise<void>;
+    updateTimeTracking: (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>) => Promise<TimeTrackingAttributes>;
     loading: boolean;
 }
 
@@ -66,6 +67,19 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
         }
     }
 
+    const getTimeTrackingById = async (timeTrackingId: string): Promise<TimeTrackingAttributes> => {
+        setLoading(true);
+        try {
+            const trackingData = await TimeTrackingService.getTimeTrackingById(timeTrackingId);
+            return trackingData;
+        } catch (error) {
+            console.error('Error fetching time tracking by id:', error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const createTimeTracking = async (data: Partial<TimeTrackingAttributes>) => {
         setLoading(true);
         try {
@@ -79,14 +93,16 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
         }
     }
 
-    const updateTimeTracking = async (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>) => {
+    const updateTimeTracking = async (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>): Promise<TimeTrackingAttributes> => {
         setLoading(true);
         try {
             const stoppedTimeTracking = await TimeTrackingService.updateTimeTracking(timeTrackingId, timeTracking);
             setCurrentTimeTracking(stoppedTimeTracking);
             await fetchTimeTracking();
+            return stoppedTimeTracking;
         } catch (error) {
             console.error('Error stopping time tracking:', error);
+            throw error;
         } finally {
             setLoading(false);
         }
@@ -103,6 +119,7 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
             fetchTimeTracking,
             fetchTimeTrackingByClient,
             fetchTimeTrackingByEmployee,
+            getTimeTrackingById,
             createTimeTracking,
             updateTimeTracking,
             loading
