@@ -4,6 +4,7 @@ import React from 'react';
 import { Layout, Row, Col, Card } from 'antd';
 import Header from '../components/Header';
 import QRCodeScanner from '../components/QrCodeScanner';
+import ServiceList from '../components/ServiceList';
 
 const { Content } = Layout;
 
@@ -29,7 +30,7 @@ const EmployeeDashboard: React.FC = () => {
                 <Row gutter={[16, 16]}>
                     <Col xs={24} md={24}>
                         <Card title="Your Performance" bordered={false}>
-                            {/* Performance chart or content */}
+                            <ServiceList role='employee' />
                         </Card>
                     </Col>
                 </Row>

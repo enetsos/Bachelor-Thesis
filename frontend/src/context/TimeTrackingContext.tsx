@@ -6,8 +6,8 @@ interface TimeTrackingContextProps {
     timeTracking: TimeTrackingAttributes[];
     currentTimeTracking: TimeTrackingAttributes | null;
     fetchTimeTracking: () => Promise<void>;
-    fetchTimeTrackingByClient: (clientId: string) => Promise<void>;
-    fetchTimeTrackingByEmployee: (employeeId: string) => Promise<void>;
+    fetchTimeTrackingByClient: (clientId: string) => Promise<TimeTrackingAttributes[]>;
+    fetchTimeTrackingByEmployee: (employeeId: string) => Promise<TimeTrackingAttributes[]>;
     getTimeTrackingById: (timeTrackingId: string) => Promise<TimeTrackingAttributes>;
     createTimeTracking: (data: Partial<TimeTrackingAttributes>) => Promise<void>;
     updateTimeTracking: (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>) => Promise<TimeTrackingAttributes>;
@@ -43,25 +43,27 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
     };
 
     // Function to fetch time tracking records by client ID
-    const fetchTimeTrackingByClient = async (clientId: string) => {
+    const fetchTimeTrackingByClient = async (clientId: string): Promise<TimeTrackingAttributes[]> => {
         setLoading(true);
         try {
             const trackingData = await TimeTrackingService.getTimeTrackingByClient(clientId);
-            setTimeTracking(trackingData);
+            return trackingData;
         } catch (error) {
             console.error('Error fetching time tracking by client:', error);
+            throw error;
         } finally {
             setLoading(false);
         }
     };
 
-    const fetchTimeTrackingByEmployee = async (employeeId: string) => {
+    const fetchTimeTrackingByEmployee = async (employeeId: string): Promise<TimeTrackingAttributes[]> => {
         setLoading(true);
         try {
             const trackingData = await TimeTrackingService.getTimeTrackingByEmployee(employeeId);
-            setTimeTracking(trackingData);
+            return trackingData;
         } catch (error) {
             console.error('Error fetching time tracking by employee:', error);
+            throw error;
         } finally {
             setLoading(false);
         }
