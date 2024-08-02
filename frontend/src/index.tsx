@@ -7,6 +7,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { AuthProvider } from './context/LoginContext';
 import { UserProvider } from './context/UserContext';
 import { TimeTrackingProvider } from './context/TimeTrackingContext';
+import { SupplyProvider } from './context/SupplyContext';
 
 
 
@@ -18,7 +19,9 @@ root.render(
     <AuthProvider>
       <UserProvider>
         <TimeTrackingProvider>
-          <App />
+          <SupplyProvider>
+            <App />
+          </SupplyProvider>
         </TimeTrackingProvider>
       </UserProvider>
     </AuthProvider>

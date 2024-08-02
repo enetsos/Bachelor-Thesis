@@ -93,7 +93,7 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
                 pagination={false}
                 onRow={(record) => ({
                     onClick: () => handleRowClick(record),
-                    style: { cursor: 'pointer' }, // Change cursor to pointer on row hover
+                    style: { cursor: 'pointer' },
                 })}
             />
         </Spin>

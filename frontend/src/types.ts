@@ -26,3 +26,9 @@ export interface TimeTrackingAttributes {
     status: 'active' | 'inactive' | 'concluded'; // Stato della timbratura
 }
 
+export interface SupplyAttributes {
+    id: string;
+    name: string;
+    price: number;
+}
+
