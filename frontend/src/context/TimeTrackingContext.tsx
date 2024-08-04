@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import TimeTrackingService from '../services/TimeTrackingService';
-import { TimeTrackingAttributes } from '../types';
+import TimeTrackingSupplyService from '../services/TimeTrackingSupplyService';
+import { SupplyAttributes, TimeTrackingAttributes, TimeTrackingSupplyAttributes } from '../types';
 
 interface TimeTrackingContextProps {
+    supplies: SupplyAttributes[];
     timeTracking: TimeTrackingAttributes[];
     currentTimeTracking: TimeTrackingAttributes | null;
     fetchTimeTracking: () => Promise<void>;
@@ -11,6 +13,9 @@ interface TimeTrackingContextProps {
     getTimeTrackingById: (timeTrackingId: string) => Promise<TimeTrackingAttributes>;
     createTimeTracking: (data: Partial<TimeTrackingAttributes>) => Promise<void>;
     updateTimeTracking: (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>) => Promise<TimeTrackingAttributes>;
+    fetchSuppliesByTimeTrackingId: (timeTrackingId: string) => Promise<void>;
+    fetchTimeTrackingsBySupplyId: (supplyId: string) => Promise<void>;
+    addSuppliesToTimeTracking: (timeTrackingId: string, supplies: TimeTrackingSupplyAttributes[]) => Promise<void>;
     loading: boolean;
 }
 
@@ -19,22 +24,23 @@ const TimeTrackingContext = createContext<TimeTrackingContextProps | undefined>(
 export const useTimeTracking = (): TimeTrackingContextProps => {
     const context = useContext(TimeTrackingContext);
     if (!context) {
-        throw new Error('useTimeTracking must be used within a TimeTrackingProvider');
+        throw new Error('useTimeTrackingSupply must be used within a TimeTrackingSupplyProvider');
     }
     return context;
 };
 
 export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [supplies, setSupplies] = useState<SupplyAttributes[]>([]);
     const [timeTracking, setTimeTracking] = useState<TimeTrackingAttributes[]>([]);
     const [currentTimeTracking, setCurrentTimeTracking] = useState<TimeTrackingAttributes | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    // Function to fetch the current time tracking record
+    // Functions for TimeTracking
     const fetchTimeTracking = async () => {
         setLoading(true);
         try {
             const trackingData = await TimeTrackingService.getAllTimeTracking();
-            setTimeTracking(trackingData); // Assuming the first record is the current one
+            setTimeTracking(trackingData);
         } catch (error) {
             console.error('Error fetching current time tracking:', error);
         } finally {
@@ -42,7 +48,6 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
         }
     };
 
-    // Function to fetch time tracking records by client ID
     const fetchTimeTrackingByClient = async (clientId: string): Promise<TimeTrackingAttributes[]> => {
         setLoading(true);
         try {
@@ -73,6 +78,7 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
         setLoading(true);
         try {
             const trackingData = await TimeTrackingService.getTimeTrackingById(timeTrackingId);
+            setCurrentTimeTracking(trackingData);
             return trackingData;
         } catch (error) {
             console.error('Error fetching time tracking by id:', error);
@@ -85,8 +91,8 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
     const createTimeTracking = async (data: Partial<TimeTrackingAttributes>) => {
         setLoading(true);
         try {
-            const currentTimeTracking = await TimeTrackingService.createTimeTracking(data);
-            setCurrentTimeTracking(currentTimeTracking);
+            const newTimeTracking = await TimeTrackingService.createTimeTracking(data);
+            setCurrentTimeTracking(newTimeTracking);
             await fetchTimeTracking();
         } catch (error) {
             console.error('Error creating time tracking:', error);
@@ -98,24 +104,62 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
     const updateTimeTracking = async (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>): Promise<TimeTrackingAttributes> => {
         setLoading(true);
         try {
-            const stoppedTimeTracking = await TimeTrackingService.updateTimeTracking(timeTrackingId, timeTracking);
-            setCurrentTimeTracking(stoppedTimeTracking);
+            const updatedTimeTracking = await TimeTrackingService.updateTimeTracking(timeTrackingId, timeTracking);
+            setCurrentTimeTracking(updatedTimeTracking);
             await fetchTimeTracking();
-            return stoppedTimeTracking;
+            return updatedTimeTracking;
         } catch (error) {
-            console.error('Error stopping time tracking:', error);
+            console.error('Error updating time tracking:', error);
             throw error;
         } finally {
             setLoading(false);
         }
     }
 
+    // Functions for TimeTrackingSupply
+    const fetchSuppliesByTimeTrackingId = async (timeTrackingId: string) => {
+        setLoading(true);
+        try {
+            const suppliesData = await TimeTrackingSupplyService.getSuppliesByTimeTrackingId(timeTrackingId);
+            setSupplies(suppliesData);
+        } catch (error) {
+            console.error('Error fetching supplies by time tracking id:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchTimeTrackingsBySupplyId = async (supplyId: string) => {
+        setLoading(true);
+        try {
+            const timeTrackingsData = await TimeTrackingSupplyService.getTimeTrackingsBySupplyId(supplyId);
+            setTimeTracking(timeTrackingsData);
+        } catch (error) {
+            console.error('Error fetching time trackings by supply id:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const addSuppliesToTimeTracking = async (timeTrackingId: string, supplies: TimeTrackingSupplyAttributes[]) => {
+        setLoading(true);
+        try {
+            await TimeTrackingSupplyService.addSuppliesToTimeTracking(timeTrackingId, supplies);
+            await fetchSuppliesByTimeTrackingId(timeTrackingId);
+        } catch (error) {
+            console.error('Error adding supplies to time tracking:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
+        fetchTimeTracking();
     }, []);
 
     return (
         <TimeTrackingContext.Provider value={{
+            supplies,
             timeTracking,
             currentTimeTracking,
             fetchTimeTracking,
@@ -124,6 +168,9 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
             getTimeTrackingById,
             createTimeTracking,
             updateTimeTracking,
+            fetchSuppliesByTimeTrackingId,
+            fetchTimeTrackingsBySupplyId,
+            addSuppliesToTimeTracking,
             loading
         }}>
             {children}

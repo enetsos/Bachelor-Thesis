@@ -32,3 +32,8 @@ export interface SupplyAttributes {
     price: number;
 }
 
+export interface TimeTrackingSupplyAttributes {
+    supplyId: string;
+    quantity: number;
+}
+

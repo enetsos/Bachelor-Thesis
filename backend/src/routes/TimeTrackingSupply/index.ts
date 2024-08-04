@@ -8,7 +8,6 @@ const timeTrackingSupplyRouter: Router = express.Router();
 
 timeTrackingSupplyRouter.post(
     "/timetracking/:timeTrackingId/supplies",
-    validateRequest(createTimeTrackingSchemaSupply),
     verifyToken('employee'),
     addSuppliesToTimeTracking
 );

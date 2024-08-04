@@ -23,7 +23,6 @@ export const createSupplySchema = Joi.object({
 });
 
 export const createTimeTrackingSchemaSupply = Joi.object({
-    timeTrackingId: Joi.string().required(),
     supplyId: Joi.string().required(),
     quantity: Joi.number().required(),
 });

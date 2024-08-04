@@ -9,12 +9,13 @@ export const addSuppliesToTimeTracking = async (
 ) => {
     try {
         const timeTrackingId = req.params.timeTrackingId;
-        const supplies = req.body.supplies; // Assumiamo che body contenga un array di oggetti { supplyId, quantity }
+        const supplies = req.body;
+
 
         const repository = new TimeTrackingSupplyRepository();
 
         const timeTrackingSupplies = await Promise.all(
-            supplies.map((supply: { supplyId: string, quantity: number }) =>
+            supplies.map((supply: Partial<TimeTrackingSupplyAttributes>) =>
                 repository.create({
                     timeTrackingId,
                     supplyId: supply.supplyId,
