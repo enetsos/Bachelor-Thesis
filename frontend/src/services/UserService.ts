@@ -52,6 +52,16 @@ const UserService = {
         }
     },
 
+    async getUserById(id: string): Promise<User> {
+        try {
+            const response = await ApiService.get(`/users/${id}`);
+            return response.data as User;
+        } catch (error) {
+            console.error('Error fetching User by id:', error);
+            throw error;
+        }
+    }
+
 
 };
 

@@ -23,6 +23,17 @@ export interface TimeTrackingAttributes {
     clientId: string;       // ID del cliente presso cui viene effettuata la timbratura
     startTime: Date;        // Ora di inizio della timbratura (ISO 8601 string)
     endTime?: Date;         // Ora di fine della timbratura (opzionale, ISO 8601 string)
-    status: 'active' | 'inactive'; // Stato della timbratura
+    status: 'active' | 'inactive' | 'concluded'; // Stato della timbratura
+}
+
+export interface SupplyAttributes {
+    id: string;
+    name: string;
+    price: number;
+}
+
+export interface TimeTrackingSupplyAttributes {
+    supplyId: string;
+    quantity: number;
 }
 

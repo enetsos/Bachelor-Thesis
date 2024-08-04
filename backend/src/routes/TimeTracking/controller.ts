@@ -66,6 +66,22 @@ export const getTimeTrackingByEmployeeId = async (
     }
 };
 
+export const getTimeById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const repository = new TimeTrackingRepository();
+        const timeTrackingResource = new TimeTrackingResource(
+            await repository.getById(req.params.id)
+        );
+        res.status(200).json(timeTrackingResource.item());
+    } catch (error: any) {
+        next(error);
+    }
+};
+
 export const updateTimeTracking = async (
     req: Request,
     res: Response,

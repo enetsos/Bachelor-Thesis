@@ -59,18 +59,7 @@ interface TimeTrackingAttributes {
     startTime: Date;
     endTime?: Date;
     status: TimeTrackingStatus;
-    employee: {
-        id: string;
-        name: string;
-        email: string;
-        role: string;
-    };
-    client: {
-        id: string;
-        name: string;
-        email: string;
-        role: string;
-    };
+
 }
 
 type TimeTrackingEntity = {
@@ -88,3 +77,29 @@ enum TimeTrackingStatus {
     INACTIVE = "inactive",
     COMPLETED = "completed",
 }
+
+interface SupplyAttributes {
+    id: string;
+    name: string;
+    price: number;
+    created_at: Date;
+    updated_at: Date;
+}
+
+type SupplyEntity = {
+    id: string;
+    name: string;
+    price: number;
+};
+
+interface TimeTrackingSupplyAttributes {
+    timeTrackingId: string;
+    supplyId: string;
+    quantity: number;
+}
+
+type TimeTrackingSupplyEntity = {
+    timeTrackingId: string;
+    supplyId: string;
+    quantity: number;
+};

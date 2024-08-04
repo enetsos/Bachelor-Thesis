@@ -11,6 +11,7 @@ interface UserContextProps {
     updateUser: (id: string, user: Partial<User>) => Promise<User>;
     deleteUser: (id: string) => Promise<void>;
     getByRole: (role: string) => Promise<void>;
+    getUserById: (id: string) => Promise<User>;
     loading: boolean;
 }
 
@@ -85,6 +86,15 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
+    const getUserById = async (id: string): Promise<User> => {
+        try {
+            const user = await UserService.getUserById(id);
+            return user;
+        } catch (error) {
+            console.error('Error fetching user by id:', error);
+            throw error;
+        }
+    };
 
 
 
@@ -92,7 +102,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, []);
 
     return (
-        <UserContext.Provider value={{ users, fetchUsers, createUser, updateUser, deleteUser, getByRole, loading }}>
+        <UserContext.Provider value={{ users, fetchUsers, createUser, updateUser, deleteUser, getByRole, getUserById, loading }}>
             {children}
         </UserContext.Provider>
     );

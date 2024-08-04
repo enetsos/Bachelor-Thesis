@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col, Card, Form, Input, Button, Space } from 'antd';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTimeTracking } from '../context/TimeTrackingContext';
 import { useAuth } from '../context/LoginContext'; // Assuming there is an Auth context
 import Header from '../components/Header';
@@ -14,13 +14,12 @@ const useQuery = () => {
 };
 
 const NewService: React.FC = () => {
-    const [submissionTime, setSubmissionTime] = useState<string | null>(null);
-    const [stopTime, setStopTime] = useState<string | null>(null);
-    const { currentTimeTracking, createTimeTracking, updateTimeTracking } = useTimeTracking();
-    const { userId } = useAuth(); // Assuming there's a user object in Auth context
     const [loading, setLoading] = useState<boolean>(false);
+    const { currentTimeTracking, createTimeTracking } = useTimeTracking();
+    const { userId } = useAuth(); // Assuming there's a user object in Auth context
     const [form] = Form.useForm();
     const query = useQuery();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Initialize form fields with query parameters on component mount
@@ -31,10 +30,9 @@ const NewService: React.FC = () => {
     }, [query, form]);
 
     const handleStart = async (values: any) => {
-        const now = new Date();
-        setSubmissionTime(now.toLocaleTimeString());
         setLoading(true);
         try {
+            const now = new Date();
             const timeTrackingData: Partial<TimeTrackingAttributes> = {
                 employeeId: userId || '',
                 clientId: values.clientId || '',
@@ -43,6 +41,10 @@ const NewService: React.FC = () => {
             };
             await createTimeTracking(timeTrackingData);
             form.resetFields();
+            if (currentTimeTracking) {
+                console.log('Navigating to service:', currentTimeTracking.id);
+                navigate(`/employee/service?id=${currentTimeTracking.id}`);
+            }
         } catch (error) {
             console.log('Error creating time tracking:', error);
         } finally {
@@ -50,36 +52,13 @@ const NewService: React.FC = () => {
         }
     };
 
-    const handleStop = async () => {
-        if (currentTimeTracking?.id) {
-            setLoading(true);
-            const now = new Date();
-            setStopTime(now.toLocaleTimeString());
-            try {
-                await updateTimeTracking(currentTimeTracking.id, { endTime: now });
-            } catch (error) {
-                console.log('Error stopping time tracking:', error);
-            } finally {
-                setLoading(false);
-            }
-        }
-    };
+
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Header title="New Service" />
             <BackArrow />
             <Content style={{ padding: '20px 50px', position: 'relative' }}>
-                {submissionTime && (
-                    <div style={{ position: 'absolute', top: 20, right: 50, fontSize: '18px' }}>
-                        Service started at: {submissionTime}
-                    </div>
-                )}
-                {stopTime && (
-                    <div style={{ position: 'absolute', top: 20, right: 50, fontSize: '18px' }}>
-                        Service stopped at: {stopTime}
-                    </div>
-                )}
                 <Row gutter={[16, 16]}>
                     <Col xs={24} md={12} offset={6}>
                         <Card title="New Service Form" bordered={false}>
@@ -108,12 +87,10 @@ const NewService: React.FC = () => {
                                 </Form.Item>
                                 <Form.Item>
                                     <Space>
-                                        <Button type="primary" htmlType="submit" loading={loading} disabled={!!currentTimeTracking}>
+                                        <Button type="primary" htmlType="submit" loading={loading}>
                                             Start!
                                         </Button>
-                                        <Button type="default" onClick={handleStop} loading={loading} disabled={!currentTimeTracking}>
-                                            Stop
-                                        </Button>
+
                                     </Space>
                                 </Form.Item>
                             </Form>

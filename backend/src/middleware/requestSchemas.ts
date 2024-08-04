@@ -16,3 +16,13 @@ export const createTimeTrackingSchema = Joi.object({
     endTime: Joi.date(),
     status: Joi.string().valid("active", "inactive", "completed").required(),
 });
+
+export const createSupplySchema = Joi.object({
+    name: Joi.string().min(3).max(30).required(),
+    price: Joi.number().required(),
+});
+
+export const createTimeTrackingSchemaSupply = Joi.object({
+    supplyId: Joi.string().required(),
+    quantity: Joi.number().required(),
+});

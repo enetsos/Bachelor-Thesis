@@ -9,7 +9,8 @@ export const generateToken = (payload: any) => {
     return token;
 };
 
-export const verifyToken = (requiredRole: string) => (req: Request, res: Response, next: NextFunction) => {
+
+export const verifyToken = (requiredRoles: string | string[]) => (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.token; // Recupera il token dai cookie
 
     if (!token) {
@@ -23,8 +24,10 @@ export const verifyToken = (requiredRole: string) => (req: Request, res: Respons
 
         req.user = user;
 
-        // Verifica se il ruolo dell'utente corrisponde al ruolo richiesto
-        if (user.role !== requiredRole) {
+        const roles = Array.isArray(requiredRoles) ? requiredRoles : [requiredRoles];
+
+        // Verifica se il ruolo dell'utente è incluso nei ruoli richiesti
+        if (!roles.includes(user.role)) {
             return res.status(403).json({
                 message: 'You do not have the authorization and permissions to access this resource.'
             });
@@ -33,7 +36,6 @@ export const verifyToken = (requiredRole: string) => (req: Request, res: Respons
         next();
     });
 };
-
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.token;

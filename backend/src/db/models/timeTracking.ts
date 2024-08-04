@@ -7,8 +7,11 @@ import {
     UpdatedAt,
     ForeignKey,
     BelongsTo,
+    BelongsToMany
 } from "sequelize-typescript";
-import User from "./user"; // Assicurati di avere un modello User definito
+import User from "./user";
+import TimeTrackingSupply from "./timeTrackingSupply";
+import Supply from "./supply";
 
 @Table({
     timestamps: true,
@@ -60,6 +63,9 @@ class TimeTracking extends Model<TimeTrackingAttributes> {
 
     @BelongsTo(() => User, 'clientId')
     declare client: User;
+
+    @BelongsToMany(() => Supply, () => TimeTrackingSupply)
+    declare supplies: Supply[];
 
     @CreatedAt
     declare created_at: Date;
