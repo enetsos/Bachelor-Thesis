@@ -24,6 +24,11 @@ export interface TimeTrackingAttributes {
     startTime: Date;        // Ora di inizio della timbratura (ISO 8601 string)
     endTime?: Date;         // Ora di fine della timbratura (opzionale, ISO 8601 string)
     status: 'active' | 'inactive' | 'concluded'; // Stato della timbratura
+    longStartTime: number;  // Longitudine di inizio della timbratura
+    longEndTime: number;    // Longitudine di fine della timbratura
+    latStartTime: number;   // Latitudine di inizio della timbratura
+    latEndTime: number;     // Latitudine di fine della timbratura
+    notes: string;          // Note della timbratura
 }
 
 export interface SupplyAttributes {

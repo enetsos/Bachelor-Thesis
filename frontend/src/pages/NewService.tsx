@@ -6,6 +6,7 @@ import { useAuth } from '../context/LoginContext'; // Assuming there is an Auth 
 import Header from '../components/Header';
 import BackArrow from '../components/BackArrow';
 import { TimeTrackingAttributes } from '../types';
+import { getCoordinates } from '../utils/getCoordinates';
 
 const { Content } = Layout;
 
@@ -15,44 +16,43 @@ const useQuery = () => {
 
 const NewService: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const { currentTimeTracking, createTimeTracking } = useTimeTracking();
+    const { createTimeTracking } = useTimeTracking();
     const { userId } = useAuth(); // Assuming there's a user object in Auth context
     const [form] = Form.useForm();
     const query = useQuery();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Initialize form fields with query parameters on component mount
         const nome = query.get('nome') || '';
         const email = query.get('email') || '';
         const clientId = query.get('id') || '';
         form.setFieldsValue({ nome, email, clientId });
     }, [query, form]);
 
+
     const handleStart = async (values: any) => {
         setLoading(true);
         try {
+            const position = await getCoordinates();
+            const { latitude, longitude } = position.coords;
             const now = new Date();
             const timeTrackingData: Partial<TimeTrackingAttributes> = {
                 employeeId: userId || '',
                 clientId: values.clientId || '',
                 startTime: now,
                 status: 'active',
+                latStartTime: latitude,
+                longStartTime: longitude,
             };
-            await createTimeTracking(timeTrackingData);
+            const newTimeTracking = await createTimeTracking(timeTrackingData);
             form.resetFields();
-            if (currentTimeTracking) {
-                console.log('Navigating to service:', currentTimeTracking.id);
-                navigate(`/employee/service?id=${currentTimeTracking.id}`);
-            }
+            navigate(`/employee/service?id=${newTimeTracking.id}`);
         } catch (error) {
             console.log('Error creating time tracking:', error);
         } finally {
             setLoading(false);
         }
     };
-
-
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -90,7 +90,6 @@ const NewService: React.FC = () => {
                                         <Button type="primary" htmlType="submit" loading={loading}>
                                             Start!
                                         </Button>
-
                                     </Space>
                                 </Form.Item>
                             </Form>

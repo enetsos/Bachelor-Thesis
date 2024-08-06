@@ -11,7 +11,7 @@ interface TimeTrackingContextProps {
     fetchTimeTrackingByClient: (clientId: string) => Promise<TimeTrackingAttributes[]>;
     fetchTimeTrackingByEmployee: (employeeId: string) => Promise<TimeTrackingAttributes[]>;
     getTimeTrackingById: (timeTrackingId: string) => Promise<TimeTrackingAttributes>;
-    createTimeTracking: (data: Partial<TimeTrackingAttributes>) => Promise<void>;
+    createTimeTracking: (data: Partial<TimeTrackingAttributes>) => Promise<TimeTrackingAttributes>;
     updateTimeTracking: (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>) => Promise<TimeTrackingAttributes>;
     fetchSuppliesByTimeTrackingId: (timeTrackingId: string) => Promise<void>;
     fetchTimeTrackingsBySupplyId: (supplyId: string) => Promise<void>;
@@ -88,14 +88,16 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
         }
     }
 
-    const createTimeTracking = async (data: Partial<TimeTrackingAttributes>) => {
+    const createTimeTracking = async (data: Partial<TimeTrackingAttributes>): Promise<TimeTrackingAttributes> => {
         setLoading(true);
         try {
             const newTimeTracking = await TimeTrackingService.createTimeTracking(data);
             setCurrentTimeTracking(newTimeTracking);
             await fetchTimeTracking();
+            return newTimeTracking;
         } catch (error) {
             console.error('Error creating time tracking:', error);
+            throw error;
         } finally {
             setLoading(false);
         }

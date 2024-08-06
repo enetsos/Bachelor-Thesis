@@ -59,7 +59,11 @@ interface TimeTrackingAttributes {
     startTime: Date;
     endTime?: Date;
     status: TimeTrackingStatus;
-
+    longStartTime: number;
+    longEndTime: number;
+    latStartTime: number;
+    latEndTime: number;
+    notes: string;
 }
 
 type TimeTrackingEntity = {
@@ -69,7 +73,11 @@ type TimeTrackingEntity = {
     startTime: Date;
     endTime?: Date;
     status: TimeTrackingStatus;
-
+    longStartTime: number;
+    longEndTime: number;
+    latStartTime: number;
+    latEndTime: number;
+    notes: string;
 };
 
 enum TimeTrackingStatus {

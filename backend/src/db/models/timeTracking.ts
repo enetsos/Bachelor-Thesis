@@ -58,6 +58,36 @@ class TimeTracking extends Model<TimeTrackingAttributes> {
     })
     declare status: TimeTrackingStatus;
 
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: false,
+    })
+    declare longStartTime: number;
+
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: true,
+    })
+    declare longEndTime: number;
+
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: false,
+    })
+    declare latStartTime: number;
+
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: true,
+    })
+    declare latEndTime: number;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true,
+    })
+    declare notes: string;
+
     @BelongsTo(() => User, 'employeeId')
     declare user: User;
 

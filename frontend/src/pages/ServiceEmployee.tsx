@@ -1,7 +1,7 @@
 // src/pages/ServiceEmployee.tsx
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Layout, Row, Col, Card, Button, Modal } from 'antd';
+import { Layout, Row, Col, Card, Button, Modal, Input, Form } from 'antd'; // Import Form and Input
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTimeTracking } from '../context/TimeTrackingContext';
 import Header from '../components/Header';
@@ -14,8 +14,10 @@ import StopButton from '../components/ServiceStopButton';
 import CartPopup from '../components/CartPopup';
 import StopConfirmationModal from '../components/StopConfirmationalModal'; // Import the new component
 import { ShoppingCartOutlined } from '@ant-design/icons';
+import { getCoordinates } from '../utils/getCoordinates'; // Import the utility function
 
 const { Content } = Layout;
+const { TextArea } = Input;
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -36,6 +38,7 @@ const ServiceEmployee: React.FC = () => {
     const [confirmPurchaseVisible, setConfirmPurchaseVisible] = useState<boolean>(false);
     const [cart, setCart] = useState<Record<string, number>>({});
     const [stopConfirmationVisible, setStopConfirmationVisible] = useState<boolean>(false); // New state for confirmation modal
+    const [notes, setNotes] = useState<string>(''); // New state for notes
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,14 +89,23 @@ const ServiceEmployee: React.FC = () => {
             const now = new Date();
 
             try {
+                const position = await getCoordinates();
+                const { latitude, longitude } = position.coords;
+
                 // Convert cart items to SupplyAttributes array
                 const supplies: TimeTrackingSupplyAttributes[] = Object.keys(cart).map(supplyId => ({
                     supplyId: supplyId,
                     quantity: cart[supplyId]
                 }));
 
-                // Update time tracking to concluded status
-                const updatedTimeTracking = await updateTimeTracking(timeTracking.id, { endTime: now, status: 'concluded' });
+                // Update time tracking to concluded status with coordinates and notes
+                const updatedTimeTracking = await updateTimeTracking(timeTracking.id, {
+                    endTime: now,
+                    status: 'concluded',
+                    latEndTime: latitude,
+                    longEndTime: longitude,
+                    notes: notes, // Include notes
+                });
                 setTimeTracking(updatedTimeTracking);
 
                 // Add supplies to time tracking
@@ -105,8 +117,6 @@ const ServiceEmployee: React.FC = () => {
             }
         }
     };
-
-
 
     const handleStopConfirmationClose = () => {
         setStopConfirmationVisible(false);
@@ -176,6 +186,15 @@ const ServiceEmployee: React.FC = () => {
                                 <>
                                     <ClientInfo client={client} />
                                     <ServiceInfo timeTracking={timeTracking} />
+                                    <Form>
+                                        <Form.Item label="Notes">
+                                            <TextArea
+                                                rows={4}
+                                                value={notes}
+                                                onChange={e => setNotes(e.target.value)}
+                                            />
+                                        </Form.Item>
+                                    </Form>
                                     <StopButton
                                         handleStop={handleStopButtonClick} // Use the new function to show confirmation modal
                                         loading={loading}

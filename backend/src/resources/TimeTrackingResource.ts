@@ -9,6 +9,11 @@ class TimeTrackingResource extends BaseResource<TimeTrackingAttributes, TimeTrac
             startTime: this.instance.startTime,
             endTime: this.instance.endTime,
             status: this.instance.status,
+            longStartTime: this.instance.longStartTime,
+            longEndTime: this.instance.longEndTime,
+            latStartTime: this.instance.latStartTime,
+            latEndTime: this.instance.latEndTime,
+            notes: this.instance.notes
         };
 
         return timeTrackingResource;
