@@ -46,7 +46,7 @@ const NewService: React.FC = () => {
             };
             const newTimeTracking = await createTimeTracking(timeTrackingData);
             form.resetFields();
-            navigate(`/employee/service?id=${newTimeTracking.id}`);
+            navigate(`/service?id=${newTimeTracking.id}`);
         } catch (error) {
             console.log('Error creating time tracking:', error);
         } finally {

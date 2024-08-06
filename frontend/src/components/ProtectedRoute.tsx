@@ -1,22 +1,22 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/LoginContext';
-import { Role } from '../types';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
-    requiredRole?: Role;
+    requiredRoles: string[];
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRoles }) => {
     const { role } = useAuth();
+
     if (role === null) {
         return <div>Loading...</div>; // O qualsiasi altro componente di caricamento
     }
-    if (requiredRole && role !== requiredRole) {
+
+    if (!requiredRoles.includes(role)) {
         return <Navigate to="/login" />;
     }
-
 
     return <>{children}</>;
 };

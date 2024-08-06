@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const { Text } = Typography;
 
 interface PerformanceListProps {
-    role: 'employee' | 'client';
+    role: 'employee' | 'supervisor';
 }
 
 // Define a type for possible status values
@@ -29,7 +29,7 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
                 isFetched.current = true;
                 setLoading(true);
                 try {
-                    const trackingData = role === 'employee'
+                    const trackingData = role === 'employee' || 'supervisor'
                         ? await fetchTimeTrackingByEmployee(userId)
                         : await fetchTimeTrackingByClient(userId);
                     setPerformanceData(trackingData);
@@ -81,7 +81,7 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
     ];
 
     const handleRowClick = (record: TimeTrackingAttributes) => {
-        navigate(`/employee/service?id=${record.id}`);
+        navigate(`/service?id=${record.id}`);
     };
 
     return (
