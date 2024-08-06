@@ -1,15 +1,13 @@
 // src/pages/SupervisorDashboard/SupervisorDashboard.tsx
 
 import React from 'react';
-import { Card } from 'antd';
 import BaseDashboard from '../components/BaseDashboard';
+import EmployeeTimeTrackingList from '../components/EmployeeTimeTrackingList';
 
 const SupervisorDashboard: React.FC = () => {
     return (
         <BaseDashboard title="Supervisor Dashboard" role="supervisor">
-
-            <Card title="Supervisor Controls" bordered={false} style={{ marginTop: '20px' }}>
-            </Card>
+            <EmployeeTimeTrackingList title="Employee Time Tracking" />
         </BaseDashboard>
     );
 };

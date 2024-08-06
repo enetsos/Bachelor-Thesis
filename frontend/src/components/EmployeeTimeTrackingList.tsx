@@ -1,52 +1,53 @@
-// src/components/ServiceList.tsx
+// src/components/EmployeeTimeTrackingList.tsx
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Table, Spin, Typography, Tag } from 'antd';
+import { Table, Spin, Typography, Tag, Card } from 'antd';
+import { TimeTrackingAttributes, User } from '../types';
 import { useTimeTracking } from '../context/TimeTrackingContext';
-import { TimeTrackingAttributes } from '../types';
-import { useAuth } from '../context/LoginContext';
+import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import MapView from '../components/MapView'; // Import the new MapView component
+import MapView from './MapView'; // Import the MapView component
 
 const { Text } = Typography;
 
-interface PerformanceListProps {
-    role: 'employee' | 'supervisor';
+interface EmployeeTimeTrackingListProps {
+    title: string;
 }
 
 // Define a type for possible status values
 type Status = 'concluded' | 'inactive' | 'active';
 
-const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
+const EmployeeTimeTrackingList: React.FC<EmployeeTimeTrackingListProps> = ({ title }) => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [performanceData, setPerformanceData] = useState<TimeTrackingAttributes[]>([]);
-    const { fetchTimeTrackingByEmployee, fetchTimeTrackingByClient, fetchSuppliesByTimeTrackingId } = useTimeTracking();
-    const { userId } = useAuth();
+    const [employees, setEmployees] = useState<User[]>([]);
+    const [timeTrackingData, setTimeTrackingData] = useState<TimeTrackingAttributes[]>([]);
+    const { fetchTimeTrackingByEmployee } = useTimeTracking();
+    const { getByRole } = useUser();
     const isFetched = useRef(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            if (userId) {
-                if (isFetched.current) return;
-                isFetched.current = true;
-                setLoading(true);
-                try {
-                    const trackingData = role === 'employee' || 'supervisor'
-                        ? await fetchTimeTrackingByEmployee(userId)
-                        : await fetchTimeTrackingByClient(userId);
-                    setPerformanceData(trackingData);
+            if (isFetched.current) return;
+            isFetched.current = true;
+            setLoading(true);
+            try {
+                // Fetch employees based on role
+                const users = await getByRole('employee');
+                setEmployees(users);
 
-                } catch (error) {
-                    console.error('Error fetching performance data:', error);
-                } finally {
-                    setLoading(false);
-                }
+                // Fetch time tracking data for each employee
+                const trackingData = await Promise.all(users.map(user => fetchTimeTrackingByEmployee(user.id)));
+                setTimeTrackingData(trackingData.flat());
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchData();
-    }, [userId, role, fetchTimeTrackingByEmployee, fetchTimeTrackingByClient]);
+    }, [getByRole, fetchTimeTrackingByEmployee]);
 
     // Define status colors
     const statusColors: Record<Status, string> = {
@@ -57,12 +58,19 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
 
     const columns = [
         {
+            title: 'Employee Name',
+            dataIndex: 'employeeName',
+            key: 'employeeName',
+            render: (text: string) => <Text>{text}</Text>,
+            sorter: (a: any, b: any) => a.employeeName.localeCompare(b.employeeName),
+        },
+        {
             title: 'Start Time',
             dataIndex: 'startTime',
             key: 'startTime',
             render: (text: string) => <Text>{new Date(text).toLocaleString()}</Text>,
             sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) =>
-                new Date(a.startTime!).getTime() - new Date(b.startTime!).getTime(),
+                new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
         },
         {
             title: 'End Time',
@@ -102,24 +110,25 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
         },
     ];
 
-    const handleRowClick = (record: TimeTrackingAttributes) => {
-        navigate(`/service?id=${record.id}`);
-    };
-
     return (
-        <Spin spinning={loading}>
-            <Table
-                dataSource={performanceData}
-                columns={columns}
-                rowKey="id"
-                pagination={false}
-                onRow={(record) => ({
-                    onClick: () => handleRowClick(record),
-                    style: { cursor: 'pointer' },
-                })}
-            />
-        </Spin>
+        <Card title={title}>
+            <Spin spinning={loading}>
+                <Table
+                    dataSource={timeTrackingData.map(item => ({
+                        ...item,
+                        employeeName: employees.find(emp => emp.id === item.employeeId)?.name || 'Unknown',
+                    }))}
+                    columns={columns}
+                    rowKey="id"
+                    pagination={false}
+                    onRow={(record) => ({
+                        onClick: () => navigate(`/service?id=${record.id}`),
+                        style: { cursor: 'pointer' },
+                    })}
+                />
+            </Spin>
+        </Card>
     );
 };
 
-export default ServiceList;
+export default EmployeeTimeTrackingList;

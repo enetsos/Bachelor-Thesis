@@ -48,7 +48,7 @@ const router = createBrowserRouter([
   {
     path: '/service',
     element: (
-      <ProtectedRoute requiredRoles={[Role.EMPLOYEE, Role.SUPERVISOR]}>
+      <ProtectedRoute requiredRoles={[Role.ADMIN, Role.EMPLOYEE, Role.SUPERVISOR]}>
         <ServiceEmployee />
       </ProtectedRoute>
     )

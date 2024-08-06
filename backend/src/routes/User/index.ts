@@ -17,7 +17,7 @@ import { verifyToken } from "../../middleware/authMiddleware";
 const User: Router = express.Router();
 
 User.get("/", verifyToken('admin'), listUsers);
-User.get("/role/:role", verifyToken('admin'), getUserByRole);
+User.get("/role/:role", verifyToken(['admin', 'supervisor']), getUserByRole);
 
 User.get("/:id", getUser);
 User.post("/", validateRequest(createUserSchema), verifyToken('admin'), createUser);

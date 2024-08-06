@@ -10,7 +10,7 @@ interface UserContextProps {
     createUser: (user: Partial<User>) => Promise<User>;
     updateUser: (id: string, user: Partial<User>) => Promise<User>;
     deleteUser: (id: string) => Promise<void>;
-    getByRole: (role: string) => Promise<void>;
+    getByRole: (role: string) => Promise<User[]>;
     getUserById: (id: string) => Promise<User>;
     loading: boolean;
 }
@@ -41,11 +41,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
-    const getByRole = async (role: string) => {
+    const getByRole = async (role: string): Promise<User[]> => {
         setLoading(true);
         try {
             const usersData = await UserService.getUserByRole(role);
             setUsers(usersData);
+            return usersData;
         } catch (error) {
             console.error('Error fetching users by role:', error);
             throw error;

@@ -13,6 +13,7 @@ const ServiceInfo: React.FC<ServiceInfoProps> = ({ timeTracking }) => {
             {timeTracking.endTime && (
                 <p><strong>End Time:</strong> {new Date(timeTracking.endTime).toLocaleString()}</p>
             )}
+            <p><strong>Notes:</strong> {timeTracking.notes}</p>
         </div>
     );
 };

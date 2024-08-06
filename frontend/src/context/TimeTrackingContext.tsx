@@ -4,7 +4,7 @@ import TimeTrackingSupplyService from '../services/TimeTrackingSupplyService';
 import { SupplyAttributes, TimeTrackingAttributes, TimeTrackingSupplyAttributes } from '../types';
 
 interface TimeTrackingContextProps {
-    supplies: SupplyAttributes[];
+    supplies: TimeTrackingSupplyAttributes[];
     timeTracking: TimeTrackingAttributes[];
     currentTimeTracking: TimeTrackingAttributes | null;
     fetchTimeTracking: () => Promise<void>;
@@ -13,7 +13,7 @@ interface TimeTrackingContextProps {
     getTimeTrackingById: (timeTrackingId: string) => Promise<TimeTrackingAttributes>;
     createTimeTracking: (data: Partial<TimeTrackingAttributes>) => Promise<TimeTrackingAttributes>;
     updateTimeTracking: (timeTrackingId: string, timeTracking: Partial<TimeTrackingAttributes>) => Promise<TimeTrackingAttributes>;
-    fetchSuppliesByTimeTrackingId: (timeTrackingId: string) => Promise<void>;
+    fetchSuppliesByTimeTrackingId: (timeTrackingId: string) => Promise<TimeTrackingSupplyAttributes[]>;
     fetchTimeTrackingsBySupplyId: (supplyId: string) => Promise<void>;
     addSuppliesToTimeTracking: (timeTrackingId: string, supplies: TimeTrackingSupplyAttributes[]) => Promise<void>;
     loading: boolean;
@@ -30,7 +30,7 @@ export const useTimeTracking = (): TimeTrackingContextProps => {
 };
 
 export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [supplies, setSupplies] = useState<SupplyAttributes[]>([]);
+    const [supplies, setSupplies] = useState<TimeTrackingSupplyAttributes[]>([]);
     const [timeTracking, setTimeTracking] = useState<TimeTrackingAttributes[]>([]);
     const [currentTimeTracking, setCurrentTimeTracking] = useState<TimeTrackingAttributes | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -119,13 +119,15 @@ export const TimeTrackingProvider: React.FC<{ children: ReactNode }> = ({ childr
     }
 
     // Functions for TimeTrackingSupply
-    const fetchSuppliesByTimeTrackingId = async (timeTrackingId: string) => {
+    const fetchSuppliesByTimeTrackingId = async (timeTrackingId: string): Promise<TimeTrackingSupplyAttributes[]> => {
         setLoading(true);
         try {
             const suppliesData = await TimeTrackingSupplyService.getSuppliesByTimeTrackingId(timeTrackingId);
             setSupplies(suppliesData);
+            return suppliesData;
         } catch (error) {
             console.error('Error fetching supplies by time tracking id:', error);
+            throw error;
         } finally {
             setLoading(false);
         }
