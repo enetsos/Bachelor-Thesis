@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import TimeTrackingService from '../services/TimeTrackingService';
 import TimeTrackingSupplyService from '../services/TimeTrackingSupplyService';
-import { SupplyAttributes, TimeTrackingAttributes, TimeTrackingSupplyAttributes } from '../types';
+import { TimeTrackingAttributes, TimeTrackingSupplyAttributes } from '../types';
 
 interface TimeTrackingContextProps {
     supplies: TimeTrackingSupplyAttributes[];

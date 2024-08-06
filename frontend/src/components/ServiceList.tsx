@@ -20,7 +20,7 @@ type Status = 'concluded' | 'inactive' | 'active';
 const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [performanceData, setPerformanceData] = useState<TimeTrackingAttributes[]>([]);
-    const { fetchTimeTrackingByEmployee, fetchTimeTrackingByClient, fetchSuppliesByTimeTrackingId } = useTimeTracking();
+    const { fetchTimeTrackingByEmployee, fetchTimeTrackingByClient } = useTimeTracking();
     const { userId } = useAuth();
     const isFetched = useRef(false);
     const navigate = useNavigate();
