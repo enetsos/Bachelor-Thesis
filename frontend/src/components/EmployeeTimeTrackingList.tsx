@@ -10,14 +10,12 @@ import MapView from './MapView'; // Import the MapView component
 
 const { Text } = Typography;
 
-interface EmployeeTimeTrackingListProps {
-    title: string;
-}
+
 
 // Define a type for possible status values
 type Status = 'concluded' | 'inactive' | 'active';
 
-const EmployeeTimeTrackingList: React.FC<EmployeeTimeTrackingListProps> = ({ title }) => {
+const EmployeeTimeTrackingList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [employees, setEmployees] = useState<User[]>([]);
     const [timeTrackingData, setTimeTrackingData] = useState<TimeTrackingAttributes[]>([]);
@@ -111,7 +109,7 @@ const EmployeeTimeTrackingList: React.FC<EmployeeTimeTrackingListProps> = ({ tit
     ];
 
     return (
-        <Card title={title}>
+        <Card>
             <Spin spinning={loading}>
                 <Table
                     dataSource={timeTrackingData.map(item => ({

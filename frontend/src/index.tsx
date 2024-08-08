@@ -8,7 +8,7 @@ import { AuthProvider } from './context/LoginContext';
 import { UserProvider } from './context/UserContext';
 import { TimeTrackingProvider } from './context/TimeTrackingContext';
 import { SupplyProvider } from './context/SupplyContext';
-
+import { FeedbackProvider } from './context/FeedbackContext';
 
 
 const root = ReactDOM.createRoot(
@@ -20,7 +20,9 @@ root.render(
       <UserProvider>
         <TimeTrackingProvider>
           <SupplyProvider>
-            <App />
+            <FeedbackProvider>
+              <App />
+            </FeedbackProvider>
           </SupplyProvider>
         </TimeTrackingProvider>
       </UserProvider>

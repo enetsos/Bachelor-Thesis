@@ -31,3 +31,8 @@ export const createTimeTrackingSchemaSupply = Joi.object({
     supplyId: Joi.string().required(),
     quantity: Joi.number().required(),
 });
+
+export const createFeedbackSchema = Joi.object({
+    clientId: Joi.string().required(),
+    notes: Joi.string().required(),
+});

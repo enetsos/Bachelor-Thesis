@@ -22,6 +22,10 @@ const Dashboard: React.FC = () => {
         return <Navigate to="/supervisor/" />;
     }
 
+    if (role === Role.CLIENT) {
+        return <Navigate to="/client/" />;
+    }
+
     return (
         <div>
             <h1>Dashboard</h1>

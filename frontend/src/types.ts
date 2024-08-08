@@ -42,3 +42,9 @@ export interface TimeTrackingSupplyAttributes {
     quantity: number;
 }
 
+export interface FeedbackAttributes {
+    id: string;
+    clientId: string;
+    notes: string;
+}
+

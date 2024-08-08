@@ -9,6 +9,7 @@ import SupplyForm from '../components/SupplyForm';
 import { SupplyProvider } from '../context/SupplyContext';
 import SupplyList from '../components/SupplyList';
 import EmployeeTimeTrackingList from '../components/EmployeeTimeTrackingList';
+import FeedbackList from '../components/FeedbackList';
 
 const { Content } = Layout;
 
@@ -18,31 +19,36 @@ const AdminDashboard: React.FC = () => {
             <Header title="Admin Dashboard" />
             <Content style={{ padding: '20px', background: '#fff' }}>
                 <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={8}>
+                    <Col xs={24} sm={24} md={12} lg={12}>
                         <Card title="Create New User" bordered={false}>
                             <UserForm />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8}>
+                    <Col xs={24} sm={24} md={12} lg={12}>
                         <Card title="Manage Users" bordered={false}>
                             <UserList />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8}>
+                    <Col xs={24} sm={24} md={12} lg={12}>
                         <SupplyProvider>
                             <Card title="Create New Supply" bordered={false}>
                                 <SupplyForm />
                             </Card>
                         </SupplyProvider>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8}>
+                    <Col xs={24} sm={24} md={12} lg={12}>
                         <Card title="Manage Supplies" bordered={false}>
                             <SupplyList />
                         </Card>
                     </Col>
-                    <Col xs={24}>
+                    <Col xs={24} sm={24} md={12} lg={24}>
                         <Card title="Employee Time Tracking" bordered={false}>
-                            <EmployeeTimeTrackingList title="Employee Time Tracking" />
+                            <EmployeeTimeTrackingList />
+                        </Card>
+                    </Col>
+                    <Col xs={24} sm={24} md={12} lg={24}>
+                        <Card title="Feedbacks" bordered={false}>
+                            <FeedbackList role="admin" />
                         </Card>
                     </Col>
                 </Row>

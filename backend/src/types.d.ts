@@ -111,3 +111,17 @@ type TimeTrackingSupplyEntity = {
     supplyId: string;
     quantity: number;
 };
+
+interface FeedbackAttributes {
+    id: string;
+    clientId: string;
+    notes: string;
+    created_at: Date;
+    updated_at: Date;
+}
+
+type FeedbackEntity = {
+    id: string;
+    clientId: string;
+    notes: string;
+};

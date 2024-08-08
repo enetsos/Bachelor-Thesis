@@ -13,6 +13,7 @@ import EmployeeDashboard from './pages/Employee';
 import NewService from './pages/NewService';
 import ServiceEmployee from './pages/ServiceEmployee';
 import SupervisorDashboard from './pages/Supervisor';
+import ClientDashboard from './pages/Client';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,14 @@ const router = createBrowserRouter([
         <SupervisorDashboard />
       </ProtectedRoute>)
   },
+
+  {
+    path: '/client',
+    element: (
+      <ProtectedRoute requiredRoles={[Role.CLIENT]}>
+        <ClientDashboard />
+      </ProtectedRoute>)
+  }
 
 
 
