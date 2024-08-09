@@ -1,23 +1,21 @@
-// src/components/ServiceList.tsx
-
 import React, { useEffect, useState, useRef } from 'react';
-import { Table, Spin, Typography, Tag } from 'antd';
+import { Table, Spin, Typography, Tag, Card } from 'antd';
 import { useTimeTracking } from '../context/TimeTrackingContext';
-import { TimeTrackingAttributes } from '../types';
+import { TimeTrackingAttributes, User } from '../types';
 import { useAuth } from '../context/LoginContext';
 import { useNavigate } from 'react-router-dom';
-import MapView from '../components/MapView'; // Import the new MapView component
+import MapView from '../components/MapView'; // Importa il componente MapView
 
 const { Text } = Typography;
 
-interface PerformanceListProps {
+// Definisci un tipo per i possibili valori di stato
+type Status = 'concluded' | 'inactive' | 'active';
+
+interface ServiceListProps {
     role: 'employee' | 'supervisor';
 }
 
-// Define a type for possible status values
-type Status = 'concluded' | 'inactive' | 'active';
-
-const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
+const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [performanceData, setPerformanceData] = useState<TimeTrackingAttributes[]>([]);
     const { fetchTimeTrackingByEmployee, fetchTimeTrackingByClient } = useTimeTracking();
@@ -36,7 +34,6 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
                         ? await fetchTimeTrackingByEmployee(userId)
                         : await fetchTimeTrackingByClient(userId);
                     setPerformanceData(trackingData);
-
                 } catch (error) {
                     console.error('Error fetching performance data:', error);
                 } finally {
@@ -48,7 +45,7 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
         fetchData();
     }, [userId, role, fetchTimeTrackingByEmployee, fetchTimeTrackingByClient]);
 
-    // Define status colors
+    // Definisci i colori per lo stato
     const statusColors: Record<Status, string> = {
         concluded: 'green',
         inactive: 'blue',
@@ -57,18 +54,26 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
 
     const columns = [
         {
+            title: 'Client Name',
+            dataIndex: 'client',
+            key: 'clientName',
+            render: (client: User | null) => <Text>{client?.name || 'Unknown'}</Text>,
+            sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) => (a.client?.name || '').localeCompare(b.client?.name || ''),
+        },
+        {
             title: 'Start Time',
             dataIndex: 'startTime',
             key: 'startTime',
-            render: (text: string) => <Text>{new Date(text).toLocaleString()}</Text>,
+            render: (text: Date) => <Text>{new Date(text).toLocaleString()}</Text>,
             sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) =>
-                new Date(a.startTime!).getTime() - new Date(b.startTime!).getTime(),
+                new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+            defaultSortOrder: 'descend' as 'ascend' | 'descend',
         },
         {
             title: 'End Time',
             dataIndex: 'endTime',
             key: 'endTime',
-            render: (text: string) => text ? <Text>{new Date(text).toLocaleString()}</Text> : 'In progress...',
+            render: (text: Date | undefined) => text ? <Text>{new Date(text).toLocaleString()}</Text> : 'In progress...',
             sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) =>
                 (a.endTime ? new Date(a.endTime).getTime() : 0) - (b.endTime ? new Date(b.endTime).getTime() : 0),
         },
@@ -107,18 +112,20 @@ const ServiceList: React.FC<PerformanceListProps> = ({ role }) => {
     };
 
     return (
-        <Spin spinning={loading}>
-            <Table
-                dataSource={performanceData}
-                columns={columns}
-                rowKey="id"
-                pagination={false}
-                onRow={(record) => ({
-                    onClick: () => handleRowClick(record),
-                    style: { cursor: 'pointer' },
-                })}
-            />
-        </Spin>
+        <Card>
+            <Spin spinning={loading}>
+                <Table
+                    dataSource={performanceData}
+                    columns={columns}
+                    rowKey="id"
+                    pagination={false}
+                    onRow={(record) => ({
+                        onClick: () => handleRowClick(record),
+                        style: { cursor: 'pointer' },
+                    })}
+                />
+            </Spin>
+        </Card>
     );
 };
 

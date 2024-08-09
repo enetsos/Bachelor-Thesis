@@ -17,6 +17,41 @@ export default class TimeTrackingRepository extends BaseRepository<TimeTrackingA
         super(TimeTracking);
     }
 
+    async create(data: Record<string, any>): Promise<TimeTrackingAttributes> {
+        try {
+            const { employeeId } = data;
+            const now = new Date();
+
+            // Check if there is an active time tracking for this employee
+            const activeTimeTracking = await this.modelClass.findOne({
+                where: { employeeId, status: 'active' }
+            });
+
+            console.log('activeTimeTracking:', activeTimeTracking);
+
+            if (activeTimeTracking) {
+                // Conclude the existing time tracking
+                await this.updateActiveTimeTracking(activeTimeTracking.id, { endTime: now, status: 'concluded' });
+            }
+
+            // Create a new time tracking entry
+            const newTimeTracking = await this.modelClass.create({
+                ...data,
+                startTime: now,
+                status: 'active'
+            });
+
+            return newTimeTracking;
+        } catch (error) {
+            console.error('Error creating time tracking:', error);
+            throw error;
+        }
+    }
+
+    private async updateActiveTimeTracking(id: string, updates: Record<string, any>): Promise<TimeTrackingAttributes> {
+        return super.update(id, updates);
+    }
+
     getAll(options: Record<string, any> = {}): Promise<Array<TimeTrackingAttributes>> {
         const opts = {
             ...options,

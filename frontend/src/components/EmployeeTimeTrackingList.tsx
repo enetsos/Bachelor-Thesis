@@ -72,6 +72,7 @@ const EmployeeTimeTrackingList: React.FC = () => {
             render: (text: string) => <Text>{new Date(text).toLocaleString()}</Text>,
             sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) =>
                 new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+            defaultSortOrder: 'descend' as 'ascend' | 'descend',
         },
         {
             title: 'End Time',
