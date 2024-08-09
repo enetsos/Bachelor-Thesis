@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { Table, Spin, Typography, Tag, Card } from 'antd';
-import { TimeTrackingAttributes, User } from '../types';
+import { TimeTrackingAttributes } from '../types';
 import { useTimeTracking } from '../context/TimeTrackingContext';
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
@@ -10,14 +10,11 @@ import MapView from './MapView'; // Import the MapView component
 
 const { Text } = Typography;
 
-
-
 // Define a type for possible status values
 type Status = 'concluded' | 'inactive' | 'active';
 
 const EmployeeTimeTrackingList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [employees, setEmployees] = useState<User[]>([]);
     const [timeTrackingData, setTimeTrackingData] = useState<TimeTrackingAttributes[]>([]);
     const { fetchTimeTrackingByEmployee } = useTimeTracking();
     const { getByRole } = useUser();
@@ -32,7 +29,6 @@ const EmployeeTimeTrackingList: React.FC = () => {
             try {
                 // Fetch employees based on role
                 const users = await getByRole('employee');
-                setEmployees(users);
 
                 // Fetch time tracking data for each employee
                 const trackingData = await Promise.all(users.map(user => fetchTimeTrackingByEmployee(user.id)));
@@ -61,6 +57,13 @@ const EmployeeTimeTrackingList: React.FC = () => {
             key: 'employeeName',
             render: (text: string) => <Text>{text}</Text>,
             sorter: (a: any, b: any) => a.employeeName.localeCompare(b.employeeName),
+        },
+        {
+            title: 'Client Name',
+            dataIndex: 'clientName',
+            key: 'clientName',
+            render: (text: string) => <Text>{text}</Text>,
+            sorter: (a: any, b: any) => a.clientName.localeCompare(b.clientName),
         },
         {
             title: 'Start Time',
@@ -114,7 +117,8 @@ const EmployeeTimeTrackingList: React.FC = () => {
                 <Table
                     dataSource={timeTrackingData.map(item => ({
                         ...item,
-                        employeeName: employees.find(emp => emp.id === item.employeeId)?.name || 'Unknown',
+                        employeeName: item.employee?.name || 'Unknown',
+                        clientName: item.client?.name || 'Unknown', // Aggiungi il nome del cliente
                     }))}
                     columns={columns}
                     rowKey="id"

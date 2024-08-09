@@ -29,17 +29,18 @@ export interface TimeTrackingAttributes {
     latStartTime: number;   // Latitudine di inizio della timbratura
     latEndTime: number;     // Latitudine di fine della timbratura
     notes: string;          // Note della timbratura
+    client: User | null;    // Cliente associato alla timbratura
+    employee: User | null;  // Dipendente associato alla timbratura
+    supplies: SupplyAttributes[]; // Lista di forniture utilizzate durante la timbratura
 }
 
 export interface SupplyAttributes {
     id: string;
     name: string;
-    price: number;
 }
 
 export interface TimeTrackingSupplyAttributes {
     supplyId: string;
-    quantity: number;
 }
 
 export interface FeedbackAttributes {

@@ -23,18 +23,18 @@ export const getAllTimeTrackings = async (
     res: Response,
     next: NextFunction) => {
     try {
-
         const repository = new TimeTrackingRepository();
         const timeTrackings = TimeTrackingResource.collection(
             await repository.getAll({
                 sortBy: req.query.sort_by,
             })
         );
-        res.status(201).json(timeTrackings);
+        res.status(200).json(timeTrackings);
     } catch (error) {
         next(error);
     }
 };
+
 
 export const getTimeTrackingByClientId = async (
     req: Request,

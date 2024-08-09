@@ -11,11 +11,11 @@ const BackArrow: React.FC = () => {
 
     const handleBack = () => {
         console.log('Navigating back');
-        navigate(-1);
+        navigate('/');
     };
 
     return (
-        <Content style={{ position: 'relative', padding: '0 20px' }} >
+        <Content style={{ position: 'relative' }} >
             <Button
                 type="primary"
                 shape="circle"

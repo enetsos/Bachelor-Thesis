@@ -1,4 +1,6 @@
 import BaseResource from "./BaseResource";
+import UserResource from "./UserResource"; // Supponiamo di avere un resource per User
+import SupplyResource from "./SupplyResource"; // Supponiamo di avere un resource per Supply
 
 class TimeTrackingResource extends BaseResource<TimeTrackingAttributes, TimeTrackingEntity>() {
     item() {
@@ -13,7 +15,10 @@ class TimeTrackingResource extends BaseResource<TimeTrackingAttributes, TimeTrac
             longEndTime: this.instance.longEndTime,
             latStartTime: this.instance.latStartTime,
             latEndTime: this.instance.latEndTime,
-            notes: this.instance.notes
+            notes: this.instance.notes,
+            client: this.instance.client ? new UserResource(this.instance.client).item() : null,
+            employee: this.instance.employee ? new UserResource(this.instance.employee).item() : null,
+            supplies: this.instance.supplies ? SupplyResource.collection(this.instance.supplies) : []
         };
 
         return timeTrackingResource;

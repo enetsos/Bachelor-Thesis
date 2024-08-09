@@ -16,6 +16,7 @@ const TimeTrackingService = {
     async getAllTimeTracking(): Promise<TimeTrackingAttributes[]> {
         try {
             const response = await ApiService.get('/time-tracking/get-all-time');
+            console.log(response.data);
             return response.data as TimeTrackingAttributes[];
         } catch (error) {
             console.error('Error fetching all time tracking:', error);

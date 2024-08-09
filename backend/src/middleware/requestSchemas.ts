@@ -24,12 +24,10 @@ export const createTimeTrackingSchema = Joi.object({
 
 export const createSupplySchema = Joi.object({
     name: Joi.string().min(3).max(30).required(),
-    price: Joi.number().required(),
 });
 
 export const createTimeTrackingSchemaSupply = Joi.object({
     supplyId: Joi.string().required(),
-    quantity: Joi.number().required(),
 });
 
 export const createFeedbackSchema = Joi.object({

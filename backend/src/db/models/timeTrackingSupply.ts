@@ -27,12 +27,6 @@ class TimeTrackingSupply extends Model {
     })
     declare supplyId: string;
 
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false,
-        defaultValue: 1,
-    })
-    declare quantity: number;
 }
 
 export default TimeTrackingSupply;

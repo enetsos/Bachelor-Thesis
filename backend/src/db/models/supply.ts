@@ -29,12 +29,6 @@ class Supply extends Model<SupplyAttributes> {
     })
     declare name: string;
 
-    @Column({
-        type: DataType.FLOAT,
-        allowNull: true,
-    })
-    declare price: number;
-
     @BelongsToMany(() => TimeTracking, () => TimeTrackingSupply)
     declare timeTrackings: TimeTracking[];
 

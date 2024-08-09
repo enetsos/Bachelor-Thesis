@@ -64,6 +64,9 @@ interface TimeTrackingAttributes {
     latStartTime: number;
     latEndTime: number;
     notes: string;
+    client: UserAttributes | null;
+    employee: UserAttributes | null;
+    supplies: SupplyAttributes[];
 }
 
 type TimeTrackingEntity = {
@@ -78,6 +81,9 @@ type TimeTrackingEntity = {
     latStartTime: number;
     latEndTime: number;
     notes: string;
+    client: UserEntity | null;
+    employee: UserEntity | null;
+    supplies: SupplyEntity[] | undefined;
 };
 
 enum TimeTrackingStatus {
@@ -89,7 +95,6 @@ enum TimeTrackingStatus {
 interface SupplyAttributes {
     id: string;
     name: string;
-    price: number;
     created_at: Date;
     updated_at: Date;
 }
@@ -97,19 +102,16 @@ interface SupplyAttributes {
 type SupplyEntity = {
     id: string;
     name: string;
-    price: number;
 };
 
 interface TimeTrackingSupplyAttributes {
     timeTrackingId: string;
     supplyId: string;
-    quantity: number;
 }
 
 type TimeTrackingSupplyEntity = {
     timeTrackingId: string;
     supplyId: string;
-    quantity: number;
 };
 
 interface FeedbackAttributes {

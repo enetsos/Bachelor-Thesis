@@ -19,7 +19,6 @@ export const addSuppliesToTimeTracking = async (
                 repository.create({
                     timeTrackingId,
                     supplyId: supply.supplyId,
-                    quantity: supply.quantity
                 })
             )
         );

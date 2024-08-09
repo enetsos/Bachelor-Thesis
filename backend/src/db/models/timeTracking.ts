@@ -88,10 +88,10 @@ class TimeTracking extends Model<TimeTrackingAttributes> {
     })
     declare notes: string;
 
-    @BelongsTo(() => User, 'employeeId')
-    declare user: User;
+    @BelongsTo(() => User, { as: 'employee', foreignKey: 'employeeId' })
+    declare employee: User;
 
-    @BelongsTo(() => User, 'clientId')
+    @BelongsTo(() => User, { as: 'client', foreignKey: 'clientId' })
     declare client: User;
 
     @BelongsToMany(() => Supply, () => TimeTrackingSupply)

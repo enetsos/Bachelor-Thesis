@@ -9,7 +9,6 @@ export default class TimeTrackingSupplyResource {
         return {
             timeTrackingId: this.timeTrackingSupply.timeTrackingId,
             supplyId: this.timeTrackingSupply.supplyId,
-            quantity: this.timeTrackingSupply.quantity,
         };
     }
 
