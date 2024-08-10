@@ -31,7 +31,12 @@ export default class TimeTrackingRepository extends BaseRepository<TimeTrackingA
 
             if (activeTimeTracking) {
                 // Conclude the existing time tracking
-                await this.updateActiveTimeTracking(activeTimeTracking.id, { endTime: now, status: 'concluded' });
+                await this.updateActiveTimeTracking(activeTimeTracking.id, {
+                    endTime: now,
+                    status: 'concluded',
+                    latEndTime: data.latStartTime,
+                    longEndTime: data.longStartTime
+                });
             }
 
             // Create a new time tracking entry

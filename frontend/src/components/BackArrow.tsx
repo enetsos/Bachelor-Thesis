@@ -28,6 +28,7 @@ const BackArrow: React.FC = () => {
                     fontSize: '16px',
                     color: '#fff',
                     border: 'none',
+                    zIndex: 1000,
                 }}
             />
         </Content>
