@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Card, Button } from 'antd';
 import QRCode from 'qrcode.react';
 
