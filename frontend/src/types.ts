@@ -24,16 +24,28 @@ export interface TimeTrackingAttributes {
     startTime: Date;        // Ora di inizio della timbratura (ISO 8601 string)
     endTime?: Date;         // Ora di fine della timbratura (opzionale, ISO 8601 string)
     status: 'active' | 'inactive' | 'concluded'; // Stato della timbratura
+    longStartTime: number;  // Longitudine di inizio della timbratura
+    longEndTime: number;    // Longitudine di fine della timbratura
+    latStartTime: number;   // Latitudine di inizio della timbratura
+    latEndTime: number;     // Latitudine di fine della timbratura
+    notes: string;          // Note della timbratura
+    client: User | null;    // Cliente associato alla timbratura
+    employee: User | null;  // Dipendente associato alla timbratura
+    supplies: SupplyAttributes[]; // Lista di forniture utilizzate durante la timbratura
 }
 
 export interface SupplyAttributes {
     id: string;
     name: string;
-    price: number;
 }
 
 export interface TimeTrackingSupplyAttributes {
     supplyId: string;
-    quantity: number;
+}
+
+export interface FeedbackAttributes {
+    id: string;
+    clientId: string;
+    notes: string;
 }
 

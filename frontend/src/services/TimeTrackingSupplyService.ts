@@ -1,7 +1,7 @@
 // src/services/TimeTrackingSupplyService.ts
 
 import ApiService from './ApiService'; // Assicurati di avere ApiService configurato
-import { SupplyAttributes, TimeTrackingAttributes, TimeTrackingSupplyAttributes } from '../types'; // Assicurati di avere i tipi definiti
+import { TimeTrackingAttributes, TimeTrackingSupplyAttributes } from '../types'; // Assicurati di avere i tipi definiti
 
 const TimeTrackingSupplyService = {
     async addSuppliesToTimeTracking(timeTrackingId: string, data: TimeTrackingSupplyAttributes[]): Promise<TimeTrackingSupplyAttributes[]> {
@@ -14,10 +14,10 @@ const TimeTrackingSupplyService = {
         }
     },
 
-    async getSuppliesByTimeTrackingId(timeTrackingId: string): Promise<SupplyAttributes[]> {
+    async getSuppliesByTimeTrackingId(timeTrackingId: string): Promise<TimeTrackingSupplyAttributes[]> {
         try {
             const response = await ApiService.get(`/time-tracking-supply/timetracking/${timeTrackingId}/supplies`);
-            return response.data as SupplyAttributes[];
+            return response.data as TimeTrackingSupplyAttributes[];
         } catch (error) {
             console.error('Error fetching supplies by time tracking id:', error);
             throw error;

@@ -18,19 +18,13 @@ const SupplyList: React.FC = () => {
     // Define columns for the Ant Design table
     const columns = [
         {
-            title: 'Name',
+            title: 'Nome',
             dataIndex: 'name',
             key: 'name',
             render: (text: string) => <Text>{text}</Text>,
             sorter: (a: SupplyAttributes, b: SupplyAttributes) => a.name.localeCompare(b.name),
         },
-        {
-            title: 'Price',
-            dataIndex: 'price',
-            key: 'price',
-            render: (price: number | null) => price !== null ? <Text>{price.toFixed(2)}</Text> : 'N/A',
-            sorter: (a: SupplyAttributes, b: SupplyAttributes) => (a.price || 0) - (b.price || 0),
-        },
+
     ];
 
     return (

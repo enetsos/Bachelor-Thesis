@@ -15,14 +15,22 @@ export const createTimeTrackingSchema = Joi.object({
     startTime: Joi.date().required(),
     endTime: Joi.date(),
     status: Joi.string().valid("active", "inactive", "completed").required(),
+    longStartTime: Joi.number().required(),
+    longEndTime: Joi.number(),
+    latStartTime: Joi.number().required(),
+    latEndTime: Joi.number(),
+    notes: Joi.string(),
 });
 
 export const createSupplySchema = Joi.object({
     name: Joi.string().min(3).max(30).required(),
-    price: Joi.number().required(),
 });
 
 export const createTimeTrackingSchemaSupply = Joi.object({
     supplyId: Joi.string().required(),
-    quantity: Joi.number().required(),
+});
+
+export const createFeedbackSchema = Joi.object({
+    clientId: Joi.string().required(),
+    notes: Joi.string().required(),
 });

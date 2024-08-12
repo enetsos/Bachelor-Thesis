@@ -27,11 +27,11 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
     const handleSave = async () => {
         try {
             await updateUser(user.id, editedUser);
-            message.success('User updated successfully');
+            message.success('Utente aggiornato con successo');
             setEditing(false);
         } catch (error) {
             console.error('Error updating user:', error);
-            message.error('Failed to update user');
+            message.error('Utente non aggiornato');
         }
     };
 
@@ -47,10 +47,10 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
     const handleDelete = async () => {
         try {
             await deleteUser(user.id);
-            message.success('User deleted successfully');
+            message.success('Utente eliminato con successo');
         } catch (error) {
             console.error('Error deleting user:', error);
-            message.error('Failed to delete user');
+            message.error('Utente non eliminato');
         }
     };
 
@@ -71,7 +71,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
     return (
         <Card style={{ width: 300 }} bordered={true}>
             <div>
-                <strong>Name: </strong>
+                <strong>Nome: </strong>
                 {editing ? (
                     <Input value={name} onChange={(e) => handleChange('name', e.target.value)} />
                 ) : (
@@ -87,7 +87,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                 )}
             </div>
             <div>
-                <strong>Role: </strong>
+                <strong>Ruolo: </strong>
                 {editing ? (
                     <Select value={role} onChange={(value) => handleChange('role', value)}>
                         <Select.Option value="client">Client</Select.Option>
@@ -102,23 +102,23 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
             <Space style={{ marginTop: 16 }}>
                 {editing ? (
                     <>
-                        <Button type="primary" onClick={handleSave}>Save</Button>
-                        <Button onClick={handleCancel}>Cancel</Button>
+                        <Button type="primary" onClick={handleSave}>Salva</Button>
+                        <Button onClick={handleCancel}>Cancella</Button>
                     </>
                 ) : (
                     <>
-                        <Button type="primary" onClick={handleEdit}>Edit</Button>
+                        <Button type="primary" onClick={handleEdit}>Modifica</Button>
                         <Popconfirm
-                            title="Are you sure delete this user?"
+                            title="Sei sicuro di eliminare l'utente?"
                             onConfirm={handleDelete}
-                            okText="Yes"
+                            okText="Si"
                             cancelText="No"
                         >
-                            <Button danger>Delete</Button>
+                            <Button danger>Elimina</Button>
                         </Popconfirm>
                         {canShowQRCode && (
                             <Button style={{ marginLeft: 8 }} onClick={() => setShowQRCode(prev => !prev)}>
-                                {showQRCode ? 'Hide QR Code' : 'Show QR Code'}
+                                {showQRCode ? 'Mostra QR Code' : 'Nascondi QR Code'}
                             </Button>
                         )}
                     </>

@@ -9,10 +9,11 @@ const ServiceInfo: React.FC<ServiceInfoProps> = ({ timeTracking }) => {
     return (
         <div>
             <p><strong>Start Time:</strong> {new Date(timeTracking.startTime!).toLocaleString()}</p>
-            <p><strong>Status:</strong> {timeTracking.status}</p>
+            <p><strong>Stato:</strong> {timeTracking.status}</p>
             {timeTracking.endTime && (
                 <p><strong>End Time:</strong> {new Date(timeTracking.endTime).toLocaleString()}</p>
             )}
+            <p><strong>Note:</strong> {timeTracking.notes}</p>
         </div>
     );
 };

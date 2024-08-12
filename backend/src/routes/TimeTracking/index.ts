@@ -6,13 +6,13 @@ import validateRequest from "../../middleware/validateRequest";
 
 const timeTrackingRouter: Router = express.Router();
 
-timeTrackingRouter.post("/new-time", validateRequest(createTimeTrackingSchema), verifyToken('employee'), createTimeTracking);
+timeTrackingRouter.post("/new-time", validateRequest(createTimeTrackingSchema), verifyToken(['supervisor', 'employee']), createTimeTracking);
 
-timeTrackingRouter.get("/get-all-time", verifyToken('employee'), getAllTimeTrackings);
-timeTrackingRouter.get("/get-client-time/:clientId", verifyToken('employee'), getTimeTrackingByClientId);
-timeTrackingRouter.get("/get-employee-time/:employeeId", verifyToken('employee'), getTimeTrackingByEmployeeId);
-timeTrackingRouter.get("/get-time/:id", verifyToken('employee'), getTimeById);
+timeTrackingRouter.get("/get-all-time", verifyToken(['admin','supervisor', 'employee']), getAllTimeTrackings);
+timeTrackingRouter.get("/get-client-time/:clientId", verifyToken(['supervisor', 'employee']), getTimeTrackingByClientId);
+timeTrackingRouter.get("/get-employee-time/:employeeId", verifyToken(['admin', 'supervisor', 'employee']), getTimeTrackingByEmployeeId);
+timeTrackingRouter.get("/get-time/:id", verifyToken(['admin','supervisor', 'employee']), getTimeById);
 
-timeTrackingRouter.put("/stop-time/:id", verifyToken('employee'), updateTimeTracking);
+timeTrackingRouter.put("/stop-time/:id", verifyToken(['supervisor', 'employee']), updateTimeTracking);
 
 export default timeTrackingRouter;

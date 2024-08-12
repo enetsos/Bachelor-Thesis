@@ -29,22 +29,15 @@ const SupplyForm: React.FC = () => {
             onFinish={onFinish}
         >
             <Form.Item
-                label="Name"
+                label="Nome"
                 name="name"
-                rules={[{ required: true, message: 'Please input the name!' }]}
+                rules={[{ required: true, message: 'Inserisci il nome!' }]}
             >
                 <Input />
             </Form.Item>
-            <Form.Item
-                label="Price"
-                name="price"
-                rules={[{ required: true, message: 'Please input the price!' }]}
-            >
-                <Input type="number" />
-            </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit" loading={loading}>
-                    Create Supply
+                    Crea Fornitura
                 </Button>
             </Form.Item>
         </Form>

@@ -8,19 +8,19 @@ const timeTrackingSupplyRouter: Router = express.Router();
 
 timeTrackingSupplyRouter.post(
     "/timetracking/:timeTrackingId/supplies",
-    verifyToken('employee'),
+    verifyToken(['supervisor', 'employee']),
     addSuppliesToTimeTracking
 );
 
 timeTrackingSupplyRouter.get(
     "/timetracking/:timeTrackingId/supplies",
-    verifyToken('employee'),
+    verifyToken('supervisor'),
     getSuppliesByTimeTrackingId
 );
 
 timeTrackingSupplyRouter.get(
     "/supply/:supplyId/timetrackings",
-    verifyToken('employee'),
+    verifyToken('supervisor'),
     getTimeTrackingsBySupplyId
 );
 

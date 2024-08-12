@@ -5,17 +5,18 @@ import {
     DataType,
     CreatedAt,
     UpdatedAt,
-    BelongsToMany,
+    ForeignKey,
+    BelongsTo,
+    BelongsToMany
 } from "sequelize-typescript";
-import TimeTracking from "./timeTracking";
-import TimeTrackingSupply from "./timeTrackingSupply";
+import User from "./user";
 
 @Table({
     timestamps: true,
-    tableName: "supply",
-    modelName: "Supply",
+    tableName: "feedback",
+    modelName: "Feedback",
 })
-class Supply extends Model<SupplyAttributes> {
+class Feedback extends Model<FeedbackAttributes> {
     @Column({
         primaryKey: true,
         type: DataType.UUID,
@@ -23,14 +24,21 @@ class Supply extends Model<SupplyAttributes> {
     })
     declare id: string;
 
+    @ForeignKey(() => User)
+    @Column({
+        type: DataType.UUID,
+        allowNull: false,
+    })
+    declare clientId: string;
+
     @Column({
         type: DataType.STRING,
         allowNull: false,
     })
-    declare name: string;
+    declare notes: string;
 
-    @BelongsToMany(() => TimeTracking, () => TimeTrackingSupply)
-    declare timeTrackings: TimeTracking[];
+    @BelongsTo(() => User, 'clientId')
+    declare client: User;
 
     @CreatedAt
     declare created_at: Date;
@@ -39,4 +47,4 @@ class Supply extends Model<SupplyAttributes> {
     declare updated_at: Date;
 }
 
-export default Supply;
+export default Feedback;

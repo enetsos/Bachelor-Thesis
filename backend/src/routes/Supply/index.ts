@@ -7,7 +7,7 @@ import validateRequest from "../../middleware/validateRequest";
 const supplyRouter: Router = express.Router();
 
 supplyRouter.post("/new-supply", validateRequest(createSupplySchema), verifyToken('admin'), createSupply);
-supplyRouter.get("/get-all-supply", verifyToken(['admin', 'employee']), getAllSupplies);
+supplyRouter.get("/get-all-supply", verifyToken(['admin', 'employee', 'supervisor']), getAllSupplies);
 
 
 export default supplyRouter;

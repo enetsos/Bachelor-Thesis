@@ -58,10 +58,40 @@ class TimeTracking extends Model<TimeTrackingAttributes> {
     })
     declare status: TimeTrackingStatus;
 
-    @BelongsTo(() => User, 'employeeId')
-    declare user: User;
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: false,
+    })
+    declare longStartTime: number;
 
-    @BelongsTo(() => User, 'clientId')
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: true,
+    })
+    declare longEndTime: number;
+
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: false,
+    })
+    declare latStartTime: number;
+
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: true,
+    })
+    declare latEndTime: number;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true,
+    })
+    declare notes: string;
+
+    @BelongsTo(() => User, { as: 'employee', foreignKey: 'employeeId' })
+    declare employee: User;
+
+    @BelongsTo(() => User, { as: 'client', foreignKey: 'clientId' })
     declare client: User;
 
     @BelongsToMany(() => Supply, () => TimeTrackingSupply)

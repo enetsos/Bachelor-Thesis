@@ -30,7 +30,7 @@ const UserForm: React.FC = () => {
             onFinish={onFinish}
         >
             <Form.Item
-                label="Name"
+                label="Nome"
                 name="name"
                 rules={[{ required: true, message: 'Please input the name!' }]}
             >
@@ -51,7 +51,7 @@ const UserForm: React.FC = () => {
                 <Input type="password" />
             </Form.Item>
             <Form.Item
-                label="Role"
+                label="Ruolo"
                 name="role"
                 rules={[{ required: true, message: 'Please select the role!' }]}
             >
@@ -64,7 +64,7 @@ const UserForm: React.FC = () => {
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit" loading={loading}>
-                    Create User
+                    Crea Utente
                 </Button>
             </Form.Item>
         </Form>

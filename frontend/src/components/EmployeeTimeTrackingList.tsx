@@ -1,51 +1,49 @@
+// src/components/EmployeeTimeTrackingList.tsx
+
 import React, { useEffect, useState, useRef } from 'react';
 import { Table, Spin, Typography, Tag, Card } from 'antd';
+import { TimeTrackingAttributes } from '../types';
 import { useTimeTracking } from '../context/TimeTrackingContext';
-import { TimeTrackingAttributes, User } from '../types';
-import { useAuth } from '../context/LoginContext';
+import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import MapView from '../components/MapView'; // Importa il componente MapView
+import MapView from './MapView'; // Import the MapView component
 
 const { Text } = Typography;
 
-// Definisci un tipo per i possibili valori di stato
+// Define a type for possible status values
 type Status = 'concluded' | 'inactive' | 'active';
 
-interface ServiceListProps {
-    role: 'employee' | 'supervisor';
-}
-
-const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
+const EmployeeTimeTrackingList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [performanceData, setPerformanceData] = useState<TimeTrackingAttributes[]>([]);
-    const { fetchTimeTrackingByEmployee, fetchTimeTrackingByClient } = useTimeTracking();
-    const { userId } = useAuth();
+    const [timeTrackingData, setTimeTrackingData] = useState<TimeTrackingAttributes[]>([]);
+    const { fetchTimeTrackingByEmployee } = useTimeTracking();
+    const { getByRole } = useUser();
     const isFetched = useRef(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            if (userId) {
-                if (isFetched.current) return;
-                isFetched.current = true;
-                setLoading(true);
-                try {
-                    const trackingData = role === 'employee' || 'supervisor'
-                        ? await fetchTimeTrackingByEmployee(userId)
-                        : await fetchTimeTrackingByClient(userId);
-                    setPerformanceData(trackingData);
-                } catch (error) {
-                    console.error('Error fetching performance data:', error);
-                } finally {
-                    setLoading(false);
-                }
+            if (isFetched.current) return;
+            isFetched.current = true;
+            setLoading(true);
+            try {
+                // Fetch employees based on role
+                const users = await getByRole('employee');
+
+                // Fetch time tracking data for each employee
+                const trackingData = await Promise.all(users.map(user => fetchTimeTrackingByEmployee(user.id)));
+                setTimeTrackingData(trackingData.flat());
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchData();
-    }, [userId, role, fetchTimeTrackingByEmployee, fetchTimeTrackingByClient]);
+    }, [getByRole, fetchTimeTrackingByEmployee]);
 
-    // Definisci i colori per lo stato
+    // Define status colors
     const statusColors: Record<Status, string> = {
         concluded: 'green',
         inactive: 'blue',
@@ -54,17 +52,24 @@ const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
 
     const columns = [
         {
-            title: 'Nome cliente',
-            dataIndex: 'client',
+            title: 'Lavoratore',
+            dataIndex: 'employeeName',
+            key: 'employeeName',
+            render: (text: string) => <Text>{text}</Text>,
+            sorter: (a: any, b: any) => a.employeeName.localeCompare(b.employeeName),
+        },
+        {
+            title: 'Cliente',
+            dataIndex: 'clientName',
             key: 'clientName',
-            render: (client: User | null) => <Text>{client?.name || 'Unknown'}</Text>,
-            sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) => (a.client?.name || '').localeCompare(b.client?.name || ''),
+            render: (text: string) => <Text>{text}</Text>,
+            sorter: (a: any, b: any) => a.clientName.localeCompare(b.clientName),
         },
         {
             title: 'Start Time',
             dataIndex: 'startTime',
             key: 'startTime',
-            render: (text: Date) => <Text>{new Date(text).toLocaleString()}</Text>,
+            render: (text: string) => <Text>{new Date(text).toLocaleString()}</Text>,
             sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) =>
                 new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
             defaultSortOrder: 'descend' as 'ascend' | 'descend',
@@ -73,7 +78,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
             title: 'End Time',
             dataIndex: 'endTime',
             key: 'endTime',
-            render: (text: Date | undefined) => text ? <Text>{new Date(text).toLocaleString()}</Text> : 'In progress...',
+            render: (text: string) => text ? <Text>{new Date(text).toLocaleString()}</Text> : 'In progress...',
             sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) =>
                 (a.endTime ? new Date(a.endTime).getTime() : 0) - (b.endTime ? new Date(b.endTime).getTime() : 0),
         },
@@ -107,20 +112,20 @@ const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
         },
     ];
 
-    const handleRowClick = (record: TimeTrackingAttributes) => {
-        navigate(`/service?id=${record.id}`);
-    };
-
     return (
         <Card>
             <Spin spinning={loading}>
                 <Table
-                    dataSource={performanceData}
+                    dataSource={timeTrackingData.map(item => ({
+                        ...item,
+                        employeeName: item.employee?.name || 'Unknown',
+                        clientName: item.client?.name || 'Unknown', // Aggiungi il nome del cliente
+                    }))}
                     columns={columns}
                     rowKey="id"
                     pagination={false}
                     onRow={(record) => ({
-                        onClick: () => handleRowClick(record),
+                        onClick: () => navigate(`/service?id=${record.id}`),
                         style: { cursor: 'pointer' },
                     })}
                 />
@@ -129,4 +134,4 @@ const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
     );
 };
 
-export default ServiceList;
+export default EmployeeTimeTrackingList;
