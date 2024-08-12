@@ -12,7 +12,7 @@ const SupervisorDashboard: React.FC = () => {
         <BaseDashboard title="Supervisor Dashboard" role="supervisor">
             <Row gutter={[16, 16]}>
                 <Col xs={24} sm={24} md={12} lg={24}>
-                    <Card title="Employee Time Tracking" bordered={false}>
+                    <Card title="Servizi dei lavoratori" bordered={false}>
                         <EmployeeTimeTrackingList />
                     </Card>
                 </Col>

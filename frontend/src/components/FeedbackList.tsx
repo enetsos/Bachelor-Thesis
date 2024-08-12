@@ -32,7 +32,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ role }) => {
 
     const columns = [
         {
-            title: 'Message',
+            title: 'Messaggio',
             dataIndex: 'notes',
             key: 'notes',
             render: (text: string) => <Text>{text}</Text>,

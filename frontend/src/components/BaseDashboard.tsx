@@ -35,7 +35,7 @@ const BaseDashboard: React.FC<BaseDashboardProps> = ({ title, role, children }) 
                 </Row>
                 <Row gutter={[16, 16]}>
                     <Col xs={24} md={24}>
-                        <Card title="Your Performance" bordered={false}>
+                        <Card title="I tuoi Servizi" bordered={false}>
                             <ServiceList role={role} />
                         </Card>
                     </Col>

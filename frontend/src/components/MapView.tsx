@@ -20,12 +20,12 @@ const MapView: React.FC<MapViewProps> = ({ startCoords, endCoords }) => {
             />
             {startCoords && (
                 <Marker position={[startCoords.lat, startCoords.lng]}>
-                    <Popup>Start Location</Popup>
+                    <Popup>Start</Popup>
                 </Marker>
             )}
             {endCoords && (
                 <Marker position={[endCoords.lat, endCoords.lng]}>
-                    <Popup>End Location</Popup>
+                    <Popup>End</Popup>
                 </Marker>
             )}
         </MapContainer>

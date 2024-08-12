@@ -52,14 +52,14 @@ const EmployeeTimeTrackingList: React.FC = () => {
 
     const columns = [
         {
-            title: 'Employee Name',
+            title: 'Lavoratore',
             dataIndex: 'employeeName',
             key: 'employeeName',
             render: (text: string) => <Text>{text}</Text>,
             sorter: (a: any, b: any) => a.employeeName.localeCompare(b.employeeName),
         },
         {
-            title: 'Client Name',
+            title: 'Cliente',
             dataIndex: 'clientName',
             key: 'clientName',
             render: (text: string) => <Text>{text}</Text>,
@@ -83,7 +83,7 @@ const EmployeeTimeTrackingList: React.FC = () => {
                 (a.endTime ? new Date(a.endTime).getTime() : 0) - (b.endTime ? new Date(b.endTime).getTime() : 0),
         },
         {
-            title: 'Status',
+            title: 'Stato',
             dataIndex: 'status',
             key: 'status',
             render: (status: Status) => {
@@ -93,7 +93,7 @@ const EmployeeTimeTrackingList: React.FC = () => {
             sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) => a.status.localeCompare(b.status),
         },
         {
-            title: 'Map',
+            title: 'Mappa',
             key: 'map',
             render: (record: TimeTrackingAttributes) => (
                 <MapView

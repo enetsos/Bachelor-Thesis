@@ -8,8 +8,8 @@ interface ClientInfoProps {
 const ClientInfo: React.FC<ClientInfoProps> = ({ client }) => {
     return (
         <div>
-            <p><strong>Client Name:</strong> {client?.name}</p>
-            <p><strong>Client Email:</strong> {client?.email}</p>
+            <p><strong>Nome:</strong> {client?.name}</p>
+            <p><strong>Email:</strong> {client?.email}</p>
         </div>
     );
 };

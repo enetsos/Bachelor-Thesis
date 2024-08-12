@@ -20,29 +20,29 @@ const AdminDashboard: React.FC = () => {
             <Content style={{ padding: '20px', background: '#fff' }}>
                 <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={12}>
-                        <Card title="Create New User" bordered={false}>
+                        <Card title="Crea nuovo Utente" bordered={false}>
                             <UserForm />
                         </Card>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12}>
-                        <Card title="Manage Users" bordered={false}>
+                        <Card title="Gestisci Utenti" bordered={false}>
                             <UserList />
                         </Card>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12}>
                         <SupplyProvider>
-                            <Card title="Create New Supply" bordered={false}>
+                            <Card title="Crea nuova Fornitura" bordered={false}>
                                 <SupplyForm />
                             </Card>
                         </SupplyProvider>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12}>
-                        <Card title="Manage Supplies" bordered={false}>
+                        <Card title="Gestisci Forniture" bordered={false}>
                             <SupplyList />
                         </Card>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={24}>
-                        <Card title="Employee Time Tracking" bordered={false}>
+                        <Card title="Servizi dei lavoratori" bordered={false}>
                             <EmployeeTimeTrackingList />
                         </Card>
                     </Col>

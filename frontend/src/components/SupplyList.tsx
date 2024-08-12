@@ -18,7 +18,7 @@ const SupplyList: React.FC = () => {
     // Define columns for the Ant Design table
     const columns = [
         {
-            title: 'Name',
+            title: 'Nome',
             dataIndex: 'name',
             key: 'name',
             render: (text: string) => <Text>{text}</Text>,

@@ -54,7 +54,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
 
     const columns = [
         {
-            title: 'Client Name',
+            title: 'Nome cliente',
             dataIndex: 'client',
             key: 'clientName',
             render: (client: User | null) => <Text>{client?.name || 'Unknown'}</Text>,
@@ -78,7 +78,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
                 (a.endTime ? new Date(a.endTime).getTime() : 0) - (b.endTime ? new Date(b.endTime).getTime() : 0),
         },
         {
-            title: 'Status',
+            title: 'Stato',
             dataIndex: 'status',
             key: 'status',
             render: (status: Status) => {
@@ -88,7 +88,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ role }) => {
             sorter: (a: TimeTrackingAttributes, b: TimeTrackingAttributes) => a.status.localeCompare(b.status),
         },
         {
-            title: 'Map',
+            title: 'Mappa',
             key: 'map',
             render: (record: TimeTrackingAttributes) => (
                 <MapView

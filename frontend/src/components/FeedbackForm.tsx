@@ -36,7 +36,7 @@ const FeedbackForm: React.FC = () => {
             initialValues={{ clientId: userId }} // Pre-popola clientId dal contesto di autenticazione
         >
             <Form.Item
-                label="Message"
+                label="Messaggio"
                 name="notes"
                 rules={[{ required: true, message: 'Please input the feedback message!' }]}
             >
@@ -51,7 +51,7 @@ const FeedbackForm: React.FC = () => {
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit" loading={loading}>
-                    Create Feedback
+                    Invia Feedback
                 </Button>
             </Form.Item>
         </Form>

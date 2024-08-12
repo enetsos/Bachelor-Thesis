@@ -16,15 +16,15 @@ const StopConfirmationModal: React.FC<StopConfirmationModalProps> = ({ visible, 
             onCancel={onCancel}
             footer={[
                 <Button key="cancel" onClick={onCancel}>
-                    Cancel
+                    Cancella
                 </Button>,
                 <Button key="confirm" type="primary" onClick={onConfirm}>
                     Stop
                 </Button>,
             ]}
-            title="Confirm Stop"
+            title="Conferma Stop"
         >
-            <p>Please check your cart before stopping the service. Do you want to proceed?</p>
+            <p>Controlla il carrello prima di procedere. Vuoi continuare?</p>
         </Modal>
     );
 };

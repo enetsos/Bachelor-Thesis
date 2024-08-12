@@ -151,13 +151,13 @@ const ServiceEmployee: React.FC = () => {
 
                         <Row gutter={[16, 16]}>
                             <Col xs={24} md={12} offset={6}>
-                                <Card title="Service Information" bordered={false}>
+                                <Card title="Informazioni sul Servizio" bordered={false}>
                                     {timeTracking ? (
                                         <>
                                             <ClientInfo client={timeTracking.client} />
                                             <ServiceInfo timeTracking={timeTracking} />
                                             <Form>
-                                                <Form.Item label="Notes">
+                                                <Form.Item label="Note">
                                                     <TextArea
                                                         rows={4}
                                                         value={notes}
@@ -179,7 +179,7 @@ const ServiceEmployee: React.FC = () => {
                         </Row>
                         <Row gutter={[16, 16]} style={{ marginTop: '70px' }}>
                             <Col xs={24} md={12} offset={6}>
-                                <Card title="Cart Items" bordered={false}>
+                                <Card title="Carrello" bordered={false}>
                                     <List
                                         dataSource={Object.keys(cart)}
                                         renderItem={supplyId => (
@@ -198,7 +198,7 @@ const ServiceEmployee: React.FC = () => {
                     <>
                         <Row gutter={[16, 16]}>
                             <Col xs={24} md={12} offset={6}>
-                                <Card title="Service Information" bordered={false}>
+                                <Card title="Informazioni sul Servizio" bordered={false}>
                                     {timeTracking ? (
                                         <>
                                             <ClientInfo client={timeTracking.client} />
@@ -212,7 +212,7 @@ const ServiceEmployee: React.FC = () => {
                         </Row>
                         <Row gutter={[16, 16]} style={{ marginTop: '70px' }}>
                             <Col xs={24} md={12} offset={6}>
-                                <Card title="Cart Items" bordered={false}>
+                                <Card title="Carrello" bordered={false}>
                                     <List
                                         dataSource={timeTracking.supplies}
                                         renderItem={supply => (
@@ -238,12 +238,12 @@ const ServiceEmployee: React.FC = () => {
                         onCancel={handleConfirmPurchaseClose}
                         footer={[
                             <Button key="confirm" type="primary" onClick={handleConfirmPurchaseClose}>
-                                Buy
+                                Conferma Acquisto
                             </Button>,
                         ]}
-                        title="Buy"
+                        title="Conferma Acquisto"
                     >
-                        <p>Buy</p>
+                        <p>Conferma Acquisto</p>
                     </Modal>
                 )}
             </Content>

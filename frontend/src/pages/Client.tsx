@@ -15,12 +15,12 @@ const ClientDashboard: React.FC = () => {
             <Content style={{ padding: '20px', background: '#fff' }}>
                 <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={12}>
-                        <Card title="Create New Feedback" bordered={false}>
+                        <Card title="Crea nuovo Feedback" bordered={false}>
                             <FeedbackForm />
                         </Card>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12}>
-                        <Card title="Your Feedbacks" bordered={false}>
+                        <Card title="I tuoi Feedbacks" bordered={false}>
                             <FeedbackList role='client' />
                         </Card>
                     </Col>

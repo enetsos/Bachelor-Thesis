@@ -56,12 +56,12 @@ const NewService: React.FC = () => {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Header title="New Service" />
+            <Header title="Nuovo Servizio" />
             <BackArrow />
             <Content style={{ padding: '20px 50px', position: 'relative' }}>
                 <Row gutter={[16, 16]}>
                     <Col xs={24} md={12} offset={6}>
-                        <Card title="New Service Form" bordered={false}>
+                        <Card title="Crea nuovo Servizio" bordered={false}>
                             <Form form={form} onFinish={handleStart}>
                                 <Form.Item
                                     label="Nome"

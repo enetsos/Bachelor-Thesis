@@ -50,7 +50,7 @@ const CartPopup: React.FC<CartPopupProps> = ({ visible, onClose, cart, setCart, 
                     Conferma acquisto
                 </Button>,
             ]}
-            title="Supplies"
+            title="Forniture"
         >
             <List
                 dataSource={supplies}
