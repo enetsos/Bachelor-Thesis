@@ -118,6 +118,7 @@ interface FeedbackAttributes {
     id: string;
     clientId: string;
     notes: string;
+    client: UserAttributes | null;
     created_at: Date;
     updated_at: Date;
 }
@@ -126,4 +127,5 @@ type FeedbackEntity = {
     id: string;
     clientId: string;
     notes: string;
+    client: UserEntity | null;
 };

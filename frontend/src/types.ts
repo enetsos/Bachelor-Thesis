@@ -47,5 +47,6 @@ export interface FeedbackAttributes {
     id: string;
     clientId: string;
     notes: string;
+    client: User | null;
 }
 
