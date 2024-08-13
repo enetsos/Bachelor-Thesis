@@ -136,8 +136,84 @@ valutare la qualità del lavoro svolto e di fornire feedback ai collaboratori.\\
 \\
 
 \chapter{Problema}
+Il problema affrontato nel contesto del progetto riguarda la necessità di sviluppare un sistema completo per la gestione delle timbrature e il controllo della qualità dei servizi offerti da un'azienda attiva nel settore della pulizia e del facility management. Attualmente, l'azienda si trova a dover affrontare diverse sfide legate alla gestione e al monitoraggio dei propri collaboratori e dei servizi erogati, tra cui:
+
+\begin{itemize}
+  \item \textbf{Mancanza di un sistema di tracciamento efficiente}: L'assenza di un sistema integrato per la registrazione delle timbrature dei dipendenti presso i vari clienti rende difficile il monitoraggio in tempo reale delle attività lavorative e il controllo della qualità dei servizi erogati.
+
+  \item \textbf{Difficoltà nella gestione delle segnalazioni}: Attualmente, le segnalazioni relative a anomalie o criticità del servizio devono essere gestite manualmente, il che comporta inefficienze operative e ritardi nella risoluzione dei problemi.
+
+  \item \textbf{Carenza di trasparenza nelle comunicazioni}: I canali di comunicazione tra dipendenti, responsabili e clienti non sono ottimizzati, portando a una scarsa trasparenza e a possibili incomprensioni riguardo alle prestazioni del servizio e alle necessità dei clienti.
+
+  \item \textbf{Inadeguatezza nella gestione delle scorte di attrezzature e prodotti}: La mancanza di un sistema automatizzato per la gestione delle richieste di rifornimento di attrezzature e prodotti può causare ritardi nel rifornimento, con conseguente impatto negativo sulla qualità del servizio.
+
+  \item \textbf{Limitazioni nell'integrazione tecnologica}: L'integrazione con dispositivi mobili e tecnologie come NFC e QR code non è stata pienamente sfruttata, limitando la possibilità di utilizzare strumenti digitali avanzati per il controllo della qualità e la gestione delle attività lavorative.
+
+\end{itemize}
+
+
 \chapter{Stato dell'arte}
+
+
 \chapter{Approccio al problema}
+In questo capitolo, esamineremo in dettaglio l'approccio adottato per sviluppare una Progressive Web App (PWA) dedicata alla gestione e al controllo qualità dei servizi di pulizia e facility management. Illustreremo le scelte effettuate per quanto riguarda la gestione del progetto, i linguaggi di programmazione, i framework selezionati e l'integrazione con i componenti dei dispositivi mobili. Ogni decisione tecnica è stata presa con l'obiettivo di garantire prestazioni elevate, facilità di manutenzione e un'esperienza utente ottimale.
+
+\section{Gestione del progetto}
+
+La gestione del progetto è stata condotta utilizzando una metodologia Agile, in particolare il framework Scrum. Questa scelta è stata dettata dalla necessità di mantenere un'elevata flessibilità durante lo sviluppo, permettendo al team di adattarsi rapidamente ai cambiamenti nei requisiti del cliente. Ogni settimana è stato condotto uno sprint, al termine del quale si teneva una riunione con i committenti per presentare i progressi attraverso demo, raccogliere feedback e pianificare le attività per la settimana successiva.
+
+Per la gestione del codice sorgente e delle attività del progetto, è stata utilizzata la piattaforma GitLab. GitLab ha offerto strumenti integrati per il versionamento del codice, la gestione delle issue, la pianificazione degli sprint e l'integrazione continua. Questi strumenti hanno facilitato una stretta collaborazione all'interno del team e una gestione efficace del progetto, assicurando che il codice fosse sempre aggiornato e che ogni membro del team fosse informato sugli sviluppi.
+
+\section{Linguaggi di Programmazione}
+
+\subsection{Backend}
+
+Per lo sviluppo del backend, abbiamo scelto di utilizzare Node.js in combinazione con il framework Express e l'ORM Sequelize. La scelta di Node.js è stata guidata da diversi fattori chiave:
+
+\begin{itemize}
+  \item \textbf{Asincronicità e Performance}: Node.js è basato su un modello di I/O non bloccante, che consente di gestire un elevato numero di richieste simultanee con un'efficienza notevole. Questo è particolarmente vantaggioso per un'applicazione che deve interagire con dispositivi mobili e gestire numerose operazioni in tempo reale, come l'acquisizione di dati dai sensori dei dispositivi.
+  \item \textbf{Ampio Ecosistema}: Node.js dispone di un vasto ecosistema di librerie e moduli disponibili attraverso npm (Node Package Manager). Questo ci ha permesso di accelerare lo sviluppo utilizzando pacchetti preesistenti per funzionalità comuni, riducendo il tempo necessario per implementare funzioni complesse.
+  \item \textbf{Scalabilità}: La natura asincrona di Node.js lo rende particolarmente adatto per costruire applicazioni scalabili. Per un sistema come quello proposto, che potrebbe essere utilizzato da numerosi utenti contemporaneamente, la capacità di scalare orizzontalmente è cruciale.
+\end{itemize}
+
+Express, un framework minimalista per Node.js, è stato scelto per la sua semplicità e flessibilità nella gestione delle API RESTful. Express consente di strutturare l'applicazione in modo modulare, facilitando la manutenzione e l'espansione del codice nel tempo. Inoltre, con l'uso di Sequelize, un ORM per Node.js, è stato possibile gestire le interazioni con il database MySQL in modo sicuro ed efficiente, mappando le tabelle del database su oggetti JavaScript e semplificando le operazioni CRUD (Create, Read, Update, Delete).
+
+\subsection{Frontend}
+
+Per il frontend, è stato scelto React come framework principale per lo sviluppo dell'interfaccia utente. Le motivazioni alla base di questa scelta sono molteplici:
+
+\begin{itemize}
+  \item \textbf{Componentizzazione}: React adotta un approccio basato su componenti, che permette di costruire interfacce utente modulari e riutilizzabili. Questa modularità non solo facilita lo sviluppo, ma rende anche più semplice la manutenzione e l'aggiornamento dell'applicazione nel tempo.
+  \item \textbf{Performance e Virtual DOM}: React utilizza un Virtual DOM per ottimizzare il rendering dell'interfaccia utente. Questo riduce al minimo le operazioni di manipolazione del DOM reale, migliorando le prestazioni, soprattutto su dispositivi mobili, dove la potenza di calcolo può essere limitata.
+  \item \textbf{Ecosistema e Community}: La vasta community di React e l'ampio ecosistema di librerie di supporto hanno fornito strumenti utili e best practices che hanno accelerato lo sviluppo e migliorato la qualità del codice.
+\end{itemize}
+
+Inoltre, per migliorare ulteriormente la velocità di sviluppo e la coerenza dell'interfaccia utente, è stata utilizzata la libreria \textbf{Ant Design (Antd)}. Antd è un set di componenti UI predefiniti per React, che offre una vasta gamma di elementi grafici stilisticamente coerenti e pronti all'uso. L'adozione di Antd ha permesso al team di:
+
+\begin{itemize}
+  \item \textbf{Accelerare lo Sviluppo}: Utilizzando componenti predefiniti di alta qualità, il team ha potuto concentrarsi maggiormente sulle logiche di business piuttosto che sulla progettazione e implementazione di elementi grafici complessi.
+  \item \textbf{Mantenere una UI Coerente}: Antd garantisce che l'interfaccia utente sia esteticamente coerente e intuitiva, migliorando l'esperienza utente complessiva.
+  \item \textbf{Facile Personalizzazione}: Sebbene Antd offra componenti predefiniti, è altamente personalizzabile, consentendo al team di adattare l'aspetto e il comportamento dei componenti alle specifiche esigenze del progetto.
+\end{itemize}
+
+L'uso di React, insieme a Antd, ha inoltre facilitato l'integrazione con le API dei dispositivi, come la fotocamera e i sensori di posizione, rendendo possibile la realizzazione di funzionalità critiche come la scansione di QR code e la tracciabilità GPS.
+
+\section{Integrazione con Componenti del Dispositivo}
+
+Uno degli aspetti più innovativi dell'applicazione è la sua capacità di interagire direttamente con i componenti hardware dei dispositivi mobili. Grazie a librerie specifiche di React, l'applicazione può accedere alla fotocamera per scattare foto e scansionare codici QR, nonché raccogliere dati GPS per tracciare la posizione dei lavoratori in tempo reale. Questo livello di integrazione è stato fondamentale per garantire che il sistema potesse offrire funzionalità di controllo qualità avanzate, come la verifica dell'ubicazione del personale sul campo e la documentazione delle attività svolte.
+
+\section{Toolkits}
+
+Oltre ai linguaggi e framework descritti, sono stati utilizzati diversi toolkits per supportare lo sviluppo:
+
+\begin{itemize}
+  \item \textbf{npm}: Il gestore di pacchetti npm è stato fondamentale per la gestione delle dipendenze e per l'installazione di librerie esterne che hanno velocizzato lo sviluppo.
+  \item \textbf{Webpack}: Webpack è stato utilizzato per il bundling dei file JavaScript, ottimizzando le performance del frontend e migliorando i tempi di caricamento dell'applicazione.
+  \item \textbf{GitLab CI/CD}: La pipeline CI/CD di GitLab ha automatizzato il processo di testing e deployment, garantendo che ogni modifica al codice fosse adeguatamente verificata prima di essere distribuita nell'ambiente di produzione.
+\end{itemize}
+
+L'insieme di questi strumenti ha permesso di creare un ambiente di sviluppo efficiente e affidabile, facilitando il rilascio continuo di nuove funzionalità e miglioramenti.
+
 \chapter{Progettazione}
 \chapter{Architettura}
 \chapter{Implementazione}
@@ -145,6 +221,8 @@ valutare la qualità del lavoro svolto e di fornire feedback ai collaboratori.\\
 \chapter{Risultati}
 \chapter{Conclusioni}
 
+
+\cite{1705631}
 \bibliographystyle{unsrt}
 \bibliography{bibliografia}
 \end{document}
