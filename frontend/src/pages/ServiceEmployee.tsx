@@ -10,6 +10,7 @@ import ClientInfo from '../components/ServiceClientInfo';
 import StopButton from '../components/ServiceStopButton';
 import CartPopup from '../components/CartPopup';
 import StopConfirmationModal from '../components/StopConfirmationalModal';
+import PrivacyDisclaimer from '../components/PrivacyDisclaimer';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { getCoordinates } from '../utils/getCoordinates';
 import { useSupply } from '../context/SupplyContext';
@@ -247,6 +248,7 @@ const ServiceEmployee: React.FC = () => {
                     </Modal>
                 )}
             </Content>
+            <PrivacyDisclaimer />
         </Layout>
     );
 };

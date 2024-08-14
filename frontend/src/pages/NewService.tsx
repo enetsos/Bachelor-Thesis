@@ -5,6 +5,7 @@ import { useTimeTracking } from '../context/TimeTrackingContext';
 import { useAuth } from '../context/LoginContext'; // Assuming there is an Auth context
 import Header from '../components/Header';
 import BackArrow from '../components/BackArrow';
+import PrivacyDisclaimer from '../components/PrivacyDisclaimer';
 import { TimeTrackingAttributes } from '../types';
 import { getCoordinates } from '../utils/getCoordinates';
 
@@ -96,6 +97,7 @@ const NewService: React.FC = () => {
                         </Card>
                     </Col>
                 </Row>
+                <PrivacyDisclaimer />
             </Content>
         </Layout>
     );
