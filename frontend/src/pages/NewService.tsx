@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col, Card, Form, Input, Button, Space } from 'antd';
+import { Layout, Row, Col, Card, Form, Input, Button, Space, message } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTimeTracking } from '../context/TimeTrackingContext';
-import { useAuth } from '../context/LoginContext'; // Assuming there is an Auth context
+import { useAuth } from '../context/LoginContext';
 import Header from '../components/Header';
 import BackArrow from '../components/BackArrow';
 import PrivacyDisclaimer from '../components/PrivacyDisclaimer';
 import { TimeTrackingAttributes } from '../types';
-import { getCoordinates } from '../utils/getCoordinates';
+import { getCoordinates } from '../utils/getCoordinates'; // Assuming this handles geolocation
 
 const { Content } = Layout;
 
-const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-};
+const useQuery = () => new URLSearchParams(useLocation().search);
 
 const NewService: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const { createTimeTracking } = useTimeTracking();
-    const { userId } = useAuth(); // Assuming there's a user object in Auth context
+    const { userId } = useAuth();
     const [form] = Form.useForm();
     const query = useQuery();
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     useEffect(() => {
         const nome = query.get('nome') || '';
@@ -30,13 +29,14 @@ const NewService: React.FC = () => {
         form.setFieldsValue({ nome, email, clientId });
     }, [query, form]);
 
-
     const handleStart = async (values: any) => {
         setLoading(true);
+        setErrorMessage(null);
         try {
             const position = await getCoordinates();
             const { latitude, longitude } = position.coords;
             const now = new Date();
+
             const timeTrackingData: Partial<TimeTrackingAttributes> = {
                 employeeId: userId || '',
                 clientId: values.clientId || '',
@@ -45,15 +45,22 @@ const NewService: React.FC = () => {
                 latStartTime: latitude,
                 longStartTime: longitude,
             };
+
             const newTimeTracking = await createTimeTracking(timeTrackingData);
             form.resetFields();
             navigate(`/service?id=${newTimeTracking.id}`);
-        } catch (error) {
-            console.log('Error creating time tracking:', error);
+        } catch (error: any) {
+            if (error.code === error.PERMISSION_DENIED) {
+                setErrorMessage('Permessi di localizzazione negati. Per favore abilita la localizzazione.');
+            } else {
+                setErrorMessage('Posizione non disponibile. Per favore riprova.');
+            }
+            message.error(errorMessage);
         } finally {
             setLoading(false);
         }
     };
+
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -74,7 +81,10 @@ const NewService: React.FC = () => {
                                 <Form.Item
                                     label="Email"
                                     name="email"
-                                    rules={[{ required: true, message: 'Per favore inserisci l\'email' }, { type: 'email', message: 'Per favore inserisci un\'email valida' }]}
+                                    rules={[
+                                        { required: true, message: "Per favore inserisci l'email" },
+                                        { type: 'email', message: "Per favore inserisci un'email valida" }
+                                    ]}
                                 >
                                     <Input />
                                 </Form.Item>
@@ -91,6 +101,7 @@ const NewService: React.FC = () => {
                                         <Button type="primary" htmlType="submit" loading={loading}>
                                             Start!
                                         </Button>
+
                                     </Space>
                                 </Form.Item>
                             </Form>

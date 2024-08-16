@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QRScanner from 'qr-scanner';
-import { Modal, Button } from 'antd';
-import QrScanner from 'qr-scanner';
+import { Modal, Button, Alert, message } from 'antd';
 
 interface QRCodeScannerProps {
     onScan: (data: string) => void;
@@ -12,12 +11,38 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({ onScan, onError }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [scanner, setScanner] = useState<QRScanner | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    // Check for camera availability and permissions
+    const checkCameraAvailability = async () => {
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            if (videoDevices.length === 0) {
+                throw new Error('Camera non trovata');
+            }
+        } catch (err) {
+            throw new Error('Accesso alla fotocamera negato');
+        }
+    };
+
+    const checkCameraPermission = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            stream.getTracks().forEach(track => track.stop());
+        } catch (err) {
+            throw new Error('Accesso alla fotocamera negato. Per favore abilita la fotocamera.');
+        }
+    };
 
     useEffect(() => {
         if (!isModalVisible || scanner) return;
 
         const initScanner = async () => {
             try {
+                await checkCameraPermission();
+                await checkCameraAvailability();
+
                 if (videoRef.current) {
                     const qrScanner = new QRScanner(
                         videoRef.current,
@@ -30,19 +55,16 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({ onScan, onError }) => {
                     setScanner(qrScanner);
                     qrScanner.start();
                 }
-            } catch (err) {
+            } catch (err: any) {
+                setErrorMessage(err.message);
                 onError(err);
+                message.error(err.message); // Notify user with Ant Design message
             }
         };
 
         initScanner();
 
-        return () => {
-            if (scanner) {
-                (scanner as QrScanner).stop();
-                setScanner(null);
-            }
-        };
+
     }, [isModalVisible, onScan, onError, scanner]);
 
     useEffect(() => {
@@ -55,11 +77,14 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({ onScan, onError }) => {
 
     const handleCancel = () => {
         setIsModalVisible(false);
+        setErrorMessage(null);
         if (scanner) {
             scanner.stop();
             setScanner(null);
         }
     };
+
+
 
     return (
         <>
@@ -67,7 +92,16 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({ onScan, onError }) => {
                 Scan QR Code
             </Button>
             <Modal title="Scan QR Code" open={isModalVisible} onCancel={handleCancel} footer={null}>
-                <video ref={videoRef} style={{ width: '100%' }} autoPlay />
+                {errorMessage ? (
+                    <Alert
+                        message="Error"
+                        description={errorMessage}
+                        type="error"
+                        showIcon
+                    />
+                ) : (
+                    <video ref={videoRef} style={{ width: '100%' }} autoPlay />
+                )}
             </Modal>
         </>
     );
