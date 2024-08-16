@@ -215,6 +215,63 @@ Oltre ai linguaggi e framework descritti, sono stati utilizzati diversi toolkits
 L'insieme di questi strumenti ha permesso di creare un ambiente di sviluppo efficiente e affidabile, facilitando il rilascio continuo di nuove funzionalità e miglioramenti.
 
 \chapter{Progettazione}
+
+In questo capitolo viene descritta la fase di progettazione dell’applicativo, partendo dall'analisi dei requisiti necessari per poi passare alla descrizione delle funzionalità principali e dei mockup delle interfacce che saranno utilizzate dagli utenti.
+
+\section{Requisiti}
+
+Il sistema, accessibile tramite app, avrà principalmente quattro tipi di utenti: amministratori, dipendenti, responsabili (supervisori), e clienti. Di seguito sono elencati i requisiti specifici per ciascuno di questi ruoli.
+
+\subsection{Requisiti per gli Amministratori}
+
+Gli amministratori hanno il compito di gestire l'intero sistema, comprese le operazioni di gestione utenti e forniture. I requisiti specifici per questo ruolo includono:
+
+\begin{itemize}
+  \item Creare, modificare e gestire gli account degli utenti (dipendenti, responsabili e clienti).
+  \item Aggiungere, modificare e gestire le forniture disponibili nel database.
+  \item Monitorare tutte le segnalazioni di controllo qualità effettuate dai clienti.
+  \item Visualizzare e gestire tutti i servizi svolti dai dipendenti.
+\end{itemize}
+
+\subsection{Requisiti per i Dipendenti}
+
+I dipendenti sono coloro che eseguono le attività operative presso i clienti. I requisiti specifici per questo ruolo includono:
+
+\begin{itemize}
+  \item Registrare (timbrare) il loro arrivo e la loro partenza presso i clienti utilizzando QR code.
+  \item Effettuare segnalazioni in caso di anomalie riscontrate presso i clienti.
+  \item Ordinare attrezzature e prodotti che sono finiti o in esaurimento.
+\end{itemize}
+
+\subsection{Requisiti per i Responsabili (Supervisori)}
+
+I responsabili, che sono dipendenti con funzioni aggiuntive, hanno il compito di controllare la qualità del lavoro svolto dai dipendenti sotto la loro responsabilità. I requisiti specifici per questo ruolo includono:
+
+\begin{itemize}
+  \item Verificare le timbrature dei dipendenti di loro responsabilità ai fini del controllo qualità.
+\end{itemize}
+
+\subsection{Requisiti per i Clienti}
+
+I clienti sono coloro che ricevono i servizi e possono fornire feedback sulla loro qualità. I requisiti specifici per questo ruolo includono:
+
+\begin{itemize}
+  \item Segnalare criticità nel servizio ricevuto.
+\end{itemize}
+
+
+\section{Mockup delle Interfacce}
+
+In questa sezione vengono descritti i mockup delle interfacce dell’applicazione, con particolare attenzione alle schermate più rilevanti per ciascun attore coinvolto (dipendenti, responsabili e clienti).
+
+\subsection{Pagina di accesso}
+\subsection{Pagina di registrazione delle timbrature}
+\subsection{Pagina di gestione delle segnalazioni}
+\subsection{Pagina di controllo qualità per i responsabili}
+\subsection{Pagina di feedback dei clienti}
+
+
+
 \chapter{Architettura}
 \chapter{Implementazione}
 \chapter{Test}
