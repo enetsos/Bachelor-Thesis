@@ -13,6 +13,8 @@ export interface User {
     role: Role | string;
     created_at: Date;
     updated_at: Date;
+    clientLAT?: number | null;
+    clientLONG?: number | null;
 }
 
 // src/types.ts

@@ -7,6 +7,8 @@ class UserResource extends BaseResource<UserAttributes, UserEntity>() {
             name: this.instance.name,
             email: this.instance.email,
             role: this.instance.role,
+            clientLAT: this.instance.clientLAT,
+            clientLONG: this.instance.clientLONG,
         };
 
         return userResource;

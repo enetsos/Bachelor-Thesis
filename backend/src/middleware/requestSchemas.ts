@@ -6,6 +6,16 @@ export const createUserSchema = Joi.object({
     email: Joi.string().min(3).max(30).required(),
     pw: Joi.string().min(3).max(30).required(),
     role: Joi.string().valid("admin", "supervisor", "employee", "client").required(),
+    clientLAT: Joi.number().when('role', {
+        is: 'client',
+        then: Joi.required(),
+        otherwise: null
+    }),
+    clientLONG: Joi.number().when('role', {
+        is: 'client',
+        then: Joi.required(),
+        otherwise: null
+    }),
     is_public: Joi.bool().default(true),
 });
 

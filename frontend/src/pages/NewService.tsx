@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col, Card, Form, Input, Button, Space, message } from 'antd';
+import { Layout, Row, Col, Card, Form, Input, Button, Space, notification } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTimeTracking } from '../context/TimeTrackingContext';
 import { useAuth } from '../context/LoginContext';
@@ -20,7 +20,6 @@ const NewService: React.FC = () => {
     const [form] = Form.useForm();
     const query = useQuery();
     const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     useEffect(() => {
         const nome = query.get('nome') || '';
@@ -31,7 +30,6 @@ const NewService: React.FC = () => {
 
     const handleStart = async (values: any) => {
         setLoading(true);
-        setErrorMessage(null);
         try {
             const position = await getCoordinates();
             const { latitude, longitude } = position.coords;
@@ -50,12 +48,18 @@ const NewService: React.FC = () => {
             form.resetFields();
             navigate(`/service?id=${newTimeTracking.id}`);
         } catch (error: any) {
-            if (error.code === error.PERMISSION_DENIED) {
-                setErrorMessage('Permessi di localizzazione negati. Per favore abilita la localizzazione.');
-            } else {
-                setErrorMessage('Posizione non disponibile. Per favore riprova.');
+            let messageToDisplay = 'Posizione non disponibile. Per favore riprova.';
+
+            if (error.code === 'ERR_BAD_REQUEST') {
+                messageToDisplay = 'La posizione di partenza non è entro 500 metri dalla posizione del cliente.';
+            } else if (error.code === error.PERMISSION_DENIED) {
+                messageToDisplay = 'Permessi di localizzazione negati. Per favore abilita la localizzazione.';
             }
-            message.error(errorMessage);
+
+            notification.error({
+                message: 'Errore',
+                description: messageToDisplay,
+            });
         } finally {
             setLoading(false);
         }

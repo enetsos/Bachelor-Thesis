@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QRScanner from 'qr-scanner';
-import { Modal, Button, Alert, message } from 'antd';
+import { Modal, Button, Alert, notification } from 'antd';
 
 interface QRCodeScannerProps {
     onScan: (data: string) => void;
@@ -58,14 +58,18 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({ onScan, onError }) => {
             } catch (err: any) {
                 setErrorMessage(err.message);
                 onError(err);
-                message.error(err.message); // Notify user with Ant Design message
+                notification.destroy();
+                notification.error({
+                    message: 'Errore',
+                    description: errorMessage,
+                });
             }
         };
 
         initScanner();
 
 
-    }, [isModalVisible, onScan, onError, scanner]);
+    }, [isModalVisible, onScan, onError, scanner, errorMessage]);
 
     useEffect(() => {
         return () => {
