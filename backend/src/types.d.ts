@@ -17,6 +17,8 @@ type UserEntity = {
     name: string;
     email: string;
     role: Role;
+    clientLAT?: number | null;
+    clientLONG?: number | null;
 };
 
 enum Role {
@@ -32,6 +34,8 @@ interface UserAttributes {
     email: string;
     pw: string;
     role: Role;
+    clientLAT?: number | null;
+    clientLONG?: number | null;
     created_at: Date;
     updated_at: Date;
 }
@@ -118,6 +122,7 @@ interface FeedbackAttributes {
     id: string;
     clientId: string;
     notes: string;
+    client: UserAttributes | null;
     created_at: Date;
     updated_at: Date;
 }
@@ -126,4 +131,5 @@ type FeedbackEntity = {
     id: string;
     clientId: string;
     notes: string;
+    client: UserEntity | null;
 };

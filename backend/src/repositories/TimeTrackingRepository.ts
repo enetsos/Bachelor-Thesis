@@ -1,7 +1,9 @@
 import BaseRepository from "./BaseRepository";
 import TimeTracking from "../db/models/timeTracking";
-import User from "../db/models/user"; // Importa il modello Client
-import Supply from "../db/models/supply"; // Importa il modello Supply
+import User from "../db/models/user";
+import Supply from "../db/models/supply";
+import { calculateDistance } from '../utils/distanceCalculator';
+import DistanceError from "../errors/TimeTrackingErrors";
 
 export default class TimeTrackingRepository extends BaseRepository<TimeTrackingAttributes> {
     protected allowedSortByFields = [
@@ -19,7 +21,7 @@ export default class TimeTrackingRepository extends BaseRepository<TimeTrackingA
 
     async create(data: Record<string, any>): Promise<TimeTrackingAttributes> {
         try {
-            const { employeeId } = data;
+            const { employeeId, clientId, latStartTime, longStartTime } = data;
             const now = new Date();
 
             // Check if there is an active time tracking for this employee
@@ -27,16 +29,28 @@ export default class TimeTrackingRepository extends BaseRepository<TimeTrackingA
                 where: { employeeId, status: 'active' }
             });
 
-            console.log('activeTimeTracking:', activeTimeTracking);
-
             if (activeTimeTracking) {
                 // Conclude the existing time tracking
                 await this.updateActiveTimeTracking(activeTimeTracking.id, {
                     endTime: now,
                     status: 'concluded',
-                    latEndTime: data.latStartTime,
-                    longEndTime: data.longStartTime
+                    latEndTime: latStartTime,
+                    longEndTime: longStartTime
                 });
+            }
+
+            // Fetch the client to get their location
+            const client = await User.findByPk(clientId);
+            if (!client) {
+                throw new Error(`Client with id ${clientId} not found`);
+            }
+
+            const { clientLAT: clientLat, clientLONG: clientLong } = client;
+
+            const distance = calculateDistance(latStartTime, longStartTime, clientLat as number, clientLong as number);
+            if (distance > 500) {
+                const error = new DistanceError('Start position is not within 500 meters of the client\'s location');
+                throw error;
             }
 
             // Create a new time tracking entry
@@ -52,6 +66,7 @@ export default class TimeTrackingRepository extends BaseRepository<TimeTrackingA
             throw error;
         }
     }
+
 
     private async updateActiveTimeTracking(id: string, updates: Record<string, any>): Promise<TimeTrackingAttributes> {
         return super.update(id, updates);

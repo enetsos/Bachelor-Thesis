@@ -5,6 +5,7 @@ import { Layout, Row, Col, Card } from 'antd';
 import Header from './Header';
 import QRCodeScanner from './QrCodeScanner';
 import ServiceList from './ServiceList';
+import PrivacyDisclaimer from './PrivacyDisclaimer';
 
 const { Content } = Layout;
 
@@ -33,6 +34,7 @@ const BaseDashboard: React.FC<BaseDashboardProps> = ({ title, role, children }) 
                         <QRCodeScanner onScan={handleScan} onError={handleError} />
                     </Col>
                 </Row>
+                <PrivacyDisclaimer />
                 <Row gutter={[16, 16]}>
                     <Col xs={24} md={24}>
                         <Card title="I tuoi Servizi" bordered={false}>

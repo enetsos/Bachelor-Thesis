@@ -43,6 +43,18 @@ class User extends Model<UserAttributes> {
     })
     declare role: Role;
 
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: true,
+    })
+    declare clientLAT: number | null;
+
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: true,
+    })
+    declare clientLONG: number | null
+
     @CreatedAt
     declare created_at: Date;
 

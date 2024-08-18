@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { Table, Spin, Typography } from 'antd';
 import { useFeedback } from '../context/FeedbackContext';
 import { useAuth } from '../context/LoginContext';
+import { FeedbackAttributes, User } from '../types';
 const { Text } = Typography;
 
 interface FeedbackListProps {
@@ -31,6 +32,13 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ role }) => {
     }, [fetchFeedbacks, getFeedbackByClientId, role, userId]);
 
     const columns = [
+        {
+            title: 'Nome cliente',
+            dataIndex: 'client',
+            key: 'clientName',
+            render: (client: User | null) => <Text>{client?.name || 'Unknown'}</Text>,
+            sorter: (a: FeedbackAttributes, b: FeedbackAttributes) => (a.client?.name || '').localeCompare(b.client?.name || ''),
+        },
         {
             title: 'Messaggio',
             dataIndex: 'notes',

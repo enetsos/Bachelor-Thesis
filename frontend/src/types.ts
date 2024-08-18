@@ -13,6 +13,8 @@ export interface User {
     role: Role | string;
     created_at: Date;
     updated_at: Date;
+    clientLAT?: number | null;
+    clientLONG?: number | null;
 }
 
 // src/types.ts
@@ -47,5 +49,6 @@ export interface FeedbackAttributes {
     id: string;
     clientId: string;
     notes: string;
+    client: User | null;
 }
 
