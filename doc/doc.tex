@@ -273,6 +273,183 @@ In questa sezione vengono descritti i mockup delle interfacce dell’applicazion
 
 
 \chapter{Architettura}
+
+In questo capitolo viene descritta l’architettura dell’applicativo. Iniziando con una visione generale di come sia strutturato l’applicativo, per poi passare ad una descrizione della struttura del codice, successivamente una spiegazione su come frontend e backend interagiscono tra di loro e come il backend comunica con il database.
+
+\section{Visione Generale}
+
+L'applicazione è progettata con un'architettura a componenti separati, suddivisa in tre parti principali:
+
+\begin{itemize}
+  \item \textbf{Frontend}: Fornisce un'interfaccia intuitiva e interattiva per l'interazione con il sistema.
+  \item \textbf{Backend}: Gestisce le richieste dal frontend, elabora i dati e comunica con il database.
+  \item \textbf{Database MySQL}:Utilizzato per la persistenza dei dati, come informazioni sugli utenti, accessi e servizi.
+\end{itemize}
+
+%aggiungere schema visione generale
+
+
+\section{Struttura del Codice}
+In questa sezione vengono discusse le scelte e le motivazioni che hanno portato a definire la struttura del codice dell’applicativo
+
+\subsection{Frontend}
+Lo sviluppo del frontend si è basato su convenzioni comuni utilizzate per sviluppare in \textit{TypeScript} e \textit{React}.
+\\\\
+All'interno della cartella \texttt{frontend} è dunque presente una cartella \texttt{src} la quale contiene tutto il codice dell'applicativo web.
+
+La cartella viene poi suddivisa in:
+
+\begin{itemize}
+  \item \texttt{components}: collezione di componenti utilizzati all'interno dell'applicazione.
+  \item \texttt{services}: collezione di servizi utilizzati per comunicare con il backend.
+  \item \texttt{context}: collezione di contesti utilizzati per gestire lo stato dell'applicazione.
+  \item \texttt{pages}: diverse pagine alle quali si può accedere attraverso l'applicazione.
+  \item \texttt{utils}: file di utilità contenenti funzioni utilizzate più volte all'interno del frontend.
+\end{itemize}
+
+Oltre alle cartelle sopra elencate, sono presenti anche i file \texttt{App.tsx} e \texttt{index.tsx} i quali rappresentano rispettivamente il componente principale dell'applicazione e il file di entry point.
+\\\\
+Infine è presente anche un file chiamato \texttt{type.ts} il quale contiene tutte le interfacce utilizzate all'interno del frontend.
+
+\subsection{Backend}
+Il progetto di backend è stato scritto in \textit{Node.js} utilizzando il framework \textit{Express}. Questo ha permesso di creare un server web che gestisce le richieste HTTP provenienti dal frontend e comunica con il database per recuperare e salvare i dati.\\
+
+All'interno della cartella \texttt{backend} è presente una cartella \texttt{src} la quale contiene tutto il codice del server. In particolare, la cartella è suddivisa in:
+\begin{itemize}
+  \item \texttt{db}: contiene i modelli e le configurazioni del database.
+  \item \texttt{middleware}: contiene i middleware utilizzati per gestire le richieste HTTP.
+  \item \texttt{repositories}: contiene i repository utilizzati per interagire con il database.
+  \item \texttt{resources}: contiene le risorse che vengono inviate al frontend.
+  \item \texttt{routes}: contiene i controller che gestiscono le richieste HTTP.
+  \item \texttt{utils}: file di utilità contenenti funzioni utilizzate più volte all'interno del backend.
+\end{itemize}
+
+Anche in questo caso, oltre alle cartelle sopra elencate, sono presenti i file \texttt{app.ts} e \texttt{server.ts} i quali rappresentano rispettivamente il componente principale del server e il file di entry point.
+
+\section{Comunicazione Frontend-Backend}
+In questa sezione viene descritta l'interazione tra il frontend e il backend dell'applicazione, illustrando il flusso di comunicazione e le tecnologie utilizzate per garantire un'efficace integrazione tra i due componenti.
+
+\subsection{Comunicazione tramite API REST}
+
+Il frontend e il backend comunicano principalmente tramite API REST (Representational State Transfer). Le API REST sono endpoint esposti dal backend che il frontend può chiamare per inviare o ricevere dati. Questi endpoint sono progettati per seguire i principi REST, che includono l'uso di metodi HTTP standard come GET, POST, PUT e DELETE per operazioni CRUD (Create, Read, Update, Delete).
+
+\begin{itemize}
+  \item \textbf{GET}: Utilizzato per recuperare dati dal backend. Ad esempio, il frontend può effettuare una richiesta GET per ottenere una lista di servizi o dettagli su un utente specifico.
+  \item \textbf{POST}: Utilizzato per inviare nuovi dati al backend. Ad esempio, quando un utente registra una nuova timbratura, il frontend invia una richiesta POST al backend con i dettagli della timbratura.
+  \item \textbf{PUT}: Utilizzato per aggiornare dati esistenti nel backend. Ad esempio, il frontend può inviare una richiesta PUT per aggiornare le informazioni di un servizio esistente.
+  \item \textbf{DELETE}: Utilizzato per eliminare dati dal backend. Ad esempio, il frontend può effettuare una richiesta DELETE per rimuovere un utente.
+\end{itemize}
+
+\subsection{Struttura delle Richieste e Risposte}
+
+Le richieste dal frontend al backend sono effettuate utilizzando la libreria \texttt{axios}. Ogni richiesta include un URL di destinazione (l'endpoint dell'API), un metodo HTTP, e, se necessario, un corpo della richiesta (payload) con i dati da inviare.
+
+Le risposte del backend possono includere dati in formato JSON (JavaScript Object Notation) o oggetti JavaScript. Le risposte includono un codice di stato HTTP che indica l'esito dell'operazione (ad esempio, 200 OK, 404 Not Found, 500 Internal Server Error) e, se applicabile, i dati richiesti o un messaggio di errore.
+
+\begin{itemize}
+  \item \textbf{Richiesta GET}: Il frontend invia una richiesta GET all'endpoint \texttt{/api/users} per recuperare la lista degli utenti. Il backend risponde con una Collection di UserResource contenente i dati degli utenti.
+  \item \textbf{Richiesta POST}: Il frontend invia una richiesta POST all'endpoint \texttt{/api/time-tracking/new-time} con i dettagli della timbratura. Il backend elabora i dati e restituisce un JSON con un messaggio di conferma.
+  \item \textbf{Richiesta PUT}: Il frontend invia una richiesta PUT all'endpoint \texttt{/api/time-tracking/stop-time/\$timeTrackingId} per aggiornare i dettagli di un servizio con ID timeTrackingId. Il backend aggiorna il servizio con i dati aggiornati.
+  \item \textbf{Richiesta DELETE}: Il frontend invia una richiesta DELETE all'endpoint \texttt{/api/users/\$id} per eliminare un utente con ID id. Il backend elimina l'utente e restituisce una conferma di eliminazione.
+\end{itemize}
+
+\subsection{Gestione degli Errori e Feedback}
+
+Durante la comunicazione tra frontend e backend, è essenziale gestire correttamente gli errori e fornire feedback agli utenti. Il backend deve restituire messaggi di errore chiari e informativi quando si verificano problemi, come dati non validi o errori di connessione.
+
+Il frontend è responsabile della visualizzazione di questi messaggi di errore all'utente in modo chiaro e comprensibile.
+
+\subsection{Autenticazione e Autorizzazione}
+
+La comunicazione tra frontend e backend è protetta tramite meccanismi di autenticazione e autorizzazione. Il backend richiede che il frontend invii un token di autenticazione con ogni richiesta per verificare l'identità dell'utente e determinare i permessi di accesso.
+
+Il frontend gestisce il processo di autenticazione, memorizza il token di autenticazione nei cookie, e lo include nelle intestazioni delle richieste successive. Questo garantisce che solo gli utenti autorizzati possano accedere a determinati endpoint e operazioni.
+
+\subsection{Esempio di Flusso di Comunicazione}
+
+\begin{enumerate}
+  \item \textbf{Richiesta di Autenticazione}: L'utente inserisce le proprie credenziali nel frontend. Il frontend invia una richiesta POST all'endpoint \texttt{/api/login} con le credenziali.
+  \item \textbf{Risposta di Autenticazione}: Il backend verifica le credenziali e, se valide, restituisce un token di autenticazione.
+  \item \textbf{Richiesta Dati Utente}: Nelle prossime richieste, il frontend include il token di autenticazione nelle intestazioni. Ad esempio, il frontend invia una richiesta GET all'endpoint \texttt{/api/user} per ottenere i dettagli del profilo utente.
+  \item \textbf{Risposta Dati Utente}: Il backend verifica il token prima di restituire i dati del profilo utente. Se il token è valido, il backend restituisce i dati richiesti.
+\end{enumerate}
+
+Questo flusso di comunicazione assicura che il frontend e il backend lavorino insieme in modo sinergico, offrendo un'esperienza utente fluida e sicura.
+
+\subsection{Sicurezza nella Gestione dei Dati Sensibili}
+
+La sicurezza dei dati sensibili, come le password degli utenti, è una priorità assoluta nel sistema. Durante la comunicazione tra frontend e backend, i dati sensibili vengono protetti attraverso diversi meccanismi di sicurezza.
+
+Le password degli utenti non vengono mai trasmesse in chiaro. Quando un utente invia la propria password tramite il frontend, questa viene inviata al backend utilizzando una connessione sicura tramite HTTPS (Hypertext Transfer Protocol Secure). HTTPS crittografa i dati in transito, rendendo estremamente difficile per eventuali malintenzionati intercettare o manipolare le informazioni trasmesse.
+
+Nel backend, le password non vengono mai memorizzate in formato leggibile. Al momento della registrazione o dell'aggiornamento della password, il backend utilizza la libreria \texttt{bcrypt} per eseguire l'hashing della password. L'hashing è un processo che trasforma la password in una stringa di caratteri crittografata. Ad esempio, la seguente istruzione \texttt{bcrypt.hash(body.pw, 12)} genera un hash della password con un cost factor di 12, aumentando così la complessità computazionale richiesta per un eventuale attacco di forza bruta.
+
+\begin{itemize}
+  \item \textbf{Hashing}: Quando il backend riceve la password in chiaro dal frontend, questa viene immediatamente sottoposta a un processo di hashing utilizzando l'algoritmo bcrypt. Questo processo assicura che la password originale non sia mai memorizzata nel database. Al suo posto, viene salvato solo l'hash della password.
+
+  \item \textbf{Verifica della Password}: Quando un utente tenta di effettuare il login, il backend confronta la password inviata dal frontend con l'hash memorizzato nel database utilizzando il metodo \texttt{bcrypt.compare}. Se la password corrisponde all'hash memorizzato, l'autenticazione viene considerata valida.
+\end{itemize}
+
+Grazie a questo approccio, anche in caso di compromissione del database, le password degli utenti rimangono protette, poiché gli hash sono difficili da invertire. Inoltre, il cost factor di bcrypt, configurabile nel codice (in questo caso impostato a 12), assicura che il processo di hashing sia sufficientemente lento da rendere inefficaci gli attacchi basati su tecniche di brute force.
+
+
+\section{Comunicazione Backend-Database}
+
+La comunicazione tra il backend e il database avviene principalmente attraverso query SQL, che vengono generate ed eseguite dal backend per interagire con il database MySQL. Questa interazione consente al backend di gestire dati persistenti, come informazioni sugli utenti, le timbrature e i dettagli dei servizi.
+
+Per facilitare e semplificare le operazioni di accesso al database, è stato utilizzato un ORM (Object-Relational Mapping) chiamato \textbf{Sequelize}. Questo strumento permette di gestire il database tramite codice JavaScript, senza dover scrivere manualmente query SQL, semplificando quindi l'accesso ai dati e la loro manipolazione.
+
+\subsection{Operazioni CRUD tramite ORM}
+
+L'interazione backend-database segue principalmente i principi CRUD (Create, Read, Update, Delete), che rappresentano le operazioni di base per la gestione dei dati nel database.
+
+\begin{itemize}
+  \item \textbf{Create (Creare)}: Quando il backend riceve una richiesta per creare una nuova risorsa (come un nuovo utente o una nuova timbratura), esso utilizza Sequelize per generare la corrispondente query SQL di inserimento. Questa query viene poi eseguita nel database MySQL per aggiungere il nuovo record.
+
+  \item \textbf{Read (Leggere)}: Il backend può inviare query di lettura al database per recuperare informazioni, come una lista di utenti o le timbrature di un dipendente. Sequelize converte le richieste di lettura del backend in query SQL SELECT, e i dati recuperati vengono restituiti come oggetti JavaScript pronti per essere utilizzati nel codice.
+
+  \item \textbf{Update (Aggiornare)}: Per aggiornare informazioni già esistenti, come modificare il profilo di un utente o aggiornare lo stato di un servizio, il backend invia query SQL di aggiornamento al database. Sequelize gestisce queste operazioni di aggiornamento in modo sicuro, traducendo le modifiche in query SQL UPDATE, e garantendo che solo i campi necessari siano modificati.
+
+  \item \textbf{Delete (Eliminare)}: Quando il backend deve rimuovere dati, ad esempio cancellare un utente o eliminare una segnalazione, Sequelize genera ed esegue query SQL DELETE che rimuovono i record dal database in modo sicuro.
+\end{itemize}
+
+\subsection{Gestione delle Relazioni tra Tabelle}
+
+Uno dei vantaggi principali dell'utilizzo di un ORM come Sequelize è la capacità di gestire facilmente le relazioni tra le tabelle del database. Il sistema richiede la gestione di relazioni complesse tra diversi tipi di dati, come utenti, servizi e timbrature. Grazie a Sequelize, il backend può definire queste relazioni a livello di codice, rappresentando legami come "uno a molti" o "molti a molti".
+
+Ad esempio:
+
+\begin{itemize}
+  \item \textbf{Relazione Uno-a-Molti}: Un amministratore può gestire molti dipendenti, e un dipendente può avere molte timbrature. Sequelize permette di rappresentare queste relazioni utilizzando associazioni tra modelli, come la relazione tra il modello "User" e il modello "TimeTracking".
+
+  \item \textbf{Relazione Molti-a-Molti}: I clienti possono avere rapporti con più servizi, e ogni servizio può essere assegnato a più clienti. Questo tipo di relazione può essere gestito tramite tabelle ponte, che Sequelize crea e gestisce automaticamente.
+\end{itemize}
+
+\subsection{Validazione dei Dati e Gestione degli Errori}
+
+Durante l'interazione con il database, è importante garantire che i dati siano validi e consistenti. Sequelize offre funzionalità di validazione automatica per assicurarsi che i dati inviati al database rispettino determinati vincoli, come tipi di dato corretti e la presenza di campi obbligatori.
+
+Inoltre, Sequelize gestisce anche gli errori generati durante le operazioni con il database, come violazioni di vincoli di unicità o errori di connessione. Il backend cattura questi errori e li gestisce in modo appropriato, inviando feedback dettagliati al frontend.
+
+\subsection{Sicurezza e Ottimizzazione delle Query}
+
+Per garantire la sicurezza delle operazioni sul database, Sequelize include meccanismi per prevenire attacchi comuni, come l'SQL injection. Le query generate automaticamente da Sequelize sono parametrizzate, il che impedisce l'inserimento di comandi SQL malevoli all'interno delle query.
+
+Inoltre, Sequelize è ottimizzato per generare query SQL efficienti, minimizzando l'impatto sulle prestazioni del sistema anche quando si gestiscono grandi quantità di dati. Per query più complesse o personalizzate, è comunque possibile eseguire query SQL raw (non processate) per ottenere maggiore controllo e precisione.
+
+\subsection{Esempio di Flusso di Comunicazione}
+
+\begin{enumerate}
+  \item \textbf{Richiesta di Creazione Dati}: Quando un utente registra una nuova timbratura, il backend crea un nuovo record nel database utilizzando una query di inserimento generata da Sequelize.
+
+  \item \textbf{Richiesta di Lettura Dati}: Il backend effettua una query di selezione per ottenere tutte le timbrature associate a un dipendente. Sequelize converte la richiesta del backend in una query SQL SELECT ed esegue la query sul database MySQL.
+
+  \item \textbf{Risposta dal Database}: I dati vengono restituiti dal database sotto forma di oggetti JavaScript, che il backend invia al frontend.
+\end{enumerate}
+
+Questo flusso garantisce che il backend possa interagire in modo efficiente con il database per memorizzare e recuperare informazioni, mantenendo il sistema sicuro e performante.
+
+
 \chapter{Implementazione}
 \chapter{Test}
 \chapter{Risultati}
