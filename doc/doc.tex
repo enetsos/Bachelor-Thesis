@@ -449,8 +449,218 @@ Inoltre, Sequelize è ottimizzato per generare query SQL efficienti, minimizzand
 
 Questo flusso garantisce che il backend possa interagire in modo efficiente con il database per memorizzare e recuperare informazioni, mantenendo il sistema sicuro e performante.
 
-
 \chapter{Implementazione}
+
+In questo capitolo viene descritto in modo dettagliato l’implementazione dei vari componenti
+presenti all’interno del progetto con le relative motivazioni sulle scelte intraprese.
+
+\section{Backend}
+\subsection{Database}
+Il database è organizzato secondo il paradigma relazionale e utilizza il sistema di gestione MySQL. Le entità principali sono rappresentate da tabelle che modellano utenti, tracciamenti temporali, forniture e feedback. La struttura delle tabelle e le relazioni tra di esse vengono gestite tramite Sequelize, un ORM (Object-Relational Mapping) che mappa le entità del database con modelli in JavaScript.
+
+\subsubsection{Tabelle e Modelli}
+\begin{itemize}
+  \item \textbf{User (Utenti)}: La tabella \texttt{users} rappresenta gli utenti del sistema, con campi come \texttt{id}, \texttt{name}, \texttt{email}, \texttt{pw} (password) e \texttt{role} (ruolo). I ruoli possono essere \texttt{admin}, \texttt{supervisor}, \texttt{employee} o \texttt{client}.
+  \item \textbf{TimeTracking (Tracciamenti Temporali)}: La tabella \texttt{timetracking} rappresenta i tracciamenti temporali delle attività. Ogni record contiene i campi \texttt{id}, \texttt{employeeId}, \texttt{clientId}, \texttt{startTime}, \texttt{endTime}, \texttt{status} (stato dell'attività), e le coordinate di latitudine e longitudine di inizio e fine dell'attività.
+  \item \textbf{Supply (Forniture)}: La tabella \texttt{supply} contiene le informazioni sulle forniture utilizzate durante un'attività. I campi principali includono \texttt{id}, \texttt{name}, e le date di creazione e aggiornamento.
+  \item \textbf{Feedback}: La tabella \texttt{feedback} rappresenta i feedback forniti dai clienti. Include i campi \texttt{id}, \texttt{clientId}, e \texttt{notes}.
+  \item \textbf{TimeTrackingSupply (Relazione tra Tracciamenti e Forniture)}: La tabella \texttt{timetracking\_supply} stabilisce una relazione molti-a-molti tra \texttt{TimeTracking} e \texttt{Supply}, collegando le forniture alle singole attività di tracciamento.
+\end{itemize}
+
+\subsubsection{Relazioni tra le Entità}
+Le relazioni tra le tabelle sono implementate utilizzando le associazioni di Sequelize:
+\begin{itemize}
+  \item \texttt{User} ha una relazione uno-a-molti con \texttt{TimeTracking} sia come dipendente (\texttt{employee}) che come cliente (\texttt{client}).
+  \item \texttt{TimeTracking} ha una relazione molti-a-molti con \texttt{Supply} attraverso la tabella di collegamento \texttt{TimeTrackingSupply}.
+  \item \texttt{Feedback} ha una relazione uno-a-molti con \texttt{User} (come \texttt{client}).
+\end{itemize}
+
+\subsubsection{Gestione delle Date}
+Ogni entità include i campi \texttt{created\_at} e \texttt{updated\_at}, che vengono gestiti automaticamente da Sequelize tramite l'opzione \texttt{timestamps: true}. Questo garantisce che ogni record mantenga una traccia delle date di creazione e aggiornamento.
+
+\subsubsection{Implementazione della Sicurezza}
+La sicurezza dei dati è garantita attraverso la configurazione delle credenziali e la gestione delle connessioni tramite variabili d'ambiente, mantenute in sicurezza utilizzando un manager delle variabili di ambiente (come mostrato nell'implementazione di \texttt{EnvManager}). L'applicazione utilizza inoltre CORS e un middleware di autenticazione tramite Passport per proteggere le API esposte.
+
+\subsection{Collegamento tra Backend e Database}
+Il collegamento tra il backend e il database è realizzato utilizzando \texttt{Sequelize}, un ORM (Object-Relational Mapping) che consente di mappare le entità del database su modelli JavaScript. Il backend è sviluppato in \texttt{Node.js} con l'ausilio della libreria \texttt{Express.js}, la quale fornisce un'infrastruttura per creare e gestire server HTTP.
+
+\subsubsection{Architettura del Repository}
+Il backend implementa un'architettura basata su repository, come mostrato dalla classe astratta \texttt{BaseRepository}. Questa classe definisce metodi generici per eseguire operazioni CRUD (Create, Read, Update, Delete) sul database, quali:
+\begin{itemize}
+  \item \texttt{getAll()}: Recupera tutte le istanze di un modello specifico dal database, consentendo anche di specificare opzioni di ordinamento.
+  \item \texttt{getById()}: Recupera un'istanza specifica identificata dal suo \texttt{id}.
+  \item \texttt{create()}: Crea una nuova istanza di un'entità e la salva nel database.
+  \item \texttt{getByField()}: Cerca entità basate su un campo specifico e il suo valore.
+  \item \texttt{update()}: Aggiorna un'istanza esistente.
+  \item \texttt{delete()}: Elimina un'istanza specifica dal database.
+\end{itemize}
+Il collegamento tra il backend e il database avviene tramite il modello configurato in Sequelize, il quale è passato come parametro alla classe repository. \texttt{Sequelize} traduce le operazioni effettuate sui modelli in query SQL eseguite sul database.
+
+
+\subsubsection{Inizializzazione del Server}
+Il server viene creato utilizzando la funzione \texttt{createServer()}. Vengono applicati diversi middleware, tra cui:
+\begin{itemize}
+  \item \texttt{morgan}: Per il logging delle richieste HTTP.
+  \item \texttt{cors}: Per la gestione delle richieste provenienti da domini esterni.
+  \item \texttt{cookieParser}: Per il parsing dei cookie.
+  \item \texttt{express.json()} e \texttt{express.urlencoded()}: Per il parsing dei dati del corpo delle richieste.
+  \item \texttt{initializePassport()}: Per la gestione dell'autenticazione tramite Passport.js.
+\end{itemize}
+Dopo l'inizializzazione del server, viene esposta una rotta di health check (\texttt{/healthz}), la quale restituisce un semplice messaggio per confermare lo stato di salute del server e l'ambiente in cui sta girando (produzione o sviluppo).
+
+\subsection{Percorsi API}
+
+Il backend espone una serie di percorsi API attraverso il router definito nel file \texttt{routes}. Questo router gestisce le diverse rotte HTTP come \texttt{GET}, \texttt{POST}, \texttt{PUT} e \texttt{DELETE}, ciascuna delle quali è associata a una specifica funzione di controller. I controller sono responsabili dell'esecuzione delle operazioni richieste, come la lettura o la modifica dei dati nel database, attraverso l'utilizzo dei metodi definiti nei repository.
+
+Le API sono progettate seguendo i principi REST, garantendo una struttura chiara e intuitiva. Ogni percorso è pensato per consentire al frontend di interagire in modo efficiente con il sistema, fornendo funzionalità come la gestione degli utenti, la registrazione delle timbrature e la creazione di segnalazioni. Questa architettura favorisce una comunicazione fluida tra frontend e backend, assicurando che le operazioni siano semplici da eseguire e coerenti con le best practice di sviluppo.
+
+I percorsi API sviluppati nel backend sono i seguenti:
+
+\begin{table}[h!]
+  \resizebox{\textwidth}{!}{
+    \begin{tabular}{|l|l|l|}
+      \hline
+      \textbf{HTTP Method} & \textbf{Route}                                              & \textbf{Descrizione}                                          \\ \hline
+      POST                 & /auth/login                                                 & Gestice il login dell'utente.                                 \\ \hline
+      POST                 & /auth/logout                                                & Gestisce il logout dell'utente.                               \\ \hline
+      GET                  & /auth/user-info                                             & Permette di ricavare le informazioni dell'utente autenticato. \\ \hline
+      GET                  & /users/                                                     & Ritorna la lista di utenti.                                   \\ \hline
+      POST                 & /users/                                                     & Crea un nuovo utente.                                         \\ \hline
+      GET                  & /users/role/:role                                           & Ritorna la lista di utenti in base al ruolo.                  \\ \hline
+      GET                  & /users/:id                                                  & Ritorna un utente in base al suo ID univoco.                  \\ \hline
+      PUT                  & /users/:id                                                  & Modifica un utente in base al suo ID univoco.                 \\ \hline
+      DELETE               & /users/:id                                                  & Elimina un utente in base al suo ID univoco.                  \\ \hline
+      GET                  & /time-tracking/get-all-time                                 & Ritorna la lista di timbrature.                               \\ \hline
+      POST                 & /time-tracking/new-time                                     & Crea una nuova timbratura.                                    \\ \hline
+      PUT                  & /time-tracking/stop-time/::id                               & Ferma una timbratura in base al suo ID univoco.               \\ \hline
+      GET                  & /time-tracking/get-time/:id                                 & Ritorna una timbratura in base al suo ID univoco.             \\ \hline
+      GET                  & /time-tracking/get-client-time/:clientId                    & Ritorna la lista di timbrature di un cliente.                 \\ \hline
+      GET                  & /time-tracking/get-employee-time/:employeeId                & Ritorna la lista di timbrature di un lavoratore.              \\ \hline
+      GET                  & /supply/get-all-supply                                      & Ritorna la lista di forniture.                                \\ \hline
+      POST                 & /supply/new-supply                                          & Crea una nuova fornitura.                                     \\ \hline
+      POST                 & /time-tracking-supply/timetracking/:timeTrackingId/supplies & Aggiunge le forniture ad una timbratura.                      \\ \hline
+      GET                  & /time-tracking-supply/timetracking/:timeTrackingId/supplies & Ritorna la lista di forniture di una timbratura.              \\ \hline
+      GET                  & /time-tracking-supply/supply/:supplyId/timetrackings        & Ritorna la lista di timbrature di una fornitura.              \\ \hline
+      POST                 & /feedback/new-feedback                                      & Crea un nuovo feedback.                                       \\ \hline
+      GET                  & /feedback/get-all-feedback                                  & Ritorna la lista di feedback.                                 \\ \hline
+      GET                  & /feedback/get-by-client-id/:clientId                        & Ritorna la lista di feedback in base all'ID del cliente.      \\ \hline
+    \end{tabular}
+  }
+  \caption{API Routes}
+  \label{tab:api_routes}
+\end{table}
+
+\subsection{Autenticazione}
+\subsubsection{Login}
+
+Il processo di \textit{login} nel backend si basa sull'autenticazione tramite token JWT (\textit{JSON Web Token}). Quando un utente invia una richiesta di login tramite il percorso \texttt{/login}, il sistema esegue i seguenti passaggi:
+
+\begin{enumerate}
+  \item \textbf{Verifica delle Credenziali}: Il controller \texttt{login} riceve le credenziali dell'utente (email e password) e utilizza il \texttt{UserRepository} per cercare l'utente nel database in base all'email.
+  \item \textbf{Confronto della Password}: Una volta trovato l'utente, la password fornita viene confrontata con quella memorizzata nel database utilizzando la funzione \texttt{bcrypt.compare}, che consente di verificare se la password è corretta.
+  \item \textbf{Generazione del Token JWT}: Se la password è valida, viene generato un token JWT utilizzando la funzione \texttt{generateToken}, che include nel payload l'ID dell'utente, l'email e il ruolo. Questo token viene poi inviato come cookie al client.
+  \item \textbf{Impostazione del Cookie}: Il token JWT viene inviato nel cookie della risposta con attributi di sicurezza appropriati (come \texttt{httpOnly}, \texttt{secure} e \texttt{sameSite}), garantendo che il token sia gestito in modo sicuro.
+\end{enumerate}
+
+Il client riceve il cookie con il token JWT e lo utilizza per autenticarsi nelle successive richieste al server.
+
+\subsubsection{Logout}
+
+Il processo di \textit{logout} viene gestito tramite il percorso \texttt{/logout}. Quando un utente invia una richiesta di logout, il sistema esegue i seguenti passaggi:
+
+\begin{enumerate}
+  \item \textbf{Cancellazione del Cookie JWT}: Il controller \texttt{logout} imposta il cookie contenente il token JWT con una data di scadenza nel passato, effettivamente eliminando il token dal client.
+  \item \textbf{Risposta al Client}: Dopo aver cancellato il token, il server risponde con un messaggio di successo, confermando che l'utente è stato disconnesso correttamente.
+\end{enumerate}
+
+Il logout invalida quindi il token sul lato client, impedendo ulteriori accessi senza un nuovo login.
+
+\subsection{Operazioni CRUD}
+
+Per la gestione delle entità presenti del database sono state fondamentali le operazioni CRUD (Create, Read, Update, Delete) di base. Queste operazioni rappresentano le fondamenta della gestione dei dati e sono essenziali per la manipolazione e la gestione delle entità nel database. Ogni operazione è progettata per eseguire le azioni fondamentali richieste per la gestione delle risorse e garantire un'interazione efficiente e sicura con il database.
+
+\subsubsection{Creazione di un'Entità}
+
+Il processo di creazione di una nuova entità nel backend è strutturato in modo da garantire la validazione dei dati in ingresso e l'interazione sicura con il database. L'entità può rappresentare, ad esempio, un utente, una risorsa, una fornitura o una qualsiasi altra entità del sistema.
+
+\begin{enumerate}
+  \item \textbf{Validazione dei Dati}: Prima che l'entità venga creata, i dati forniti dal client vengono convalidati tramite un middleware di validazione che utilizza lo schema definito da \texttt{Joi}. Ad esempio, per la creazione di un utente, il middleware \texttt{validateRequest} assicura che tutti i campi richiesti siano presenti e validi secondo le regole stabilite nello schema \texttt{createUserSchema}.
+  \item \textbf{Autenticazione e Autorizzazione}: Solo gli utenti con specifici ruoli (come \texttt{admin}) possono accedere al percorso di creazione di un'entità. Questo viene gestito tramite il middleware \texttt{verifyToken}, che verifica il token JWT e controlla i privilegi dell'utente.
+  \item \textbf{Interazione con il Repository}: Se la validazione e l'autenticazione hanno successo, il controller delega la creazione dell'entità al repository corrispondente. Il repository si occupa di inserire i dati nel database. Ad esempio, il metodo \texttt{create} nel \texttt{UserRepository} memorizza l'utente nel database, criptando la password prima dell'inserimento.
+  \item \textbf{Risposta al Client}: Una volta creata l'entità, viene restituito al client un oggetto JSON rappresentante l'entità creata, con un codice di stato 201 (\textit{Created}).
+\end{enumerate}
+
+\subsubsection{Recupero della Lista delle Entità}
+
+Il recupero di un elenco di entità dal database segue una struttura simile, con alcuni passaggi aggiuntivi per garantire flessibilità e sicurezza nella gestione dei dati.
+
+\begin{enumerate}
+  \item \textbf{Autenticazione e Autorizzazione}: Gli utenti devono essere autenticati e autorizzati a recuperare l'elenco di entità. Questo è gestito ancora una volta dal middleware \texttt{verifyToken}, che verifica che l'utente possieda i ruoli necessari per accedere alla risorsa.
+  \item \textbf{Interazione con il Repository}: Il controller richiama il metodo \texttt{getAll} del repository corrispondente, che recupera l'elenco delle entità dal database. È possibile passare parametri come \texttt{sort\_by} per ordinare i risultati in base a determinati campi.
+  \item \textbf{Risposta al Client}: L'elenco delle entità viene trasformato in una risorsa e inviato al client in formato JSON con un codice di stato 200 (\textit{OK}).
+\end{enumerate}
+
+\subsubsection{Aggiornamento di un'Entità (PUT)}
+
+L'aggiornamento di un'entità esistente richiede la verifica dei dati forniti e dei privilegi dell'utente, in modo simile alla creazione.
+
+\begin{enumerate}
+  \item \textbf{Validazione dei Dati}: I dati forniti per l'aggiornamento vengono convalidati utilizzando uno schema di validazione, assicurando che i campi aggiornati rispettino le regole previste.
+  \item \textbf{Autenticazione e Autorizzazione}: Solo gli utenti con i privilegi appropriati (ad esempio, un amministratore) possono aggiornare l'entità.
+  \item \textbf{Interazione con il Repository}: Il controller utilizza il metodo \texttt{update} del repository per aggiornare l'entità nel database. Viene passato l'ID dell'entità da aggiornare e i nuovi dati.
+  \item \textbf{Risposta al Client}: Dopo l'aggiornamento, il sistema restituisce al client l'entità aggiornata sotto forma di JSON con un codice di stato 200 (\textit{OK}).
+\end{enumerate}
+
+\subsubsection{Cancellazione di un'Entità (DELETE)}
+
+Il processo di cancellazione di un'entità richiede la conferma dell'autenticazione e della validità dell'ID fornito.
+
+\begin{enumerate}
+  \item \textbf{Autenticazione e Autorizzazione}: Solo gli utenti con privilegi adeguati possono eliminare un'entità. Viene utilizzato il middleware \texttt{verifyToken} per garantire che l'utente abbia il ruolo necessario.
+  \item \textbf{Interazione con il Repository}: Il controller chiama il metodo \texttt{delete} del repository corrispondente, fornendo l'ID dell'entità da eliminare.
+  \item \textbf{Risposta al Client}: Dopo l'eliminazione, il server invia una risposta con un codice di stato 204 (\textit{No Content}), confermando che l'entità è stata rimossa con successo.
+\end{enumerate}
+
+\subsection{Operazioni CRUD Personalizzate e Adattate}
+
+In questa sezione, esamineremo le operazioni CRUD (Create, Read, Update, Delete) personalizzate implementate nella classe \texttt{TimeTrackingRepository}. Queste operazioni sono state adattate per soddisfare requisiti specifici del sistema, introducendo logiche avanzate e controlli aggiuntivi per migliorare la gestione delle timbrature.
+
+\subsubsection{Creazione di una Timbratura}
+
+La creazione di una nuova timbratura (\textit{TimeTracking}) include alcuni passaggi aggiuntivi rispetto alla semplice inserzione di dati:
+
+\begin{enumerate}
+  \item \textbf{Verifica di Timbratura Attiva}: Prima di creare una nuova timbratura, il sistema controlla se esiste già una timbratura attiva per lo stesso dipendente. Se una timbratura attiva viene trovata, viene aggiornata per concludere l'evento corrente, impostando un \textit{endTime} e modificando lo stato a \textit{concluded}.
+  \item \textbf{Verifica della Posizione}: Si verifica che la posizione di partenza della nuova timbratura sia entro 500 metri dalla posizione del cliente associato. Se la distanza supera questo limite, viene generato un errore.
+  \item \textbf{Creazione della Nuova Timbratura}: Se tutte le verifiche passano, viene creata una nuova timbratura con lo stato impostato su \textit{active} e la data di inizio impostata al momento corrente.
+\end{enumerate}
+
+Questa logica assicura che ogni dipendente non possa avviare più timbrature contemporaneamente e che la posizione di inizio sia valida e vicina al cliente.
+
+\subsubsection{Funzione di Calcolo della Distanza}
+
+La funzione \texttt{calculateDistance} calcola la distanza tra due punti geografici utilizzando la formula dell'Haversine. Questa formula è utile per determinare la distanza tra due coordinate GPS (latitudine e longitudine) sulla superficie terrestre.
+
+\begin{itemize}
+  \item \textbf{Formula dell'Haversine}: La formula calcola la distanza tra due punti sulla superficie di una sfera usando la latitudine e la longitudine. La distanza risultante è espressa in metri.
+  \item \textbf{Calcolo}: La funzione converte le latitudini e longitudini in radianti e applica la formula dell'Haversine per ottenere la distanza. Questa distanza viene quindi utilizzata per verificare la vicinanza tra la posizione di partenza e la posizione del cliente.
+\end{itemize}
+
+La funzione è essenziale per assicurare che le timbrature siano avviate all'interno di una distanza accettabile dal cliente, contribuendo così a garantire la precisione e l'affidabilità delle informazioni di timbratura.
+
+\subsubsection{Recupero di Timbrature per Cliente e Dipendente}
+
+Per il recupero delle timbrature, sono stati implementati metodi specializzati:
+
+\begin{enumerate}
+  \item \textbf{Recupero per ID Cliente}: Il metodo \texttt{findByClientId} recupera tutte le timbrature associate a un determinato cliente, includendo informazioni dettagliate sui dipendenti e sulle forniture collegate.
+  \item \textbf{Recupero per ID Dipendente}: Il metodo \texttt{findByEmployeeId} recupera tutte le timbrature per un dipendente specifico, anch'esso includendo dettagli sui clienti e sulle forniture.
+\end{enumerate}
+
+Questi metodi forniscono una vista completa delle timbrature, inclusi i dettagli sui partecipanti e le risorse associate.
+
+\section{Frontend}
+
 \chapter{Test}
 \chapter{Risultati}
 \chapter{Conclusioni}
