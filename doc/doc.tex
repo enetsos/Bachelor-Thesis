@@ -451,9 +451,7 @@ Questo flusso garantisce che il backend possa interagire in modo efficiente con 
 
 \chapter{Implementazione}
 
-In questo capitolo viene descritto in modo dettagliato l’implementazione dei vari componenti
-presenti all’interno del progetto con le relative motivazioni sulle scelte intraprese.
-
+Questo capitolo descrive in dettaglio il processo di implementazione dei vari componenti del progetto, fornendo una panoramica completa delle scelte progettuali e delle tecnologie utilizzate. Vengono analizzate sia la parte backend che quella frontend dell'applicazione, spiegando come ciascun componente è stato sviluppato per rispondere alle specifiche esigenze funzionali del sistema.
 \section{Backend}
 \subsection{Database}
 Il database è organizzato secondo il paradigma relazionale e utilizza il sistema di gestione MySQL. Le entità principali sono rappresentate da tabelle che modellano utenti, tracciamenti temporali, forniture e feedback. La struttura delle tabelle e le relazioni tra di esse vengono gestite tramite Sequelize, un ORM (Object-Relational Mapping) che mappa le entità del database con modelli in JavaScript.
@@ -660,6 +658,41 @@ Per il recupero delle timbrature, sono stati implementati metodi specializzati:
 Questi metodi forniscono una vista completa delle timbrature, inclusi i dettagli sui partecipanti e le risorse associate.
 
 \section{Frontend}
+
+\subsection{Progressive Web App (PWA)}
+Il frontend è stato progettato come una Progressive Web App (PWA), il che significa che l'applicazione offre un'esperienza utente simile a quella di un'applicazione nativa. Tra le caratteristiche principali di una PWA, ci sono la possibilità di funzionare offline grazie alla memorizzazione nella cache dei contenuti, la possibilità di essere installata direttamente sulla schermata home dei dispositivi mobili, e una performance ottimizzata.
+
+\subsubsection{Service Worker}
+Il service worker è un componente chiave che consente la funzionalità offline e migliora le performance della PWA. Viene registrato al momento del primo caricamento dell'applicazione e gestisce la cache dei file statici, garantendo che l'applicazione possa essere caricata rapidamente anche in condizioni di rete lenta. Inoltre, il service worker è responsabile dell'aggiornamento automatico dei contenuti memorizzati nella cache, garantendo che gli utenti abbiano sempre accesso alla versione più recente dell'applicazione.
+
+
+\subsection{Gestione delle Chiamate API}
+La cartella \texttt{services/} è il punto centrale per la gestione delle comunicazioni con il backend. Qui vengono definiti i metodi che inviano richieste HTTP al server, utilizzando tecniche asincrone per garantire che l'interfaccia utente rimanga reattiva durante il caricamento dei dati. Le chiamate API sono organizzate per funzionalità, con moduli separati per l'autenticazione, la gestione degli utenti, il tracciamento temporale, e altre funzionalità critiche.
+
+\subsection{Gestione dello Stato Globale}
+La cartella \texttt{context/} ospita i provider di contesto che gestiscono lo stato globale dell'applicazione. Ogni contesto è dedicato a una specifica parte dello stato, come l'autenticazione o la gestione degli utenti, e fornisce metodi per modificare lo stato e distribuirlo ai componenti che ne hanno bisogno. Questo approccio centralizzato semplifica la gestione dello stato in applicazioni di medie e grandi dimensioni, riducendo la necessità di passare dati attraverso gerarchie complesse di componenti.
+
+\subsection{Gestione delle Interfacce}
+Le interfacce utente del frontend sono gestite attraverso i file contenuti nelle cartelle \texttt{pages/} e \texttt{components/}. Queste cartelle contengono i componenti React che, in collaborazione con i context definiti nella cartella \texttt{context/}, rendono l'interfaccia utente reattiva e dinamica.
+
+\subsubsection{Cartella \texttt{pages/}}
+La cartella \texttt{pages/} contiene i componenti di alto livello che rappresentano le diverse pagine dell'applicazione. Ogni componente di pagina funge da contenitore per vari componenti più piccoli e specifici, orchestrando la disposizione e il flusso delle informazioni visualizzate.
+
+\begin{itemize}
+  \item \textbf{Integrazione con i Context}: I componenti delle pagine utilizzano i context per accedere ai dati globali dell'applicazione, come le informazioni sull'utente autenticato o l'elenco degli elementi recuperati dal backend. Questo consente alle pagine di aggiornarsi automaticamente in risposta ai cambiamenti di stato globali, senza la necessità di passare dati attraverso la gerarchia dei componenti.
+\end{itemize}
+
+\subsubsection{Cartella \texttt{components/}}
+La cartella \texttt{components/} contiene i componenti riutilizzabili dell'interfaccia utente, come pulsanti, modali, form e tabelle. Questi componenti sono progettati per essere modulari e composabili, consentendo di costruire interfacce utente complesse in modo efficiente.
+
+\begin{itemize}
+  \item \textbf{Utilizzo dei Context nei Componenti}: I componenti individuali accedono ai context per leggere e aggiornare lo stato globale. Ad esempio, un componente di form può utilizzare un context per inviare dati al backend e aggiornare lo stato dell'applicazione in base alla risposta ricevuta. Questo approccio rende l'interfaccia utente dinamica e sincronizzata con il backend.
+  \item \textbf{Aggiornamento della UI}: Quando un componente interagisce con il backend tramite un context, come nel caso di una chiamata API per aggiornare un record, il context gestisce la risposta e aggiorna lo stato globale. I componenti che dipendono da questo stato si aggiornano automaticamente, garantendo che l'interfaccia utente rifletta sempre lo stato corrente dell'applicazione.
+\end{itemize}
+
+\subsubsection{Collaborazione tra \texttt{pages/} e \texttt{components/}}
+I componenti nelle cartelle \texttt{pages/} e \texttt{components/} lavorano insieme per costruire l'interfaccia utente completa dell'applicazione. Le pagine fungono da orchestratori, assemblando i vari componenti e utilizzando i context per gestire lo stato e la logica applicativa. Questo consente di mantenere il codice organizzato e modulare, facilitando la manutenzione e l'espansione futura dell'applicazione.
+
 
 \chapter{Test}
 \chapter{Risultati}
