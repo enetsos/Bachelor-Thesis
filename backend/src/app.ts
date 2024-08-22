@@ -2,6 +2,8 @@ import EnvManager from "./EnvManager";
 import { createServer } from "./server";
 import sequelize from "./db/connection";
 import dotenv from "dotenv";
+import 'reflect-metadata';
+
 
 dotenv.config();
 
