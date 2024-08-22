@@ -6,7 +6,8 @@
     "build": "tsc",
     "start": "node ./dist/app.js",
     "clean": "rm -rf dist",
-    "dev": "dotenv -- nodemon --exec \"node -r esbuild-register ./src/app.ts\" -e .ts"
+    "dev": "dotenv -- nodemon --exec \"node -r esbuild-register ./src/app.ts\" -e .ts",
+    "test": "jest"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -35,9 +36,14 @@
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.14.2",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
     "sequelize-cli": "^6.6.2",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.4",
     "typescript": "^5.4.5"
   }
 }

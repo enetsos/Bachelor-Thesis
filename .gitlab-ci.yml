@@ -1,5 +1,6 @@
 stages:
   - install
+  - test
   - build
 
 variables:
@@ -29,6 +30,15 @@ install_frontend_dependencies:
     paths:
       - frontend/node_modules/
 
+test_backend:
+  stage: test
+  image: node:14
+  script:
+    - cd backend
+    - npm test
+  dependencies:
+    - install_backend_dependencies
+
 build_frontend:
   stage: build
   image: node:14
@@ -38,3 +48,5 @@ build_frontend:
   artifacts:
     paths:
       - frontend/build/
+  dependencies:
+    - install_frontend_dependencies
