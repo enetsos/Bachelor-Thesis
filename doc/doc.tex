@@ -508,40 +508,38 @@ Dopo l'inizializzazione del server, viene esposta una rotta di health check (\te
 
 \subsection{Percorsi API}
 
-Il backend espone una serie di percorsi API attraverso il router definito nel file \texttt{routes}. Questo router gestisce le diverse rotte HTTP come \texttt{GET}, \texttt{POST}, \texttt{PUT} e \texttt{DELETE}, ciascuna delle quali è associata a una specifica funzione di controller. I controller sono responsabili dell'esecuzione delle operazioni richieste, come la lettura o la modifica dei dati nel database, attraverso l'utilizzo dei metodi definiti nei repository.
+Il backend espone una serie di percorsi API (Tabella \ref{tab:api_routes}) attraverso il router definito nel file \texttt{routes}. Questo router gestisce le diverse rotte HTTP come \texttt{GET}, \texttt{POST}, \texttt{PUT} e \texttt{DELETE}, ciascuna delle quali è associata a una specifica funzione di controller. I controller sono responsabili dell'esecuzione delle operazioni richieste, come la lettura o la modifica dei dati nel database, attraverso l'utilizzo dei metodi definiti nei repository.
 
 Le API sono progettate seguendo i principi REST, garantendo una struttura chiara e intuitiva. Ogni percorso è pensato per consentire al frontend di interagire in modo efficiente con il sistema, fornendo funzionalità come la gestione degli utenti, la registrazione delle timbrature e la creazione di segnalazioni. Questa architettura favorisce una comunicazione fluida tra frontend e backend, assicurando che le operazioni siano semplici da eseguire e coerenti con le best practice di sviluppo.
 
-I percorsi API sviluppati nel backend sono i seguenti:
 
 \begin{table}[h!]
   \resizebox{\textwidth}{!}{
     \begin{tabular}{|l|l|l|}
       \hline
-      \textbf{HTTP Method} & \textbf{Route}                                              & \textbf{Descrizione}                                          \\ \hline
-      POST                 & /auth/login                                                 & Gestice il login dell'utente.                                 \\ \hline
-      POST                 & /auth/logout                                                & Gestisce il logout dell'utente.                               \\ \hline
-      GET                  & /auth/user-info                                             & Permette di ricavare le informazioni dell'utente autenticato. \\ \hline
-      GET                  & /users/                                                     & Ritorna la lista di utenti.                                   \\ \hline
-      POST                 & /users/                                                     & Crea un nuovo utente.                                         \\ \hline
-      GET                  & /users/role/:role                                           & Ritorna la lista di utenti in base al ruolo.                  \\ \hline
-      GET                  & /users/:id                                                  & Ritorna un utente in base al suo ID univoco.                  \\ \hline
-      PUT                  & /users/:id                                                  & Modifica un utente in base al suo ID univoco.                 \\ \hline
-      DELETE               & /users/:id                                                  & Elimina un utente in base al suo ID univoco.                  \\ \hline
-      GET                  & /time-tracking/get-all-time                                 & Ritorna la lista di timbrature.                               \\ \hline
-      POST                 & /time-tracking/new-time                                     & Crea una nuova timbratura.                                    \\ \hline
-      PUT                  & /time-tracking/stop-time/::id                               & Ferma una timbratura in base al suo ID univoco.               \\ \hline
-      GET                  & /time-tracking/get-time/:id                                 & Ritorna una timbratura in base al suo ID univoco.             \\ \hline
-      GET                  & /time-tracking/get-client-time/:clientId                    & Ritorna la lista di timbrature di un cliente.                 \\ \hline
-      GET                  & /time-tracking/get-employee-time/:employeeId                & Ritorna la lista di timbrature di un lavoratore.              \\ \hline
-      GET                  & /supply/get-all-supply                                      & Ritorna la lista di forniture.                                \\ \hline
-      POST                 & /supply/new-supply                                          & Crea una nuova fornitura.                                     \\ \hline
-      POST                 & /time-tracking-supply/timetracking/:timeTrackingId/supplies & Aggiunge le forniture ad una timbratura.                      \\ \hline
-      GET                  & /time-tracking-supply/timetracking/:timeTrackingId/supplies & Ritorna la lista di forniture di una timbratura.              \\ \hline
-      GET                  & /time-tracking-supply/supply/:supplyId/timetrackings        & Ritorna la lista di timbrature di una fornitura.              \\ \hline
-      POST                 & /feedback/new-feedback                                      & Crea un nuovo feedback.                                       \\ \hline
-      GET                  & /feedback/get-all-feedback                                  & Ritorna la lista di feedback.                                 \\ \hline
-      GET                  & /feedback/get-by-client-id/:clientId                        & Ritorna la lista di feedback in base all'ID del cliente.      \\ \hline
+      \textbf{HTTP Method} & \textbf{Route}                                              & \textbf{Descrizione}                                     \\ \hline
+      POST                 & /auth/login                                                 & Gestice il login dell'utente.                            \\ \hline
+      POST                 & /auth/logout                                                & Gestisce il logout dell'utente.                          \\ \hline
+      GET                  & /users/                                                     & Ritorna la lista di utenti.                              \\ \hline
+      POST                 & /users/                                                     & Crea un nuovo utente.                                    \\ \hline
+      GET                  & /users/role/:role                                           & Ritorna la lista di utenti in base al ruolo.             \\ \hline
+      GET                  & /users/:id                                                  & Ritorna un utente in base al suo ID univoco.             \\ \hline
+      PUT                  & /users/:id                                                  & Modifica un utente in base al suo ID univoco.            \\ \hline
+      DELETE               & /users/:id                                                  & Elimina un utente in base al suo ID univoco.             \\ \hline
+      GET                  & /time-tracking/get-all-time                                 & Ritorna la lista di timbrature.                          \\ \hline
+      POST                 & /time-tracking/new-time                                     & Crea una nuova timbratura.                               \\ \hline
+      PUT                  & /time-tracking/stop-time/::id                               & Ferma una timbratura in base al suo ID univoco.          \\ \hline
+      GET                  & /time-tracking/get-time/:id                                 & Ritorna una timbratura in base al suo ID univoco.        \\ \hline
+      GET                  & /time-tracking/get-client-time/:clientId                    & Ritorna la lista di timbrature di un cliente.            \\ \hline
+      GET                  & /time-tracking/get-employee-time/:employeeId                & Ritorna la lista di timbrature di un lavoratore.         \\ \hline
+      GET                  & /supply/get-all-supply                                      & Ritorna la lista di forniture.                           \\ \hline
+      POST                 & /supply/new-supply                                          & Crea una nuova fornitura.                                \\ \hline
+      POST                 & /time-tracking-supply/timetracking/:timeTrackingId/supplies & Aggiunge le forniture ad una timbratura.                 \\ \hline
+      GET                  & /time-tracking-supply/timetracking/:timeTrackingId/supplies & Ritorna la lista di forniture di una timbratura.         \\ \hline
+      GET                  & /time-tracking-supply/supply/:supplyId/timetrackings        & Ritorna la lista di timbrature di una fornitura.         \\ \hline
+      POST                 & /feedback/new-feedback                                      & Crea un nuovo feedback.                                  \\ \hline
+      GET                  & /feedback/get-all-feedback                                  & Ritorna la lista di feedback.                            \\ \hline
+      GET                  & /feedback/get-by-client-id/:clientId                        & Ritorna la lista di feedback in base all'ID del cliente. \\ \hline
     \end{tabular}
   }
   \caption{API Routes}
@@ -693,6 +691,80 @@ La cartella \texttt{components/} contiene i componenti riutilizzabili dell'inter
 \subsubsection{Collaborazione tra \texttt{pages/} e \texttt{components/}}
 I componenti nelle cartelle \texttt{pages/} e \texttt{components/} lavorano insieme per costruire l'interfaccia utente completa dell'applicazione. Le pagine fungono da orchestratori, assemblando i vari componenti e utilizzando i context per gestire lo stato e la logica applicativa. Questo consente di mantenere il codice organizzato e modulare, facilitando la manutenzione e l'espansione futura dell'applicazione.
 
+\chapter{Deployment}
+
+In questo capitolo viene descritto il processo di deployment dell'applicazione su un server della SUPSI. L'applicazione è stata configurata per essere accessibile pubblicamente tramite il dominio \texttt{https://progect.supsi.ch} e utilizza Nginx come server web per servire il frontend e gestire le richieste API verso il backend.
+
+\section{Accesso al Server SUPSI tramite VPN}
+
+Per configurare o gestire il server su cui è deployata l'applicazione, è necessario accedere al server tramite SSH. Questo accesso è limitato agli utenti che si trovano all'interno della rete SUPSI o che utilizzano la VPN della SUPSI. Di seguito le informazioni per l'accesso:
+
+\begin{itemize}
+  \item \textbf{Server SSH}: \texttt{host.progect.supsi.ch}, porta 22.
+  \item \textbf{Credenziali}: L'accesso SSH richiede l'uso dell'username e della password dell'account Microsoft della SUPSI.
+  \item \textbf{VPN}: Per accedere al server al di fuori della rete SUPSI, è necessario utilizzare la VPN della SUPSI.
+\end{itemize}
+
+Questo server è utilizzato per gestire l'infrastruttura dell'applicazione, configurare servizi come Nginx, e monitorare il funzionamento del sistema.
+
+\section{Accesso Pubblico all'Applicazione}
+
+L'applicazione è accessibile pubblicamente tramite il dominio \texttt{https://progect.supsi.ch}. Gli utenti possono accedere all'applicazione direttamente tramite il browser, senza necessità di VPN o accesso alla rete interna della SUPSI. L'accesso esterno è gestito tramite un load balancer della SUPSI, che redirige il traffico HTTPS (porta 443) verso il nostro server Nginx, garantendo che tutte le comunicazioni tra l'utente e il server siano sicure e cifrate.
+
+\section{Configurazione del Server Nginx}
+
+Nginx è stato configurato come server web per gestire sia il frontend dell'applicazione, sia le richieste API che vengono inoltrate al backend.
+
+\subsection{Servizio del Frontend}
+
+Il frontend dell'applicazione è servito da Nginx e configurato per rispondere alle richieste HTTP sulla porta 80. Ecco la configurazione utilizzata:
+
+\begin{verbatim}
+server {
+    listen 80;
+    server_name progect.supsi.ch;
+    root /var/www/progect/frontend/build;
+    index index.html;
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    error_log /var/log/nginx/progect_error.log;
+    access_log /var/log/nginx/progect_access.log;
+}
+\end{verbatim}
+
+Questa configurazione permette di servire il frontend dell'applicazione dalla directory \texttt{/var/www/progect/frontend/build}, con il file \texttt{index.html} come punto di ingresso.
+
+\subsection{Gestione delle Richieste API}
+
+Le richieste API vengono inoltrate al backend tramite un proxy pass su Nginx. Questo permette di mantenere separati il frontend e il backend, mentre Nginx gestisce l'inoltro delle richieste API al backend:
+
+\begin{verbatim}
+location /api/ {
+    proxy_pass http://localhost:3000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+\end{verbatim}
+
+In questo modo, tutte le richieste indirizzate a \texttt{/api/} vengono inoltrate al backend che è in esecuzione sulla porta 3000 del server.
+
+\section{Gestione dei Log}
+
+Nginx è configurato per registrare tutte le richieste e gli errori in appositi file di log, che sono cruciali per monitorare il funzionamento dell'applicazione:
+
+\begin{verbatim}
+error_log /var/log/nginx/progect_error.log;
+access_log /var/log/nginx/progect_access.log;
+\end{verbatim}
+
+Questi log permettono di identificare e risolvere eventuali problemi di configurazione o di runtime.
+
+
 
 \chapter{Test}
 
@@ -710,16 +782,96 @@ Il testing dell'applicativo è stato realizzato utilizzando il framework \textit
   \item \textbf{Jest Mocking}: Utilizzato per simulare le dipendenze esterne e controllare il comportamento delle funzioni testate.
 \end{itemize}
 
+\section{Coverage}
+La copertura dei test è stata analizzata per ciascun file e directory del progetto (Figura \ref{fig:coverage}). La copertura per le diverse sezioni del codice è stata suddivisa per file e directory, permettendo di identificare le aree con copertura più bassa e quelle che necessitano di ulteriori test.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.8]{./images/test-coverage.png}
+  \caption{Copertura dei test suddivisa per file e directory.}
+  \label{fig:coverage}
+\end{figure}
+
+La copertura complessiva del codice è stata misurata in termini di \textit{Statements}, \textit{Branches}, \textit{Functions} e \textit{Lines}. I risultati ottenuti sono i seguenti:
+
+\begin{itemize}
+  \item \textbf{Statements}: 91.43\% (566/619)
+  \item \textbf{Branches}: 70.58\% (36/51)
+  \item \textbf{Functions}: 83.05\% (98/118)
+  \item \textbf{Lines}: 91.16\% (526/577)
+\end{itemize}
+
+Questi risultati indicano che la maggior parte del codice è stata coperta dai test, garantendo un elevato grado di affidabilità e robustezza dell'applicativo.
 
 
 
+
+
+L'analisi della copertura dei test ha evidenziato un'ottima copertura complessiva del codice. Tuttavia, sono state identificate alcune aree con una copertura inferiore, specialmente nei rami condizionali (\textit{Branches}), dove è presente una copertura del 70.58\%. Queste aree rappresentano possibili punti di miglioramento, suggerendo la necessità di aggiungere ulteriori test per coprire scenari non ancora testati.
+
+Nel complesso, la copertura ottenuta fornisce una solida base per garantire la qualità del codice e la stabilità dell'applicativo nel tempo.
+
+\section{Pipeline CI/CD}
+
+Ogni modifica al codice sorgente attiva la pipeline, che esegue una serie di operazioni per garantire che il nuovo codice sia correttamente integrato e che l'applicativo sia sempre in uno stato di rilascio pronto per la produzione.
+
+\subsection{Struttura della Pipeline}
+
+La pipeline è suddivisa in tre stage principali: \textbf{Installazione delle dipendenze}, \textbf{Test} e \textbf{Build del frontend}. Questi stage assicurano che le dipendenze necessarie siano installate correttamente, che il codice sia testato a fondo, e che il frontend venga costruito e sia pronto per la distribuzione.
+
+\subsubsection{Stage 1: Installazione delle Dipendenze}
+
+\begin{itemize}
+  \item \textbf{Installazione delle dipendenze backend}: Viene eseguita all'interno di un container Docker basato sull'immagine \texttt{node:14}. Si naviga nella directory del backend e si installano le dipendenze tramite \texttt{npm install}. Le dipendenze vengono poi salvate come artefatti per gli stage successivi.
+  \item \textbf{Installazione delle dipendenze frontend}: Simile al processo per il backend, viene eseguito \texttt{npm install} nella directory del frontend. Anche queste dipendenze vengono salvate come artefatti per l'uso successivo.
+\end{itemize}
+
+\subsubsection{Stage 2: Test}
+
+Dopo aver installato le dipendenze del backend, la pipeline procede con l'esecuzione dei test. Durante questa fase:
+
+\begin{itemize}
+  \item Viene eseguito il comando \texttt{npm test} nella directory del backend per eseguire tutti i test unitari e di integrazione definiti.
+  \item I test sono essenziali per garantire che le modifiche al codice non introducano regressioni o nuovi bug.
+\end{itemize}
+
+\subsubsection{Stage 3: Build del Frontend}
+
+Una volta che tutte le dipendenze sono state installate e i test superati, la pipeline procede con la fase di build del frontend. Durante questa fase:
+
+\begin{itemize}
+  \item Viene eseguito il comando \texttt{npm run build} nella directory del frontend per creare una versione ottimizzata e pronta per la produzione dell'applicativo frontend.
+  \item I file di build risultanti vengono salvati come artefatti, pronti per essere utilizzati nelle fasi successive, come il deployment.
+\end{itemize}
+
+\subsection{Flusso della Pipeline}
+
+Ogni volta che viene effettuata una modifica al codice sorgente (ad esempio, un commit o una pull request), la pipeline viene attivata automaticamente (Figura \ref{fig:pipeline}).
+
+\begin{figure}[ht]
+  \centering
+  \smartdiagram[flow diagram:horizontal]{
+    Modifica Codice Sorgente,
+    Installazione Dipendenze Backend,
+    Installazione Dipendenze Frontend,
+    Esecuzione Test Backend,
+    Build del Frontend,
+    Artefatti pronti per il Deployment
+  }
+  \caption{Flusso della Pipeline CI/CD.}
+  \label{fig:pipeline}
+\end{figure}
+
+
+
+La pipeline CI/CD automatizza l'intero processo di integrazione, testing e distribuzione del codice, garantendo che ogni modifica sia testata e che il frontend sia sempre pronto per essere distribuito. La struttura modulare della pipeline permette di aggiungere facilmente ulteriori stage, come il deployment, per adattarsi alle necessità del progetto.
 
 
 \chapter{Risultati}
 \chapter{Conclusioni}
 
 
-\cite{1705631}
+\cite{4538384}
 \bibliographystyle{unsrt}
 \bibliography{bibliografia}
 \end{document}
