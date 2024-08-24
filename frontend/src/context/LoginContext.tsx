@@ -49,6 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const logout = async () => {
         await serviceLogout();
         setRole(null);
+        localStorage.removeItem('disclaimerAccepted');
     };
 
     return (

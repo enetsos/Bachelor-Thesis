@@ -12,6 +12,7 @@ const UserForm: React.FC = () => {
     const [clientLAT, setClientLAT] = useState<number | null>(null);
     const [clientLONG, setClientLONG] = useState<number | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);
 
     const onFinish = async (values: Partial<User>) => {
         setLoading(true);
@@ -34,7 +35,7 @@ const UserForm: React.FC = () => {
         setUserRole(value);
     };
 
-    // Function to search location without debounce
+    // Debounced search location function
     const searchLocation = async (query: string) => {
         if (!query) return;
 
@@ -52,6 +53,23 @@ const UserForm: React.FC = () => {
         } catch (error) {
             console.error('Error fetching location:', error);
         }
+    };
+
+    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+
+        // Clear the previous debounce timeout if it exists
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+
+        // Set a new debounce timeout
+        const timeout = setTimeout(() => {
+            searchLocation(query);  // Make the API call after the user has stopped typing
+        }, 500);  // 500ms delay
+
+        setDebounceTimeout(timeout);
     };
 
     return (
@@ -102,10 +120,7 @@ const UserForm: React.FC = () => {
                     >
                         <Input
                             value={searchQuery}
-                            onChange={(e) => {
-                                setSearchQuery(e.target.value);
-                            }}
-                            onBlur={() => searchLocation(searchQuery)} // Call searchLocation on blur
+                            onChange={handleAddressChange}  // Call handleAddressChange on input change
                         />
                     </Form.Item>
 

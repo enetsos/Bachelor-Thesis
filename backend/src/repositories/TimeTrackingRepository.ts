@@ -48,7 +48,7 @@ export default class TimeTrackingRepository extends BaseRepository<TimeTrackingA
             const { clientLAT: clientLat, clientLONG: clientLong } = client;
 
             const distance = calculateDistance(latStartTime, longStartTime, clientLat as number, clientLong as number);
-            if (distance > 500) {
+            if (distance > 200) {
                 const error = new DistanceError('Start position is not within 500 meters of the client\'s location');
                 throw error;
             }
