@@ -11,6 +11,10 @@ jest.mock("../../src/middleware/authMiddleware", () => ({
     req.user = { role: requiredRole }; // Si può mockare req.user come necessario
     next();
   }),
+  authenticateToken: jest.fn((req: Request, res: Response, next: NextFunction) => {
+    req.user = { id: "test-user-id", role: "admin" }; // Mocked user data
+    next();
+  }),
 }));
 
 jest.mock("../../src/repositories/UserRepository");

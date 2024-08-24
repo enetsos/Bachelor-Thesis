@@ -1,12 +1,15 @@
 import supertest from "supertest";
 import { createServer } from "../../src/server";
-import SupplyRepository from "../../src/repositories/SupplyRepository";
 import { Request, Response, NextFunction } from "express";
 
 // Mock the authentication middleware
 jest.mock("../../src/middleware/authMiddleware", () => ({
     verifyToken: jest.fn((requiredRole) => (req: Request, res: Response, next: NextFunction) => {
         req.user = { role: requiredRole };
+        next();
+    }),
+    authenticateToken: jest.fn((req: Request, res: Response, next: NextFunction) => {
+        req.user = { id: "test-user-id", role: "admin" }; // Mocked user data
         next();
     }),
 }));

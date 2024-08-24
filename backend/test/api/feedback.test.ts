@@ -9,6 +9,10 @@ jest.mock("../../src/middleware/authMiddleware", () => ({
         req.user = { role: requiredRole };
         next();
     }),
+    authenticateToken: jest.fn((req: Request, res: Response, next: NextFunction) => {
+        req.user = { id: "test-user-id", role: "admin" }; // Mocked user data
+        next();
+    }),
 }));
 
 // Creazione dei mock per i metodi di FeedbackRepository
