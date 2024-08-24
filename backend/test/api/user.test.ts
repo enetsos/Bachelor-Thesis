@@ -1,11 +1,11 @@
 import supertest from "supertest";
-import { createServer } from "../src/server"; // Assicurati di avere una funzione createServer che avvia l'applicazione Express
-import UserRepository from "../src/repositories/UserRepository";
-import { User } from "./__fixtures__/users"; // Fixture per un esempio di utente
+import { createServer } from "../../src/server"; // Assicurati di avere una funzione createServer che avvia l'applicazione Express
+import UserRepository from "../../src/repositories/UserRepository";
+import { User } from "../__fixtures__/users"; // Fixture per un esempio di utente
 import { ConnectionRefusedError } from "sequelize";
 import { Request, Response, NextFunction } from "express";
 
-jest.mock("../src/middleware/authMiddleware", () => ({
+jest.mock("../../src/middleware/authMiddleware", () => ({
   verifyToken: jest.fn((requiredRole) => (req: Request, res: Response, next: NextFunction) => {
     // Mock per bypassare l'autenticazione e autorizzare ogni ruolo
     req.user = { role: requiredRole }; // Si può mockare req.user come necessario
@@ -13,7 +13,7 @@ jest.mock("../src/middleware/authMiddleware", () => ({
   }),
 }));
 
-jest.mock("../src/repositories/UserRepository");
+jest.mock("../../src/repositories/UserRepository");
 
 const getAll = jest.fn();
 const getById = jest.fn();

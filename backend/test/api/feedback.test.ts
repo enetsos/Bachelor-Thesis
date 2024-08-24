@@ -1,10 +1,10 @@
 import supertest from "supertest";
-import { createServer } from "../src/server";
-import FeedbackRepository from "../src/repositories/FeedbackRepository";
+import { createServer } from "../../src/server";
+import FeedbackRepository from "../../src/repositories/FeedbackRepository";
 import { Request, Response, NextFunction } from "express";
 
 // Mock del middleware di autenticazione
-jest.mock("../src/middleware/authMiddleware", () => ({
+jest.mock("../../src/middleware/authMiddleware", () => ({
     verifyToken: jest.fn((requiredRole) => (req: Request, res: Response, next: NextFunction) => {
         req.user = { role: requiredRole };
         next();
@@ -17,7 +17,7 @@ const getAll = jest.fn();
 const getByClientId = jest.fn();
 
 // Mock della classe FeedbackRepository
-jest.mock("../src/repositories/FeedbackRepository", () => {
+jest.mock("../../src/repositories/FeedbackRepository", () => {
     return jest.fn().mockImplementation(() => {
         return {
             create,
