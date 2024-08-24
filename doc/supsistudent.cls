@@ -9,6 +9,8 @@
 % Autori: Mikol Faro e Sandra Gabaglio <sandra.gabaglio@supsi.ch>
 
 
+
+
 % Package di base
 \LoadClass[11pt]{book}
 \usepackage[italian]{babel}
@@ -47,6 +49,14 @@
 
 % Numero pagine
 \usepackage{lastpage}
+
+
+\usepackage{smartdiagram}
+\usesmartdiagramlibrary{additions}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+
 
 \assignpagestyle{\chapter}{fancy}
 
