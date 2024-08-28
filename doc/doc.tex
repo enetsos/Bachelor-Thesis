@@ -152,9 +152,6 @@ Il problema affrontato nel contesto del progetto riguarda la necessità di svilu
 \end{itemize}
 
 
-\chapter{Stato dell'arte}
-
-
 \chapter{Approccio al problema}
 In questo capitolo, esamineremo in dettaglio l'approccio adottato per sviluppare una Progressive Web App (PWA) dedicata alla gestione e al controllo qualità dei servizi di pulizia e facility management. Illustreremo le scelte effettuate per quanto riguarda la gestione del progetto, i linguaggi di programmazione, i framework selezionati e l'integrazione con i componenti dei dispositivi mobili. Ogni decisione tecnica è stata presa con l'obiettivo di garantire prestazioni elevate, facilità di manutenzione e un'esperienza utente ottimale.
 
@@ -454,7 +451,7 @@ Questo flusso garantisce che il backend possa interagire in modo efficiente con 
 Questo capitolo descrive in dettaglio il processo di implementazione dei vari componenti del progetto, fornendo una panoramica completa delle scelte progettuali e delle tecnologie utilizzate. Vengono analizzate sia la parte backend che quella frontend dell'applicazione, spiegando come ciascun componente è stato sviluppato per rispondere alle specifiche esigenze funzionali del sistema.
 \section{Backend}
 \subsection{Database}
-Il database è organizzato secondo il paradigma relazionale e utilizza il sistema di gestione MySQL. Le entità principali sono rappresentate da tabelle che modellano utenti, tracciamenti temporali, forniture e feedback. La struttura delle tabelle e le relazioni tra di esse vengono gestite tramite Sequelize, un ORM (Object-Relational Mapping) che mappa le entità del database con modelli in JavaScript.
+Il database è organizzato secondo il paradigma relazionale e utilizza il sistema di gestione MySQL. Le entità principali sono rappresentate da tabelle che modellano utenti, tracciamenti temporali, forniture e feedback. La struttura delle tabelle e le relazioni tra di esse vengono gestite tramite Sequelize, un ORM (Object-Relational Mapping) che mappa le entità del database con modelli in JavaScript (Figura \ref{fig:databaseschema}).
 
 \subsubsection{Tabelle e Modelli}
 \begin{itemize}
@@ -472,6 +469,13 @@ Le relazioni tra le tabelle sono implementate utilizzando le associazioni di Seq
   \item \texttt{TimeTracking} ha una relazione molti-a-molti con \texttt{Supply} attraverso la tabella di collegamento \texttt{TimeTrackingSupply}.
   \item \texttt{Feedback} ha una relazione uno-a-molti con \texttt{User} (come \texttt{client}).
 \end{itemize}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.6]{./images/dbschema.png}
+  \caption{Schema del Database.}
+  \label{fig:databaseschema}
+\end{figure}
 
 \subsubsection{Gestione delle Date}
 Ogni entità include i campi \texttt{created\_at} e \texttt{updated\_at}, che vengono gestiti automaticamente da Sequelize tramite l'opzione \texttt{timestamps: true}. Questo garantisce che ogni record mantenga una traccia delle date di creazione e aggiornamento.
@@ -867,8 +871,69 @@ Ogni volta che viene effettuata una modifica al codice sorgente (ad esempio, un 
 La pipeline CI/CD automatizza l'intero processo di integrazione, testing e distribuzione del codice, garantendo che ogni modifica sia testata e che il frontend sia sempre pronto per essere distribuito. La struttura modulare della pipeline permette di aggiungere facilmente ulteriori stage, come il deployment, per adattarsi alle necessità del progetto.
 
 
-\chapter{Risultati}
 \chapter{Conclusioni}
+
+In questo capitolo vengono presentate le conclusioni del progetto. In particolare vengono presentati i risulatati ottenuti, successivamente si evidenziano alcuni errori conosciuti e limitazioni attuali. Infine si esplorano le possibili implementazioni future per migliorare ulteriormente il sistema.
+
+\section{Risultati}
+
+Tutti i requisiti stabiliti durante la fase di progettazione sono stati pienamente soddisfatti, garantendo che il sistema rispondesse alle esigenze del partner di progetto.
+
+\subsection{Registrazione delle Presenze}
+
+La funzionalità di registrazione delle presenze, essenziale per il monitoraggio delle attività dei dipendenti, è stata implementata utilizzando il QR code. I dipendenti possono timbrare il loro arrivo e la loro partenza presso i clienti, e queste informazioni vengono immediatamente registrate nel sistema, garantendo un monitoraggio accurato e in tempo reale.
+
+\subsection{Segnalazioni di Anomalie}
+
+I dipendenti hanno la possibilità di segnalare qualsiasi anomalia riscontrata durante l'esecuzione dei servizi presso i clienti. Questa funzionalità consente di fornire una documentazione delle problematiche che possono essere esaminate dai responsabili per una rapida risoluzione.
+
+\subsection{Ordini di Attrezzature e Prodotti}
+
+È stata integrata la funzionalità per permettere ai dipendenti di ordinare attrezzature e prodotti direttamente tramite l'applicazione. Questo processo ottimizza la gestione delle scorte, assicurando che il personale disponga sempre del materiale necessario per svolgere i propri compiti.
+
+\subsection{Verifica delle Timbrature da parte dei Responsabili}
+
+I responsabili possono accedere a un'interfaccia dedicata per verificare le timbrature dei dipendenti, garantendo che i servizi siano eseguiti nei tempi previsti e con la qualità richiesta. Questa funzionalità è fondamentale per mantenere un elevato livello di controllo e supervisione.
+
+\subsection{Funzionalità per i Clienti}
+
+I clienti possono segnalare criticità nei servizi ricevuti. Questa funzionalità offre un canale diretto per il feedback dei clienti, fornendo all'azienda informazioni preziose per il miglioramento continuo.
+
+\section{Errori Conosciuti}
+
+Nonostante il successo complessivo del progetto, sono stati identificati alcuni errori e limitazioni che necessitano di ulteriori miglioramenti.
+
+\subsection{Gestione degli Errori a Frontend}
+
+Attualmente, la gestione degli errori a livello di frontend non è completamente ottimizzata. Gli utenti potrebbero non ricevere feedback adeguato in caso di problemi, come errori di rete o malfunzionamenti nelle richieste API. Questo aspetto richiede un'attenzione particolare per migliorare l'esperienza utente e la robustezza dell'applicazione.
+
+\subsection{Design dell'App per i Dispositivi Mobili (User Experience)}
+
+L'interfaccia utente dell'applicazione, sebbene funzionale, non è completamente ottimizzata per l'uso su dispositivi mobili. Alcuni elementi grafici e interazioni non sono ancora perfettamente adattati per schermi di piccole dimensioni, il che può influire negativamente sull'esperienza utente.
+
+\subsection{Pannello di Gestione Utenti per gli Amministratori}
+
+Nel pannello amministrativo per la gestione degli utenti, mancano alcune funzionalità chiave, come la possibilità di modificare l'indirizzo degli utenti di tipo cliente. Questa limitazione riduce la flessibilità degli amministratori nella gestione completa dei dati utente.
+
+\section{Possibili Implementazioni Future}
+
+Per migliorare ulteriormente il sistema e arricchirlo con nuove funzionalità, sono state identificate alcune possibili implementazioni future.
+
+\subsection{Aggiunta di Gruppi per i Lavoratori}
+
+Si propone di introdurre la possibilità di creare gruppi di lavoratori associati a specifici servizi. Questa funzionalità permetterebbe di creare una sorta di "stanza" virtuale in cui i membri del gruppo possono comunicare e scambiarsi informazioni relative al servizio a cui sono assegnati, migliorando la coordinazione e l'efficienza operativa.
+
+\subsection{Feedback Mirati ai Servizi}
+
+Implementare una funzionalità che consenta ai clienti di fornire feedback specifici sui servizi ricevuti, associati ai gruppi di lavoratori. Questo tipo di feedback mirato permetterebbe di ottenere valutazioni dettagliate e di intervenire in modo più preciso per migliorare la qualità del servizio.
+
+\subsection{Comunicazione tra Lavoratori, Supervisori e Admin}
+
+L'integrazione di una funzionalità di chat permetterebbe una comunicazione diretta tra lavoratori, supervisori e amministratori. Questo strumento migliorerebbe la gestione delle problematiche operative e faciliterebbe il coordinamento tra i vari attori coinvolti.
+
+\subsection{Possibilità per i Lavoratori di Scattare Foto sul Luogo del Cliente}
+
+Una funzionalità che consentirebbe ai lavoratori di scattare e caricare foto direttamente dall'app mentre si trovano presso il cliente sarebbe un'aggiunta preziosa. Questo permetterebbe di documentare visivamente lo stato del lavoro o eventuali anomalie riscontrate, migliorando la trasparenza e il controllo qualità del servizio erogato.
 
 
 \cite{4538384}
