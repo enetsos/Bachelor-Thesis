@@ -51,7 +51,7 @@ const NewService: React.FC = () => {
             let messageToDisplay = 'Posizione non disponibile. Per favore riprova.';
 
             if (error.code === 'ERR_BAD_REQUEST') {
-                messageToDisplay = 'La posizione di partenza non è entro 500 metri dalla posizione del cliente.';
+                messageToDisplay = 'La posizione di partenza non è entro 200 metri dalla posizione del cliente.';
             } else if (error.code === error.PERMISSION_DENIED) {
                 messageToDisplay = 'Permessi di localizzazione negati. Per favore abilita la localizzazione.';
             }

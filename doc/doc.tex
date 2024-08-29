@@ -50,6 +50,23 @@
 \setcounter{page}{1}
 
 \chapter*{Abstract}
+\section*{Italiano}
+Questo progetto di diploma, presentato nell'ambito del corso di Bachelor in Ingegneria Informatica presso la Scuola Universitaria Professionale della Svizzera Italiana (SUPSI), si concentra sullo sviluppo di un'applicazione mobile per la gestione delle timbrature e il controllo qualità dei collaboratori. Il progetto è stato realizzato per soddisfare le esigenze di Progect SA, un'impresa attiva nei servizi di pulizia e facility management, con l'obiettivo di migliorare la gestione operativa e la trasparenza nei confronti dei clienti.
+\\\\
+L'applicazione sviluppata consente ai dipendenti di registrare le proprie presenze presso i clienti utilizzando tecnologie come QR code, oltre a segnalare anomalie e ordinare attrezzature necessarie. I responsabili possono verificare le timbrature e segnalare eventuali criticità relative alla qualità del servizio, mentre i clienti hanno la possibilità di fornire feedback e segnalare problemi riscontrati.
+\\\\
+Per garantire un'esperienza utente fluida e sicura, l'applicazione integra tecnologie avanzate come la comunicazione tramite API REST tra frontend e backend, la gestione sicura delle credenziali utente tramite token JWT, e l'interazione diretta con i componenti hardware dei dispositivi mobili per raccogliere dati GPS e scansionare codici QR. L'applicazione offre inoltre un'interfaccia intuitiva che semplifica le operazioni richieste e assicura un accesso rapido e protetto alle funzionalità principali.
+\\\\
+La progettazione e lo sviluppo del sistema hanno richiesto l'integrazione di vari componenti software, tra cui un backend basato su Node.js e Express, un frontend sviluppato con React, e l'uso di un database relazionale MySQL gestito tramite ORM Sequelize. Questo ha permesso di creare un sistema scalabile e modulare, capace di soddisfare le esigenze di gestione e controllo qualità di Progect SA.
+
+\section*{English}
+This diploma project, presented as part of the Bachelor in Computer Engineering course at the University of Applied Sciences and Arts of Southern Switzerland (SUPSI), focuses on the development of a mobile application for time tracking and quality control of collaborators. The project was carried out to meet the needs of Progect SA, a company active in cleaning services and facility management, with the aim of improving operational management and transparency towards customers.
+\\\\
+The developed application allows employees to record their attendance at clients using technologies such as QR codes, as well as to report anomalies and order necessary equipment. Supervisors can verify attendance records and report any issues related to service quality, while customers have the opportunity to provide feedback and report any problems encountered.
+\\\\
+To ensure a smooth and secure user experience, the application integrates advanced technologies such as communication via REST APIs between frontend and backend, secure user credential management via JWT tokens, and direct interaction with mobile device hardware components to collect GPS data and scan QR codes. The application also offers an intuitive interface that simplifies the required operations and ensures quick and secure access to the main features.
+\\\\
+The design and development of the system required the integration of various software components, including a backend based on Node.js and Express, a frontend developed with React, and the use of a MySQL relational database managed through the Sequelize ORM. This allowed the creation of a scalable and modular system capable of meeting the management and quality control needs of Progect SA.
 
 \chapter{Progetto Assegnato}
 
@@ -60,7 +77,7 @@ Il partner di progetto, un'importante azienda attiva nei servizi di pulizia e fa
 I Dipendenti avranno a disposizione le seguenti funzionalità:
 \begin{itemize}
   \item \textbf{Registrazione delle presenze}: I dipendenti possono registrare (timbrare) il loro arrivo e la loro partenza presso i clienti da cui si recano, tramite QR code o tag NFC dedicato.
-  \item \textbf{Segnalazioni di anomalie}: Possono fare segnalazioni, allegando anche foto e video, presso i clienti, in caso di anomalie riscontrate durante il servizio.
+  \item \textbf{Segnalazioni di anomalie}: Possono fare segnalazioni presso i clienti, in caso di anomalie riscontrate durante il servizio.
   \item \textbf{Ordini di attrezzature e prodotti}: Possono fare un ordine delle attrezzature e dei prodotti che sono finiti o che sono in esaurimento, facilitando la gestione del materiale necessario per svolgere le loro mansioni.
 \end{itemize}
 
@@ -69,7 +86,6 @@ I Dipendenti avranno a disposizione le seguenti funzionalità:
 I Responsabili avranno a disposizione le seguenti funzionalità:
 \begin{itemize}
   \item \textbf{Verifica delle timbrature}: Possono verificare le timbrature dei dipendenti di loro responsabilità ai fini di controllo qualità, assicurando che i servizi vengano svolti nei tempi previsti.
-  \item \textbf{Segnalazioni di controllo qualità}: Possono fare segnalazioni per controllo qualità, direttamente al dipendente ed indicando il cliente, permettendo una rapida risoluzione di eventuali problemi riscontrati.
 \end{itemize}
 
 \section{Funzionalità per i Clienti}
@@ -77,7 +93,6 @@ I Responsabili avranno a disposizione le seguenti funzionalità:
 I Clienti avranno a disposizione le seguenti funzionalità:
 \begin{itemize}
   \item \textbf{Segnalazioni di criticità}: Possono segnalare criticità nel servizio ricevuto, offrendo un feedback diretto all'azienda per migliorare la qualità del servizio.
-  \item \textbf{Sondaggi sulla qualità del servizio}: Possono essere sottoposti a sondaggi sulla qualità del servizio ricevuto, fornendo dati utili per il miglioramento continuo.
 \end{itemize}
 
 \section{Obiettivi del Sistema}
@@ -90,23 +105,33 @@ Il sistema è progettato per raggiungere i seguenti obiettivi:
   \item \textbf{Controllo qualità continuo}: Le funzionalità di verifica e segnalazione per i responsabili permettono un controllo qualità continuo, garantendo un elevato standard del servizio erogato.
 \end{itemize}
 
-
 \chapter{Introduzione}
 
-Il progetto nasce dalla necessità di Progect SA, un'importante azienda attiva nei servizi di pulizia e facility management, di migliorare la gestione e il controllo qualità dei servizi erogati presso i clienti. L'azienda desidera un sistema che permetta ai dipendenti di registrare le presenze presso i clienti, di segnalare anomalie riscontrate durante il servizio e di fare ordini di attrezzature e prodotti. I responsabili devono poter verificare le timbrature dei dipendenti di loro responsabilità e fare segnalazioni per controllo qualità. I clienti devono poter segnalare criticità nel servizio ricevuto e essere sottoposti a sondaggi sulla qualità del servizio. Il sistema deve garantire una registrazione precisa e affidabile delle presenze, aumentare la trasparenza e migliorare la comunicazione tra le parti coinvolte, facilitare la gestione delle risorse e assicurare un controllo qualità continuo.\\
-\\
-Il sistema sarà accessibile tramite applicazione mobile e sarà utilizzato principalmente da tre attori: Dipendenti, Responsabili e Clienti. I Dipendenti potranno registrare le presenze, fare segnalazioni di anomalie e fare ordini di attrezzature e prodotti. I Responsabili potranno verificare le timbrature dei dipendenti e fare segnalazioni per controllo qualità. I Clienti potranno segnalare criticità e essere sottoposti a sondaggi sulla qualità del servizio.\\
-\\
-Il Capitolo 2 del documento presenta un’analisi delle motivazioni e del contesto che hanno guidato lo sviluppo del progetto. Inoltre, vengono introdotti in modo preliminare gli obiettivi che costituiscono il nucleo centrale di questo lavoro.\\
-\\
-todo: aggiungere una breve spiegazione di ogni capitolo
+Questa tesi si concentra sullo sviluppo di un'applicazione mobile per la gestione delle timbrature e il controllo qualità dei collaboratori, realizzata per soddisfare le esigenze di Progect SA, un'azienda attiva nei servizi di pulizia e facility management. La discussione si articola attraverso diversi capitoli, ognuno dei quali affronta un aspetto specifico del progetto, dalla motivazione iniziale fino alla presentazione dei risultati ottenuti.
+\\\\
+Nel capitolo "Motivazione e contesto" verranno esplorate le ragioni che hanno portato alla scelta di questo argomento e verrà delineato il contesto aziendale e tecnologico in cui il progetto è stato sviluppato.
+\\\\
+Nel capitolo "Problema" verranno analizzati i problemi specifici che questo progetto si propone di risolvere, come la difficoltà nella gestione delle presenze e nel monitoraggio della qualità del servizio, evidenziando come la soluzione proposta possa affrontare queste sfide.
+\\\\
+Nel capitolo "Progettazione" verrà presentata la metodologia adottata per lo sviluppo dell'applicazione, delineando le fasi del processo di sviluppo, dall'analisi dei requisiti alla progettazione dell'architettura.
+\\\\
+Il capitolo "Architettura" descriverà in dettaglio l'architettura del sistema, includendo la struttura del backend basato su Node.js e Express, le interfacce utente sviluppate in React, e l'integrazione con il database MySQL tramite ORM Sequelize. Verrà fornita una visione d'insieme del flusso di dati e delle interazioni tra i diversi componenti del sistema.
+\\\\
+Nel capitolo "Implementazione" verranno discussi i dettagli pratici dello sviluppo del progetto, evidenziando le sfide incontrate e le soluzioni adottate per garantire un'esperienza utente sicura e fluida.
+\\\\
+Il capitolo "Deployment" descriverà il processo di distribuzione dell'applicazione sul server della SUPSI, illustrando come l'applicazione sia stata configurata per essere accessibile tramite browser web. Verranno spiegate le configurazioni del server, l'utilizzo di Nginx come server web, e i passaggi necessari per rendere l'applicazione disponibile agli utenti finali in un ambiente di produzione.
+\\\\
+Il capitolo "Test" descriverà la metodologia utilizzata per verificare e validare il sistema, assicurando che le funzionalità sviluppate rispondano ai requisiti definiti.
+\\\\
+Infine, nel capitolo "Conclusioni" verranno analizzati i risultati finali del progetto, valutando l'efficacia delle soluzioni implementate rispetto agli obiettivi iniziali. Inoltre si cercerà di esplorare possibili sviluppi futuri e miglioramenti che potrebbero essere apportati all'applicazione per renderla ancora più efficace e funzionale.
 
 \chapter{Motivazione e Contesto}
 
 In questo capitolo, vengono descritte le motivazioni accademiche che stanno alla base di
 questo lavoro di tesi, insieme al contesto in cui si inseriscono. In conclusione, vengono
-delineati gli obiettivi che guidano lo sviluppo di questo progetto.\\
-\\
+delineati gli obiettivi che guidano lo sviluppo di questo progetto.
+
+\section{Motivazione}
 Nell'ambito del corso di Bachelor in Ingegneria Informatica presso la Scuola Universitaria
 Professionale della Svizzera Italiana (SUPSI), ogni studente si trova di fronte al compito di
 completare un lavoro di diploma. Questo implica la scelta autonoma di un progetto tra quelli
@@ -114,8 +139,9 @@ proposti da diversi relatori. Tali progetti abbracciano una vasta gamma di setto
 tra software desktop standalone, applicazioni web, networking, intelligenza artificiale e molto
 altro. Ogni studente è tenuto a sviluppare il progetto nel corso della stagione estiva, per poi
 consegnarlo entro l'inizio di settembre. Lo scopo di questo progetto è applicare le tecniche,
-le strategie e i metodi di sviluppo appresi durante i tre anni di studi del percorso di Bachelor.\\
-\\
+le strategie e i metodi di sviluppo appresi durante i tre anni di studi del percorso di Bachelor.
+
+\section{Contesto}
 La scelta di svolgere questo particolare progetto è stata determinata da diversi fattori. In
 particolare, l'opportunità di sviluppare un'applicazione web è stata considerata un modo
 per scoprire meglio questo campo non essendo stato molto visto durante gli anni, offrendo
@@ -123,17 +149,12 @@ uno spazio ideale per l'applicazione delle competenze acquisite. L'uso di un fra
 aggiornato, ha fornito un'opportunità unica per scoprire una nuova tecnologia ancora non molto
 diffusa nei sfotware odierni.\\
 \\
-Il progetto è seguito dai relatori Baldassari Andrea e Matteo Besenzoni, entrambi docenti e ricer-
-catori presso la SUPSI. In particolare, il docente Andrea Baldassari ha fornito i requisiti e le specifiche man mano che il lavoro procedeva.
+Il progetto è seguito dai relatori Baldassari Andrea e Matteo Besenzoni, entrambi docenti e ricercatori presso la SUPSI. In particolare, il professore Andrea Baldassari ha fornito i requisiti e le specifiche man mano che il lavoro procedeva.
 
-\section{Obiettivo}
-L'obiettivo di questo progetto è sviluppare un'applicazione web per la gestione delle timbrature
-e il controllo qualità dei collaboratori di Progect SA. L'applicazione deve permettere ai
-collaboratori di timbrare in entrata e in uscita, di inserire le attività svolte durante la giornata
-e di caricare le foto dei lavori eseguiti. Inoltre, l'applicazione deve permettere ai responsabili
-di controllo qualità di visualizzare le timbrature e le attività svolte dai collaboratori, di
-valutare la qualità del lavoro svolto e di fornire feedback ai collaboratori.\\
-\\
+\section{Obiettivi}
+L'obiettivo principale di questo progetto era raccogliere i requisiti funzionali e non funzionali necessari per la gestione delle timbrature e il controllo qualità dei collaboratori di Progect SA, elaborare una proposta di soluzione e sviluppare un'applicazione web che soddisfacesse pienamente le esigenze dell'azienda committente.
+\\\\
+Un ulteriore obiettivo del progetto era adottare un approccio agile, che permettesse di mantenere un'elevata flessibilità durante lo sviluppo e di rispondere rapidamente ai cambiamenti nei requisiti del cliente, garantendo al contempo un miglioramento continuo del sistema e una stretta collaborazione tra i membri del team di sviluppo
 
 \chapter{Problema}
 Il problema affrontato nel contesto del progetto riguarda la necessità di sviluppare un sistema completo per la gestione delle timbrature e il controllo della qualità dei servizi offerti da un'azienda attiva nel settore della pulizia e del facility management. Attualmente, l'azienda si trova a dover affrontare diverse sfide legate alla gestione e al monitoraggio dei propri collaboratori e dei servizi erogati, tra cui:
@@ -151,69 +172,13 @@ Il problema affrontato nel contesto del progetto riguarda la necessità di svilu
 
 \end{itemize}
 
-
-\chapter{Approccio al problema}
-In questo capitolo, esamineremo in dettaglio l'approccio adottato per sviluppare una Progressive Web App (PWA) dedicata alla gestione e al controllo qualità dei servizi di pulizia e facility management. Illustreremo le scelte effettuate per quanto riguarda la gestione del progetto, i linguaggi di programmazione, i framework selezionati e l'integrazione con i componenti dei dispositivi mobili. Ogni decisione tecnica è stata presa con l'obiettivo di garantire prestazioni elevate, facilità di manutenzione e un'esperienza utente ottimale.
-
+\chapter{Progettazione}
+In questo capitolo, esamineremo in dettaglio l'approccio adottato per progettare un'applicazione web dedicata alla gestione e al controllo qualità dei servizi di pulizia e facility management. Illustreremo le scelte effettuate in merito alla gestione del progetto, la definizione dei requisiti, i linguaggi di programmazione, i framework selezionati e l'integrazione con i componenti dei dispositivi mobili. Ogni decisione tecnica è stata presa con l'obiettivo di garantire prestazioni elevate, facilità di manutenzione e un'esperienza utente ottimale.
 \section{Gestione del progetto}
 
 La gestione del progetto è stata condotta utilizzando una metodologia Agile, in particolare il framework Scrum. Questa scelta è stata dettata dalla necessità di mantenere un'elevata flessibilità durante lo sviluppo, permettendo al team di adattarsi rapidamente ai cambiamenti nei requisiti del cliente. Ogni settimana è stato condotto uno sprint, al termine del quale si teneva una riunione con i committenti per presentare i progressi attraverso demo, raccogliere feedback e pianificare le attività per la settimana successiva.
-
-Per la gestione del codice sorgente e delle attività del progetto, è stata utilizzata la piattaforma GitLab. GitLab ha offerto strumenti integrati per il versionamento del codice, la gestione delle issue, la pianificazione degli sprint e l'integrazione continua. Questi strumenti hanno facilitato una stretta collaborazione all'interno del team e una gestione efficace del progetto, assicurando che il codice fosse sempre aggiornato e che ogni membro del team fosse informato sugli sviluppi.
-
-\section{Linguaggi di Programmazione}
-
-\subsection{Backend}
-
-Per lo sviluppo del backend, abbiamo scelto di utilizzare Node.js in combinazione con il framework Express e l'ORM Sequelize. La scelta di Node.js è stata guidata da diversi fattori chiave:
-
-\begin{itemize}
-  \item \textbf{Asincronicità e Performance}: Node.js è basato su un modello di I/O non bloccante, che consente di gestire un elevato numero di richieste simultanee con un'efficienza notevole. Questo è particolarmente vantaggioso per un'applicazione che deve interagire con dispositivi mobili e gestire numerose operazioni in tempo reale, come l'acquisizione di dati dai sensori dei dispositivi.
-  \item \textbf{Ampio Ecosistema}: Node.js dispone di un vasto ecosistema di librerie e moduli disponibili attraverso npm (Node Package Manager). Questo ci ha permesso di accelerare lo sviluppo utilizzando pacchetti preesistenti per funzionalità comuni, riducendo il tempo necessario per implementare funzioni complesse.
-  \item \textbf{Scalabilità}: La natura asincrona di Node.js lo rende particolarmente adatto per costruire applicazioni scalabili. Per un sistema come quello proposto, che potrebbe essere utilizzato da numerosi utenti contemporaneamente, la capacità di scalare orizzontalmente è cruciale.
-\end{itemize}
-
-Express, un framework minimalista per Node.js, è stato scelto per la sua semplicità e flessibilità nella gestione delle API RESTful. Express consente di strutturare l'applicazione in modo modulare, facilitando la manutenzione e l'espansione del codice nel tempo. Inoltre, con l'uso di Sequelize, un ORM per Node.js, è stato possibile gestire le interazioni con il database MySQL in modo sicuro ed efficiente, mappando le tabelle del database su oggetti JavaScript e semplificando le operazioni CRUD (Create, Read, Update, Delete).
-
-\subsection{Frontend}
-
-Per il frontend, è stato scelto React come framework principale per lo sviluppo dell'interfaccia utente. Le motivazioni alla base di questa scelta sono molteplici:
-
-\begin{itemize}
-  \item \textbf{Componentizzazione}: React adotta un approccio basato su componenti, che permette di costruire interfacce utente modulari e riutilizzabili. Questa modularità non solo facilita lo sviluppo, ma rende anche più semplice la manutenzione e l'aggiornamento dell'applicazione nel tempo.
-  \item \textbf{Performance e Virtual DOM}: React utilizza un Virtual DOM per ottimizzare il rendering dell'interfaccia utente. Questo riduce al minimo le operazioni di manipolazione del DOM reale, migliorando le prestazioni, soprattutto su dispositivi mobili, dove la potenza di calcolo può essere limitata.
-  \item \textbf{Ecosistema e Community}: La vasta community di React e l'ampio ecosistema di librerie di supporto hanno fornito strumenti utili e best practices che hanno accelerato lo sviluppo e migliorato la qualità del codice.
-\end{itemize}
-
-Inoltre, per migliorare ulteriormente la velocità di sviluppo e la coerenza dell'interfaccia utente, è stata utilizzata la libreria \textbf{Ant Design (Antd)}. Antd è un set di componenti UI predefiniti per React, che offre una vasta gamma di elementi grafici stilisticamente coerenti e pronti all'uso. L'adozione di Antd ha permesso al team di:
-
-\begin{itemize}
-  \item \textbf{Accelerare lo Sviluppo}: Utilizzando componenti predefiniti di alta qualità, il team ha potuto concentrarsi maggiormente sulle logiche di business piuttosto che sulla progettazione e implementazione di elementi grafici complessi.
-  \item \textbf{Mantenere una UI Coerente}: Antd garantisce che l'interfaccia utente sia esteticamente coerente e intuitiva, migliorando l'esperienza utente complessiva.
-  \item \textbf{Facile Personalizzazione}: Sebbene Antd offra componenti predefiniti, è altamente personalizzabile, consentendo al team di adattare l'aspetto e il comportamento dei componenti alle specifiche esigenze del progetto.
-\end{itemize}
-
-L'uso di React, insieme a Antd, ha inoltre facilitato l'integrazione con le API dei dispositivi, come la fotocamera e i sensori di posizione, rendendo possibile la realizzazione di funzionalità critiche come la scansione di QR code e la tracciabilità GPS.
-
-\section{Integrazione con Componenti del Dispositivo}
-
-Uno degli aspetti più innovativi dell'applicazione è la sua capacità di interagire direttamente con i componenti hardware dei dispositivi mobili. Grazie a librerie specifiche di React, l'applicazione può accedere alla fotocamera per scattare foto e scansionare codici QR, nonché raccogliere dati GPS per tracciare la posizione dei lavoratori in tempo reale. Questo livello di integrazione è stato fondamentale per garantire che il sistema potesse offrire funzionalità di controllo qualità avanzate, come la verifica dell'ubicazione del personale sul campo e la documentazione delle attività svolte.
-
-\section{Toolkits}
-
-Oltre ai linguaggi e framework descritti, sono stati utilizzati diversi toolkits per supportare lo sviluppo:
-
-\begin{itemize}
-  \item \textbf{npm}: Il gestore di pacchetti npm è stato fondamentale per la gestione delle dipendenze e per l'installazione di librerie esterne che hanno velocizzato lo sviluppo.
-  \item \textbf{Webpack}: Webpack è stato utilizzato per il bundling dei file JavaScript, ottimizzando le performance del frontend e migliorando i tempi di caricamento dell'applicazione.
-  \item \textbf{GitLab CI/CD}: La pipeline CI/CD di GitLab ha automatizzato il processo di testing e deployment, garantendo che ogni modifica al codice fosse adeguatamente verificata prima di essere distribuita nell'ambiente di produzione.
-\end{itemize}
-
-L'insieme di questi strumenti ha permesso di creare un ambiente di sviluppo efficiente e affidabile, facilitando il rilascio continuo di nuove funzionalità e miglioramenti.
-
-\chapter{Progettazione}
-
-In questo capitolo viene descritta la fase di progettazione dell’applicativo, partendo dall'analisi dei requisiti necessari per poi passare alla descrizione delle funzionalità principali e dei mockup delle interfacce che saranno utilizzate dagli utenti.
+\\
+Per la gestione del codice sorgente e delle attività del progetto, è stata utilizzata la piattaforma GitLab. GitLab ha offerto strumenti integrati per il versionamento del codice, la gestione delle issue, la pianificazione degli sprint e l'integrazione continua. Questi strumenti hanno facilitato una gestione efficace del progetto, assicurando che il codice fosse sempre aggiornato.
 
 \section{Requisiti}
 
@@ -256,18 +221,55 @@ I clienti sono coloro che ricevono i servizi e possono fornire feedback sulla lo
   \item Segnalare criticità nel servizio ricevuto.
 \end{itemize}
 
+\section{Linguaggi di Programmazione}
 
-\section{Mockup delle Interfacce}
+\subsection{Backend}
 
-In questa sezione vengono descritti i mockup delle interfacce dell’applicazione, con particolare attenzione alle schermate più rilevanti per ciascun attore coinvolto (dipendenti, responsabili e clienti).
+Per lo sviluppo del backend è stato scelto di utilizzare Node.js in combinazione con il framework Express e l'ORM Sequelize. La scelta di Node.js è stata guidata da diversi fattori chiave:
 
-\subsection{Pagina di accesso}
-\subsection{Pagina di registrazione delle timbrature}
-\subsection{Pagina di gestione delle segnalazioni}
-\subsection{Pagina di controllo qualità per i responsabili}
-\subsection{Pagina di feedback dei clienti}
+\begin{itemize}
+  \item \textbf{Asincronicità e Performance}: Node.js è basato su un modello di I/O non bloccante, che consente di gestire un elevato numero di richieste simultanee con un'efficienza notevole. Questo è particolarmente vantaggioso per un'applicazione che deve interagire con dispositivi mobili e gestire numerose operazioni in tempo reale, come l'acquisizione di dati dai sensori dei dispositivi.
+  \item \textbf{Ampio Ecosistema}: Node.js dispone di un vasto ecosistema di librerie e moduli disponibili attraverso npm (Node Package Manager). Questo ha permesso di accelerare lo sviluppo utilizzando pacchetti preesistenti per funzionalità comuni, riducendo il tempo necessario per implementare funzioni complesse.
+  \item \textbf{Scalabilità}: La natura asincrona di Node.js lo rende particolarmente adatto per costruire applicazioni scalabili. Per un sistema come quello proposto, che potrebbe essere utilizzato da numerosi utenti contemporaneamente, la capacità di scalare orizzontalmente è cruciale.
+\end{itemize}
 
+Express, un framework minimalista per Node.js, è stato scelto per la sua semplicità e flessibilità nella gestione delle API RESTful. Express consente di strutturare l'applicazione in modo modulare, facilitando la manutenzione e l'espansione del codice nel tempo. Inoltre, con l'uso di Sequelize, un ORM per Node.js, è stato possibile gestire le interazioni con il database MySQL in modo sicuro ed efficiente, mappando le tabelle del database su oggetti JavaScript e semplificando le operazioni CRUD (Create, Read, Update, Delete).
 
+\subsection{Frontend}
+
+Per il frontend, è stato scelto React come framework principale per lo sviluppo dell'interfaccia utente. Le motivazioni alla base di questa scelta sono molteplici:
+
+\begin{itemize}
+  \item \textbf{Componentizzazione}: React adotta un approccio basato su componenti, che permette di costruire interfacce utente modulari e riutilizzabili. Questa modularità non solo facilita lo sviluppo, ma rende anche più semplice la manutenzione e l'aggiornamento dell'applicazione nel tempo.
+  \item \textbf{Performance e Virtual DOM}: React utilizza un Virtual DOM per ottimizzare il rendering dell'interfaccia utente. Questo riduce al minimo le operazioni di manipolazione del DOM reale, migliorando le prestazioni, soprattutto su dispositivi mobili, dove la potenza di calcolo può essere limitata.
+  \item \textbf{Ecosistema e Community}: La vasta community di React e l'ampio ecosistema di librerie di supporto hanno fornito strumenti utili e best practices che hanno accelerato lo sviluppo e migliorato la qualità del codice.
+\end{itemize}
+
+Inoltre, per migliorare ulteriormente la velocità di sviluppo e la coerenza dell'interfaccia utente, è stata utilizzata la libreria \textbf{Ant Design (Antd)}. Antd è un set di componenti UI predefiniti per React, che offre una vasta gamma di elementi grafici stilisticamente coerenti e pronti all'uso. L'adozione di Antd ha permesso di:
+
+\begin{itemize}
+  \item \textbf{Accelerare lo Sviluppo}: Utilizzando componenti predefiniti di alta qualità, Antd ha permesso di concentrarsi maggiormente sulle logiche di business piuttosto che sulla progettazione e implementazione di elementi grafici complessi.
+  \item \textbf{Mantenere una UI Coerente}: Antd garantisce che l'interfaccia utente sia esteticamente coerente e intuitiva, migliorando l'esperienza utente complessiva.
+  \item \textbf{Facile Personalizzazione}: Sebbene Antd offra componenti predefiniti, è altamente personalizzabile, consentendo di adattare l'aspetto e il comportamento dei componenti alle specifiche esigenze del progetto.
+\end{itemize}
+
+L'uso di React, insieme a Antd, ha inoltre facilitato l'integrazione con le API dei dispositivi, come la fotocamera e i sensori di posizione, rendendo possibile la realizzazione di funzionalità critiche come la scansione di QR code e la tracciabilità GPS.
+
+\section{Integrazione con Componenti del Dispositivo}
+
+Uno degli aspetti più innovativi dell'applicazione è la sua capacità di interagire direttamente con i componenti hardware dei dispositivi mobili. Grazie a librerie specifiche di React, l'applicazione può accedere alla fotocamera per scansionare codici QR, nonché raccogliere dati GPS per tracciare la posizione dei lavoratori in tempo reale. Questo livello di integrazione è stato fondamentale per garantire che il sistema potesse offrire funzionalità di controllo qualità avanzate, come la verifica dell'ubicazione del personale sul campo e la documentazione delle attività svolte.
+
+\section{Toolkits}
+
+Oltre ai linguaggi e framework descritti, sono stati utilizzati diversi toolkits per supportare lo sviluppo:
+
+\begin{itemize}
+  \item \textbf{npm}: Il gestore di pacchetti npm è stato fondamentale per la gestione delle dipendenze e per l'installazione di librerie esterne che hanno velocizzato lo sviluppo.
+  \item \textbf{Webpack}: Webpack è stato utilizzato per il bundling dei file JavaScript, ottimizzando le performance del frontend e migliorando i tempi di caricamento dell'applicazione.
+  \item \textbf{GitLab CI/CD}: La pipeline CI/CD di GitLab ha automatizzato il processo di testing e deployment, garantendo che ogni modifica al codice fosse adeguatamente verificata prima di essere distribuita nell'ambiente di produzione.
+\end{itemize}
+
+L'insieme di questi strumenti ha permesso di creare un ambiente di sviluppo efficiente e affidabile, facilitando il rilascio continuo di nuove funzionalità e miglioramenti.
 
 \chapter{Architettura}
 
@@ -309,7 +311,7 @@ Oltre alle cartelle sopra elencate, sono presenti anche i file \texttt{App.tsx} 
 Infine è presente anche un file chiamato \texttt{type.ts} il quale contiene tutte le interfacce utilizzate all'interno del frontend.
 
 \subsection{Backend}
-Il progetto di backend è stato scritto in \textit{Node.js} utilizzando il framework \textit{Express}. Questo ha permesso di creare un server web che gestisce le richieste HTTP provenienti dal frontend e comunica con il database per recuperare e salvare i dati.\\
+Il progetto di backend è stato scritto in \textit{Node.js} utilizzando il framework \textit{Express}\cite{expressjs}. Questo ha permesso di creare un server web che gestisce le richieste HTTP provenienti dal frontend e comunica con il database per recuperare e salvare i dati.\\
 
 All'interno della cartella \texttt{backend} è presente una cartella \texttt{src} la quale contiene tutto il codice del server. In particolare, la cartella è suddivisa in:
 \begin{itemize}
@@ -345,9 +347,15 @@ Le risposte del backend possono includere dati in formato JSON (JavaScript Objec
 
 \begin{itemize}
   \item \textbf{Richiesta GET}: Il frontend invia una richiesta GET all'endpoint \texttt{/api/users} per recuperare la lista degli utenti. Il backend risponde con una Collection di UserResource contenente i dati degli utenti.
-  \item \textbf{Richiesta POST}: Il frontend invia una richiesta POST all'endpoint \texttt{/api/time-tracking/new-time} con i dettagli della timbratura. Il backend elabora i dati e restituisce un JSON con un messaggio di conferma.
-  \item \textbf{Richiesta PUT}: Il frontend invia una richiesta PUT all'endpoint \texttt{/api/time-tracking/stop-time/\$timeTrackingId} per aggiornare i dettagli di un servizio con ID timeTrackingId. Il backend aggiorna il servizio con i dati aggiornati.
-  \item \textbf{Richiesta DELETE}: Il frontend invia una richiesta DELETE all'endpoint \texttt{/api/users/\$id} per eliminare un utente con ID id. Il backend elimina l'utente e restituisce una conferma di eliminazione.
+  \item \textbf{Richiesta POST}: Il frontend invia una richiesta POST all'endpoint
+
+        \texttt{/api/time-tracking/new-time} con i dettagli della timbratura. Il backend elabora i dati e restituisce un JSON con un messaggio di conferma.
+  \item \textbf{Richiesta PUT}: Il frontend invia una richiesta PUT all'endpoint
+
+        \texttt{/api/time-tracking/stop-time/\$timeTrackingId} per aggiornare i dettagli di un servizio con ID timeTrackingId. Il backend aggiorna il servizio con i dati aggiornati.
+  \item \textbf{Richiesta DELETE}: Il frontend invia una richiesta DELETE all'endpoint
+
+        \texttt{/api/users/\$id} per eliminare un utente con ID id. Il backend elimina l'utente e restituisce una conferma di eliminazione.
 \end{itemize}
 
 \subsection{Gestione degli Errori e Feedback}
@@ -371,8 +379,16 @@ Il frontend gestisce il processo di autenticazione, memorizza il token di autent
   \item \textbf{Risposta Dati Utente}: Il backend verifica il token prima di restituire i dati del profilo utente. Se il token è valido, il backend restituisce i dati richiesti.
 \end{enumerate}
 
-Questo flusso di comunicazione assicura che il frontend e il backend lavorino insieme in modo sinergico, offrendo un'esperienza utente fluida e sicura.
+Questo flusso di comunicazione (Figura \ref{fig:architettura}) assicura che il frontend e il backend lavorino insieme in modo sinergico, offrendo un'esperienza utente fluida e sicura.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=0.5]{./images/architettura.png}
+  \caption{Architettura del sistema.}
+  \label{fig:architettura}
+\end{figure}
+
+\negmedspace
 \subsection{Sicurezza nella Gestione dei Dati Sensibili}
 
 La sicurezza dei dati sensibili, come le password degli utenti, è una priorità assoluta nel sistema. Durante la comunicazione tra frontend e backend, i dati sensibili vengono protetti attraverso diversi meccanismi di sicurezza.
@@ -390,11 +406,12 @@ Nel backend, le password non vengono mai memorizzate in formato leggibile. Al mo
 Grazie a questo approccio, anche in caso di compromissione del database, le password degli utenti rimangono protette, poiché gli hash sono difficili da invertire. Inoltre, il cost factor di bcrypt, configurabile nel codice (in questo caso impostato a 12), assicura che il processo di hashing sia sufficientemente lento da rendere inefficaci gli attacchi basati su tecniche di brute force.
 
 
+
 \section{Comunicazione Backend-Database}
 
 La comunicazione tra il backend e il database avviene principalmente attraverso query SQL, che vengono generate ed eseguite dal backend per interagire con il database MySQL. Questa interazione consente al backend di gestire dati persistenti, come informazioni sugli utenti, le timbrature e i dettagli dei servizi.
 
-Per facilitare e semplificare le operazioni di accesso al database, è stato utilizzato un ORM (Object-Relational Mapping) chiamato \textbf{Sequelize}. Questo strumento permette di gestire il database tramite codice JavaScript, senza dover scrivere manualmente query SQL, semplificando quindi l'accesso ai dati e la loro manipolazione.
+Per facilitare e semplificare le operazioni di accesso al database, è stato utilizzato un ORM (Object-Relational Mapping) chiamato \textbf{Sequelize}\cite{sequelize}. Questo strumento permette di gestire il database tramite codice JavaScript, senza dover scrivere manualmente query SQL, semplificando quindi l'accesso ai dati e la loro manipolazione.
 
 \subsection{Operazioni CRUD tramite ORM}
 
@@ -481,7 +498,7 @@ Le relazioni tra le tabelle sono implementate utilizzando le associazioni di Seq
 Ogni entità include i campi \texttt{created\_at} e \texttt{updated\_at}, che vengono gestiti automaticamente da Sequelize tramite l'opzione \texttt{timestamps: true}. Questo garantisce che ogni record mantenga una traccia delle date di creazione e aggiornamento.
 
 \subsubsection{Implementazione della Sicurezza}
-La sicurezza dei dati è garantita attraverso la configurazione delle credenziali e la gestione delle connessioni tramite variabili d'ambiente, mantenute in sicurezza utilizzando un manager delle variabili di ambiente (come mostrato nell'implementazione di \texttt{EnvManager}). L'applicazione utilizza inoltre CORS e un middleware di autenticazione tramite Passport per proteggere le API esposte.
+La sicurezza dei dati è garantita attraverso la configurazione delle credenziali e la gestione delle connessioni tramite variabili d'ambiente, mantenute in sicurezza utilizzando un manager delle variabili di ambiente (come mostrato nell'implementazione di \texttt{EnvManager}\cite{create-react-app}). L'applicazione utilizza inoltre CORS e un middleware di autenticazione tramite Passport per proteggere le API esposte.
 
 \subsection{Collegamento tra Backend e Database}
 Il collegamento tra il backend e il database è realizzato utilizzando \texttt{Sequelize}, un ORM (Object-Relational Mapping) che consente di mappare le entità del database su modelli JavaScript. Il backend è sviluppato in \texttt{Node.js} con l'ausilio della libreria \texttt{Express.js}, la quale fornisce un'infrastruttura per creare e gestire server HTTP.
@@ -517,7 +534,7 @@ Il backend espone una serie di percorsi API (Tabella \ref{tab:api_routes}) attra
 Le API sono progettate seguendo i principi REST, garantendo una struttura chiara e intuitiva. Ogni percorso è pensato per consentire al frontend di interagire in modo efficiente con il sistema, fornendo funzionalità come la gestione degli utenti, la registrazione delle timbrature e la creazione di segnalazioni. Questa architettura favorisce una comunicazione fluida tra frontend e backend, assicurando che le operazioni siano semplici da eseguire e coerenti con le best practice di sviluppo.
 
 
-\begin{table}[h!]
+\begin{table}[ht]
   \resizebox{\textwidth}{!}{
     \begin{tabular}{|l|l|l|}
       \hline
@@ -549,6 +566,7 @@ Le API sono progettate seguendo i principi REST, garantendo una struttura chiara
   \caption{API Routes}
   \label{tab:api_routes}
 \end{table}
+
 
 \subsection{Autenticazione}
 \subsubsection{Login}
@@ -631,7 +649,7 @@ La creazione di una nuova timbratura (\textit{TimeTracking}) include alcuni pass
 
 \begin{enumerate}
   \item \textbf{Verifica di Timbratura Attiva}: Prima di creare una nuova timbratura, il sistema controlla se esiste già una timbratura attiva per lo stesso dipendente. Se una timbratura attiva viene trovata, viene aggiornata per concludere l'evento corrente, impostando un \textit{endTime} e modificando lo stato a \textit{concluded}.
-  \item \textbf{Verifica della Posizione}: Si verifica che la posizione di partenza della nuova timbratura sia entro 500 metri dalla posizione del cliente associato. Se la distanza supera questo limite, viene generato un errore.
+  \item \textbf{Verifica della Posizione}: Si verifica che la posizione di partenza della nuova timbratura sia entro 200 metri dalla posizione del cliente associato. Se la distanza supera questo limite, viene generato un errore.
   \item \textbf{Creazione della Nuova Timbratura}: Se tutte le verifiche passano, viene creata una nuova timbratura con lo stato impostato su \textit{active} e la data di inizio impostata al momento corrente.
 \end{enumerate}
 
@@ -662,7 +680,7 @@ Questi metodi forniscono una vista completa delle timbrature, inclusi i dettagli
 \section{Frontend}
 
 \subsection{Progressive Web App (PWA)}
-Il frontend è stato progettato come una Progressive Web App (PWA), il che significa che l'applicazione offre un'esperienza utente simile a quella di un'applicazione nativa. Tra le caratteristiche principali di una PWA, ci sono la possibilità di funzionare offline grazie alla memorizzazione nella cache dei contenuti, la possibilità di essere installata direttamente sulla schermata home dei dispositivi mobili, e una performance ottimizzata.
+Il frontend è stato progettato come una Progressive Web App (PWA)\cite{pettiboy2024}, il che significa che l'applicazione offre un'esperienza utente simile a quella di un'applicazione nativa. Tra le caratteristiche principali di una PWA, ci sono la possibilità di funzionare offline grazie alla memorizzazione nella cache dei contenuti, la possibilità di essere installata direttamente sulla schermata home dei dispositivi mobili, e una performance ottimizzata.
 
 \subsubsection{Service Worker}
 Il service worker è un componente chiave che consente la funzionalità offline e migliora le performance della PWA. Viene registrato al momento del primo caricamento dell'applicazione e gestisce la cache dei file statici, garantendo che l'applicazione possa essere caricata rapidamente anche in condizioni di rete lenta. Inoltre, il service worker è responsabile dell'aggiornamento automatico dei contenuti memorizzati nella cache, garantendo che gli utenti abbiano sempre accesso alla versione più recente dell'applicazione.
@@ -739,7 +757,9 @@ server {
 }
 \end{verbatim}
 
-Questa configurazione permette di servire il frontend dell'applicazione dalla directory \texttt{/var/www/progect/frontend/build}, con il file \texttt{index.html} come punto di ingresso.
+Questa configurazione permette di servire il frontend dell'applicazione dalla directory
+
+\texttt{/var/www/progect/frontend/build}, con il file \texttt{index.html} come punto di ingresso.
 
 \subsection{Gestione delle Richieste API}
 
@@ -767,8 +787,6 @@ access_log /var/log/nginx/progect_access.log;
 \end{verbatim}
 
 Questi log permettono di identificare e risolvere eventuali problemi di configurazione o di runtime.
-
-
 
 \chapter{Test}
 
@@ -870,7 +888,6 @@ Ogni volta che viene effettuata una modifica al codice sorgente (ad esempio, un 
 
 La pipeline CI/CD automatizza l'intero processo di integrazione, testing e distribuzione del codice, garantendo che ogni modifica sia testata e che il frontend sia sempre pronto per essere distribuito. La struttura modulare della pipeline permette di aggiungere facilmente ulteriori stage, come il deployment, per adattarsi alle necessità del progetto.
 
-
 \chapter{Conclusioni}
 
 In questo capitolo vengono presentate le conclusioni del progetto. In particolare vengono presentati i risulatati ottenuti, successivamente si evidenziano alcuni errori conosciuti e limitazioni attuali. Infine si esplorano le possibili implementazioni future per migliorare ulteriormente il sistema.
@@ -936,7 +953,7 @@ L'integrazione di una funzionalità di chat permetterebbe una comunicazione dire
 Una funzionalità che consentirebbe ai lavoratori di scattare e caricare foto direttamente dall'app mentre si trovano presso il cliente sarebbe un'aggiunta preziosa. Questo permetterebbe di documentare visivamente lo stato del lavoro o eventuali anomalie riscontrate, migliorando la trasparenza e il controllo qualità del servizio erogato.
 
 
-\cite{4538384}
 \bibliographystyle{unsrt}
 \bibliography{bibliografia}
+
 \end{document}
