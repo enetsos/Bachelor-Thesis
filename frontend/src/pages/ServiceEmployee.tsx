@@ -83,7 +83,6 @@ const ServiceEmployee: React.FC = () => {
                 setTimeTracking(updatedTimeTracking);
 
                 await addSuppliesToTimeTracking(timeTracking.id, suppliesData);
-                //reload window
                 window.location.reload();
             } catch (error) {
                 console.log('Error stopping time tracking:', error);
@@ -105,7 +104,6 @@ const ServiceEmployee: React.FC = () => {
         setConfirmPurchaseVisible(false);
     };
 
-    // Helper to get supply names from IDs
     const getSupplyName = (id: string) => {
         const supply = supplies.find(s => s.id === id);
         return supply ? supply.name : 'Unknown';
@@ -116,9 +114,9 @@ const ServiceEmployee: React.FC = () => {
             <Layout style={{ minHeight: '100vh' }}>
                 <Header title="Service" />
                 <BackArrow />
-                <Content style={{ padding: '20px 50px' }}>
-                    <Row gutter={[16, 16]}>
-                        <Col xs={24} md={12} offset={6}>
+                <Content style={{ padding: '20px', maxWidth: '100%', margin: '0 auto' }}>
+                    <Row justify="center">
+                        <Col xs={24} sm={20} md={16} lg={12} xl={12}>
                             <Card title="Error" bordered={false}>
                                 <p>Service ID is required to fetch service details.</p>
                                 <Button onClick={() => navigate(-1)}>Go Back</Button>
@@ -134,12 +132,12 @@ const ServiceEmployee: React.FC = () => {
         <Layout style={{ minHeight: '100vh' }}>
             <Header title="Service Details" />
             <BackArrow />
-            <Content style={{ padding: '20px 50px', position: 'relative' }}>
+            <Content style={{ padding: '20px', maxWidth: '100%' }}>
                 {timeTracking?.status === 'active' && (
                     <>
                         <Button
                             icon={<ShoppingCartOutlined />}
-                            style={{ position: 'absolute', top: 20, right: 50 }}
+                            style={{ position: 'absolute', top: '100px', right: '50px', zIndex: 1000 }}
                             onClick={() => setCartVisible(true)}
                         />
                         <CartPopup
@@ -147,17 +145,17 @@ const ServiceEmployee: React.FC = () => {
                             onClose={() => setCartVisible(false)}
                             cart={cart}
                             setCart={setCart}
-                            supplies={supplies} // Pass supplies for CartPopup
+                            supplies={supplies}
                         />
 
-                        <Row gutter={[16, 16]}>
-                            <Col xs={24} md={12} offset={6}>
+                        <Row justify="center" gutter={[16, 16]}>
+                            <Col xs={24} sm={20} md={16} lg={12} xl={12}>
                                 <Card title="Informazioni sul Servizio" bordered={false}>
                                     {timeTracking ? (
                                         <>
                                             <ClientInfo client={timeTracking.client} />
                                             <ServiceInfo timeTracking={timeTracking} />
-                                            <Form>
+                                            <Form layout="vertical">
                                                 <Form.Item label="Note">
                                                     <TextArea
                                                         rows={4}
@@ -178,8 +176,8 @@ const ServiceEmployee: React.FC = () => {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row gutter={[16, 16]} style={{ marginTop: '70px' }}>
-                            <Col xs={24} md={12} offset={6}>
+                        <Row justify="center" gutter={[16, 16]} style={{ marginTop: '70px' }}>
+                            <Col xs={24} sm={20} md={16} lg={12} xl={12}>
                                 <Card title="Carrello" bordered={false}>
                                     <List
                                         dataSource={Object.keys(cart)}
@@ -197,8 +195,8 @@ const ServiceEmployee: React.FC = () => {
 
                 {timeTracking?.status === 'concluded' && (
                     <>
-                        <Row gutter={[16, 16]}>
-                            <Col xs={24} md={12} offset={6}>
+                        <Row justify="center" gutter={[16, 16]}>
+                            <Col xs={24} sm={20} md={16} lg={12} xl={12}>
                                 <Card title="Informazioni sul Servizio" bordered={false}>
                                     {timeTracking ? (
                                         <>
@@ -211,8 +209,8 @@ const ServiceEmployee: React.FC = () => {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row gutter={[16, 16]} style={{ marginTop: '70px' }}>
-                            <Col xs={24} md={12} offset={6}>
+                        <Row justify="center" gutter={[16, 16]} style={{ marginTop: '70px' }}>
+                            <Col xs={24} sm={20} md={16} lg={12} xl={12}>
                                 <Card title="Carrello" bordered={false}>
                                     <List
                                         dataSource={timeTracking.supplies}
@@ -225,7 +223,6 @@ const ServiceEmployee: React.FC = () => {
                                 </Card>
                             </Col>
                         </Row>
-
                     </>
                 )}
                 <StopConfirmationModal

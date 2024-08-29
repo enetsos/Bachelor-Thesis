@@ -51,7 +51,7 @@ const NewService: React.FC = () => {
             let messageToDisplay = 'Posizione non disponibile. Per favore riprova.';
 
             if (error.code === 'ERR_BAD_REQUEST') {
-                messageToDisplay = 'La posizione di partenza non è entro 500 metri dalla posizione del cliente.';
+                messageToDisplay = 'La posizione di partenza non è entro 200 metri dalla posizione del cliente.';
             } else if (error.code === error.PERMISSION_DENIED) {
                 messageToDisplay = 'Permessi di localizzazione negati. Per favore abilita la localizzazione.';
             }
@@ -70,11 +70,11 @@ const NewService: React.FC = () => {
         <Layout style={{ minHeight: '100vh' }}>
             <Header title="Nuovo Servizio" />
             <BackArrow />
-            <Content style={{ padding: '20px 50px', position: 'relative' }}>
-                <Row gutter={[16, 16]}>
-                    <Col xs={24} md={12} offset={6}>
+            <Content style={{ padding: '20px', maxWidth: '100%', margin: '0 auto' }}>
+                <Row justify="center" style={{ margin: 0 }}>
+                    <Col xs={24} sm={20} md={16} lg={12}>
                         <Card title="Crea nuovo Servizio" bordered={false}>
-                            <Form form={form} onFinish={handleStart}>
+                            <Form form={form} onFinish={handleStart} layout="vertical">
                                 <Form.Item
                                     label="Nome"
                                     name="nome"
